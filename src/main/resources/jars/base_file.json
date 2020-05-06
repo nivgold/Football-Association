@@ -1,0 +1,85 @@
+[
+  {
+    "systemManagerMember": {
+      "userName": "managerSys",
+      "password": "admin"
+    }
+  },
+  [
+    {
+      "member": {
+        "name": "koren",
+        "userName": "ref1",
+        "password": "123",
+        "role": "referee"
+      }
+    },
+    {
+      "member": {
+        "name": "tal",
+        "userName": "ref2",
+        "password": "456",
+        "role": "referee"
+      }
+    },
+    {
+      "member": {
+        "name": "niv",
+        "userName": "ref3",
+        "password": "789",
+        "role": "referee"
+      }
+    },
+    {
+      "member": {
+        "name": "niv4",
+        "userName": "ass",
+        "password": "a123",
+        "role": "associationAgent"
+      }
+    },
+    {
+      "member": {
+        "name": "niv5",
+        "userName": "owner1",
+        "password": "owner1",
+        "role": "teamOwner"
+      }
+    },
+    {
+      "member": {
+        "name": "niv6",
+        "userName": "owner2",
+        "password": "owner2",
+        "role": "teamOwner"
+      }
+    }
+  ],
+  [
+    {
+    "team": {
+      "teamName": "team1",
+      "TeamStatus": "Open"
+    }},
+    {"team": {
+      "teamName": "team2",
+      "TeamStatus": "Open"
+    }}
+  ],
+  [
+    {
+    "field": {
+      "Country": "Israel",
+      "State": "South",
+      "City": "Beer Sheva",
+      "PostalCode": "12345"
+    }},
+    {"field": {
+      "Country": "Israel",
+      "State": "North",
+      "City": "Nesher",
+      "PostalCode": "678910"
+      }
+    }
+  ]
+]

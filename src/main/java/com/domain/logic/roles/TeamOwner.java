@@ -1,0 +1,381 @@
+package com.domain.logic.roles;
+
+import com.domain.logic.enums.PlayerRole;
+import com.domain.logic.enums.TeamStatus;
+import com.domain.logic.football.CoachInTeam;
+import com.domain.logic.football.Field;
+import com.domain.logic.football.PlayerRoleInTeam;
+import com.domain.logic.football.Team;
+import com.domain.logic.users.Member;
+import com.logger.Logger;
+
+import java.util.ArrayList;
+
+public class TeamOwner implements IRole, ITeamObserver {
+
+    private Team team;
+    private TeamOwner appointer;
+    private ArrayList<IRole> appointments;
+    private Member member;
+
+    public TeamOwner(Member member, String teamName, TeamStatus teamStatus, Field field)
+    {
+        this.member = member;
+        this.appointments = new ArrayList<>();
+        this.team = new Team(teamName, teamStatus, this, field);
+        member.getRoles().add(this);
+    }
+
+    public TeamOwner(Member member)
+    {
+        this.member = member;
+        this.appointments = new ArrayList<>();
+        member.getRoles().add(this);
+    }
+
+    public TeamOwner(Team team, Member member) {
+        this.team = team;
+        this.member = member;
+        this.appointments = new ArrayList<>();
+        member.getRoles().add(this);
+    }
+
+    /**
+     * adds new team owner to the team
+     * @param m
+     */
+    public void appointTeamOwner(Member m) {
+        if (team.getStatus().equals(TeamStatus.Open)) {
+            boolean found = false;
+            for (IRole role : m.getRoles()){
+                if (role.getClass() == TeamOwner.class || role.getClass() == TeamManager.class){
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                TeamOwner to = new TeamOwner(team, m);
+                to.setAppointer(this);
+                this.appointments.add(to);
+                team.getTeam_owners().add(to);
+                Logger.getInstance().saveLog("The new team owner has been added successfully");
+            }
+            else {
+                Logger.getInstance().saveLog("the member is already a team owner");
+            }
+        }
+        else {
+            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+        }
+
+    }
+
+    /**
+     * removes team owner
+     * @param to
+     */
+    public void removeTeamOwner(TeamOwner to) {
+        if (team.getStatus().equals(TeamStatus.Open)) {
+            boolean authorized = isAuthorized(to);
+            if (authorized) {
+                for (IRole r : to.appointments) {
+                    team.getTeam_owners().remove(r);
+                    r.removeYourself();
+                }
+                appointments.remove(to);
+                to.removeYourself();
+            }
+            else {
+                Logger.getInstance().saveLog("You don't have the authority to remove this team owner");
+            }
+        }
+        else {
+            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+        }
+    }
+
+    private boolean isAuthorized(TeamOwner to) {
+        if (appointments.contains(to)) {
+            return true;
+        }
+
+        for (IRole role : this.appointments) {
+            if (role instanceof TeamOwner) {
+                ((TeamOwner)role).isAuthorized(to);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * adds new team manager to the team
+     * @param m
+     */
+    public void appointTeamManager(Member m) {
+        if (team.getStatus().equals(TeamStatus.Open)) {
+            boolean valid = true;
+            for (IRole role : m.getRoles()) {
+                if (role.getClass() == TeamOwner.class || role.getClass() == TeamManager.class){
+                    valid = false;
+                    break;
+                }
+            }
+            if (valid) {
+                TeamManager tm = new TeamManager(team, m, this);
+                team.getTeam_managers().add(tm);
+                appointments.add(tm);
+                Logger.getInstance().saveLog("The team manager has been added successfully");
+            }
+            else {
+                Logger.getInstance().saveLog("This member is already owner/manager of this team");
+            }
+        }
+        else {
+            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+        }
+    }
+
+    /**
+     * remove team manager from the team
+     * @param tm
+     */
+    public void removeTeamManager(TeamManager tm) {
+        if (team.getStatus().equals(TeamStatus.Open)) {
+            if (tm.getAppointer() == this) {
+                tm.removeYourself();
+            }
+            else {
+                Logger.getInstance().saveLog("You don't have the authority to remove this team manager");
+            }
+        }
+        else {
+            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+        }
+    }
+
+
+
+    /**
+     * set team status to 'close'
+     */
+    public void closeTeam() {
+        team.setStatus(TeamStatus.Closed);
+        Logger.getInstance().saveLog("The team status changed to 'Closed'");
+    }
+
+    /**
+     * set team status to 'open'
+     */
+    public void openTeam() {
+        team.setStatus(TeamStatus.Open);
+        Logger.getInstance().saveLog("The team status changed to 'Open'");
+    }
+
+    /**
+     * creates new financial report for the team
+     */
+    public void createFinancialReport(String report) {
+        //todo add String financialReport to team fields
+        //team.setFinancialReport(report);
+    }
+
+    /**
+     * appoints new coach to the team
+     * @param c
+     */
+    public void appointCoach(Coach c) {
+        if (team.getStatus().equals(TeamStatus.Open)) {
+            CoachInTeam cit = new CoachInTeam("New coach", c, this.team);
+            c.addCoachInTeam(cit);
+            team.addCoachInTeam(cit);
+            Logger.getInstance().saveLog("The coach has been added successfully");
+        }
+        else {
+            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+        }
+    }
+
+    public void removeCoach(Coach c) {
+        if (team.getStatus().equals(TeamStatus.Open)) {
+            try {
+                boolean exists = false;
+                CoachInTeam toRemove = null;
+                for (CoachInTeam cit : team.getCoaches()) {
+                    if (cit.getCoach().getMember().equals(c.getMember())) {
+                        exists = true;
+                        toRemove = cit;
+                    }
+                }
+                if (exists) {
+                    team.getCoaches().remove(toRemove);
+                    c.getTeams().remove(toRemove);
+                    if (c.getTeams().size()==0){
+                        c.getMember().getRoles().remove(c);
+                    }
+                    Logger.getInstance().saveLog("The coach has been removed successfully");
+                }
+                else {
+                    Logger.getInstance().saveLog("This coach is not part of the team's coaches");
+                }
+            }
+            catch (Exception e) {
+                e.getStackTrace();
+            }
+        }
+        else {
+            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+        }
+    }
+
+    /**
+     * add new player to the team
+     * @param p
+     */
+    public void addPlayer(Player p, PlayerRole pr) {
+        if (team.getStatus().equals(TeamStatus.Open)) {
+            boolean exists = false;
+            for (PlayerRoleInTeam prit : p.getRoleInTeams()) {
+                if (prit.getTeam() == team) {
+                    Logger.getInstance().saveLog("This player is already part of the team");
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                PlayerRoleInTeam newPrit = new PlayerRoleInTeam(p, this.team, pr);
+                team.addPlayerRoleInTeam(newPrit);
+                p.addPlayerRoleInTeam(newPrit);
+                Logger.getInstance().saveLog("The player has been added successfully");
+            }
+        }
+        else {
+            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+        }
+    }
+
+    /**
+     * remove player from the team
+     * @param p
+     */
+    public void removePlayer(Player p) {
+        if (team.getStatus().equals(TeamStatus.Open)) {
+            boolean exists = false;
+            for (PlayerRoleInTeam prit : p.getRoleInTeams()) {
+                if (prit.getTeam() == team) {
+                    team.getPlayers().remove(prit);
+                    p.getRoleInTeams().remove(prit);
+                    if (p.getRoleInTeams().size()==0){
+                        p.getMember().getRoles().remove(p);
+                    }
+                    Logger.getInstance().saveLog("The player has been removed successfully");
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                Logger.getInstance().saveLog("This player is not part of the team's player");
+            }
+        }
+        else {
+            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+        }
+    }
+
+    /**
+     * add new field to the team
+     * @param f
+     */
+    public void setNewField(Field f) {
+        if (team.getStatus().equals(TeamStatus.Open)) {
+            team.setField(f);
+            Logger.getInstance().saveLog("The field has been added successfully");
+        }
+        else {
+            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+        }
+    }
+
+    /**
+     * remove the object from all occurrences
+     * @return
+     */
+    @Override
+    public boolean removeYourself() {
+        if (team.getStatus().equals(TeamStatus.Open)) {
+            try {
+                if(this.team.getTeam_owners().size() > 1) {
+                    team.getTeam_owners().remove(this);
+                    for (IRole r : appointments) {
+                        if (r instanceof TeamOwner) {
+                            removeTeamOwner((TeamOwner) r);
+                        }
+                        else if(r instanceof TeamManager){
+                            removeTeamManager((TeamManager)r);
+                        }
+                    }
+                    appointments.clear();
+                    this.team = null;
+                    this.appointer = null;
+                    this.member.getRoles().remove(this);
+                    Logger.getInstance().saveLog("The team owner has been removed successfully");
+                    return true;
+                }
+            }
+            catch (Exception e) {
+                e.getStackTrace();
+            }
+        }
+        else {
+            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+        }
+        return false;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public TeamOwner getAppointer() {
+        return appointer;
+    }
+
+    public void setAppointer(TeamOwner appointer) {
+        this.appointer = appointer;
+    }
+
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public ArrayList<IRole> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(ArrayList<IRole> appointments) {
+        this.appointments = appointments;
+    }
+
+    @Override
+    public void teamUpdate(TeamStatus ts) {
+        Logger.getInstance().saveLog("The team status has been changed to " + ts.toString());
+    }
+
+    public void registerToTeamStatus(){
+        this.team.register(this);
+    }
+
+    public void removeFromTeamStatus(){
+        this.team.remove(this);
+    }
+
+
+}

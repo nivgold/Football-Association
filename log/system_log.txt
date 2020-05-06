@@ -1,0 +1,380 @@
+INFO    2020-05-05 15:47:39 - The team manager has been added successfully
+INFO    2020-05-05 15:47:39 - The team manager has been removed successfully
+INFO    2020-05-05 15:47:39 - Business.policies.Policy assigned to season 2019 in league super league
+INFO    2020-05-05 15:47:39 - Business.football.Season 2019added to: super league
+INFO    2020-05-05 15:47:39 - The team manager has been added successfully
+INFO    2020-05-05 15:47:39 - The team manager has been removed successfully
+INFO    2020-05-05 15:47:39 - new complaint was added to the system -> 0
+INFO    2020-05-05 15:47:39 - the member -> korenISH sent new complaint to the system, compID:0
+INFO    2020-05-05 15:47:39 - the member -> korenISH was notify that his complaint with comId: 0 has been answered
+INFO    2020-05-05 15:47:39 - the member -> korenISH read the answer for his complaint, compId: 0
+INFO    2020-05-05 15:47:39 - new complaint was added to the system -> 1
+INFO    2020-05-05 15:47:39 - the member -> korenISH sent new complaint to the system, compID:1
+INFO    2020-05-05 15:47:39 - new complaint was added to the system -> 2
+INFO    2020-05-05 15:47:39 - the member -> korenISH sent new complaint to the system, compID:2
+INFO    2020-05-05 15:47:39 - complaint was removed from the system -> 0
+INFO    2020-05-05 15:47:39 - complaint was removed from the system -> 1
+INFO    2020-05-05 15:47:39 - Business.policies.Policy assigned to season 2012 in league league1
+INFO    2020-05-05 15:47:39 - Business.football.Season 2012added to: league1
+INFO    2020-05-05 15:47:39 - The player has been added successfully
+INFO    2020-05-05 15:47:39 - referee referee is not authorized to add events to the game
+INFO    2020-05-05 15:47:39 - Business.policies.Policy assigned to season 2012 in league league1
+INFO    2020-05-05 15:47:39 - Business.football.Season 2012added to: league1
+INFO    2020-05-05 15:47:39 - The player has been added successfully
+INFO    2020-05-05 15:47:39 - This referee is not authorized to change events of this game
+INFO    2020-05-05 15:47:39 - new complaint was added to the system -> 3
+INFO    2020-05-05 15:47:39 - new complaint was added to the system -> 3
+INFO    2020-05-05 15:47:39 - the member -> korenISH was notify that his complaint with comId: 3 has been answered
+INFO    2020-05-05 15:47:39 - the guest: Koren failed to register as the member: korenISH
+INFO    2020-05-05 15:47:39 - the guest: Koren register as the member: newMem
+INFO    2020-05-05 15:47:39 - the guest: Koren failed to login as the member: bim
+INFO    2020-05-05 15:47:39 - the guest: Koren login as the member: korenISH
+INFO    2020-05-05 15:47:39 - the member -> korenISH changed his password
+INFO    2020-05-05 15:47:39 - new complaint was added to the system -> 4
+INFO    2020-05-05 15:47:39 - the member -> korenISH was notify that his complaint with comId: 4 has been answered
+INFO    2020-05-05 15:47:39 - new complaint was added to the system -> 5
+INFO    2020-05-05 15:47:39 - complaint was removed from the system -> 5
+INFO    2020-05-05 15:47:39 - the member -> korenISH read the answer for his complaint, compId: 5
+INFO    2020-05-05 15:47:39 - new complaint was added to the system -> 6
+INFO    2020-05-05 15:47:39 - the member -> korenISH sent new complaint to the system, compID:6
+INFO    2020-05-05 15:47:39 - new complaint was added to the system -> 7
+INFO    2020-05-05 15:47:39 - the member -> korenISH sent new complaint to the system, compID:7
+INFO    2020-05-05 15:47:39 - the member -> Koren Ishlach changed his userName to -> bla
+INFO    2020-05-05 15:47:39 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:39 - The coach has been added successfully
+INFO    2020-05-05 15:47:39 - The coach has been added successfully
+INFO    2020-05-05 15:47:39 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:39 - The coach has been removed successfully
+INFO    2020-05-05 15:47:39 - The team manager has been added successfully
+INFO    2020-05-05 15:47:39 - The new team owner has been added successfully
+INFO    2020-05-05 15:47:39 - You don't have the authority to remove this team manager
+INFO    2020-05-05 15:47:39 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:39 - The team manager has been removed successfully
+INFO    2020-05-05 15:47:39 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:39 - The team manager has been added successfully
+INFO    2020-05-05 15:47:39 - This member is already owner/manager of this team
+INFO    2020-05-05 15:47:39 - This player is not part of the team's player
+INFO    2020-05-05 15:47:39 - The player has been added successfully
+INFO    2020-05-05 15:47:39 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:39 - The player has been removed successfully
+INFO    2020-05-05 15:47:39 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:39 - The new team owner has been added successfully
+INFO    2020-05-05 15:47:39 - the member is already a team owner
+INFO    2020-05-05 15:47:39 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:39 - The player has been added successfully
+INFO    2020-05-05 15:47:39 - This player is already part of the team
+INFO    2020-05-05 15:47:39 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:39 - The new team owner has been added successfully
+INFO    2020-05-05 15:47:39 - The team owner has been removed successfully
+INFO    2020-05-05 15:47:39 - The new team owner has been added successfully
+INFO    2020-05-05 15:47:39 - You don't have the authority to remove this team owner
+INFO    2020-05-05 15:47:39 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:39 - The team owner has been removed successfully
+INFO    2020-05-05 15:47:39 - Business.policies.Policy assigned to season 2019 in league super league
+INFO    2020-05-05 15:47:39 - Business.football.Season 2019added to: super league
+INFO    2020-05-05 15:47:39 - Business.football.Game between host team1-test and team2-test in 2020-05-05T15:47:39.975 added to test league
+INFO    2020-05-05 15:47:39 - Business.football.Game between host team1-test and team2-test in 2020-05-05T15:47:39.975 added to test league
+INFO    2020-05-05 15:47:39 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:47:39 - Business.football.Season 2019added to: test league
+INFO    2020-05-05 15:47:39 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:47:39 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:47:39 - Business.football.Season 2019added to: test league
+INFO    2020-05-05 15:47:39 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:47:39 - Business.football.Game Setting policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:47:39 - Business.football.Game Setting policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:47:39 - Business.football.Game Setting policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:47:39 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:47:39 - Business.football.Season 2019added to: test league
+INFO    2020-05-05 15:47:39 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:47:39 - Business.football.Season 2019added to: test league
+INFO    2020-05-05 15:47:39 - Business.policies.Policy assigned to season 2020 in league test league
+INFO    2020-05-05 15:47:39 - Business.football.Season 2020added to: test league
+INFO    2020-05-05 15:47:40 - This referee is not authorized to change events of this game
+INFO    2020-05-05 15:47:40 - name referee is not authorized to add events to the game
+INFO    2020-05-05 15:47:40 - the system manager: sysMen built new recommender system
+INFO    2020-05-05 15:47:40 - new system manager was added to the system -> korenISH by -> sysMen
+INFO    2020-05-05 15:47:40 - new complaint was added to the system -> 8
+INFO    2020-05-05 15:47:40 - new complaint was added to the system -> 8
+INFO    2020-05-05 15:47:40 - the member -> korenISH was notify that his complaint with comId: 8 has been answered
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2012 in league league2
+INFO    2020-05-05 15:47:40 - Business.football.Season 2012added to: league2
+INFO    2020-05-05 15:47:40 - League: league2 was added to the system
+INFO    2020-05-05 15:47:40 - the League:league1 already exists
+INFO    2020-05-05 15:47:40 - memeber -> com.domain.logic.users.Member@5a955565 is Referee
+INFO    2020-05-05 15:47:40 - member already a Referee
+INFO    2020-05-05 15:47:40 - The coach has been removed successfully
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:47:40 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:47:40 - League: league2 was added to the system
+INFO    2020-05-05 15:47:40 - the League:league1 already exists
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:47:40 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:47:40 - Ranking Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:47:40 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:47:40 - Business.football.Game Setting policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:47:40 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:47:40 - memeber -> com.domain.logic.users.Member@2a32de6c is Referee
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:47:40 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:47:40 - memeber -> com.domain.logic.users.Member@7f1302d6 is Referee
+INFO    2020-05-05 15:47:40 - The referee has been removed successfully
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:47:40 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:47:40 - memeber -> com.domain.logic.users.Member@4fe767f3 is Referee
+INFO    2020-05-05 15:47:40 - member already a Referee
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:47:40 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2012 in league league1
+INFO    2020-05-05 15:47:40 - Business.football.Season 2012added to: league1
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2012 in league league2
+INFO    2020-05-05 15:47:40 - Business.football.Season 2012added to: league2
+INFO    2020-05-05 15:47:40 - This player is not part of the team's player
+INFO    2020-05-05 15:47:40 - The player has been added successfully
+INFO    2020-05-05 15:47:40 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:40 - The player has been removed successfully
+INFO    2020-05-05 15:47:40 - The coach has been added successfully
+INFO    2020-05-05 15:47:40 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:40 - The coach has been removed successfully
+INFO    2020-05-05 15:47:40 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:40 - The player has been added successfully
+INFO    2020-05-05 15:47:40 - This player is already part of the team
+INFO    2020-05-05 15:47:40 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:40 - The team manager has been added successfully
+INFO    2020-05-05 15:47:40 - This member is already owner/manager of this team
+INFO    2020-05-05 15:47:40 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:40 - The new team owner has been added successfully
+INFO    2020-05-05 15:47:40 - the member is already a team owner
+INFO    2020-05-05 15:47:40 - The team manager has been added successfully
+INFO    2020-05-05 15:47:40 - The new team owner has been added successfully
+INFO    2020-05-05 15:47:40 - You don't have the authority to remove this team manager
+INFO    2020-05-05 15:47:40 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:40 - The team manager has been removed successfully
+INFO    2020-05-05 15:47:40 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:40 - The coach has been added successfully
+INFO    2020-05-05 15:47:40 - The new team owner has been added successfully
+INFO    2020-05-05 15:47:40 - You don't have the authority to remove this team owner
+INFO    2020-05-05 15:47:40 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:40 - The team owner has been removed successfully
+INFO    2020-05-05 15:47:40 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:47:40 - The new team owner has been added successfully
+INFO    2020-05-05 15:47:40 - The team owner has been removed successfully
+INFO    2020-05-05 15:47:40 - Business.football.Game between host team1-test and team2-test in 2020-05-05T15:47:40.140 added to test league
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:47:40 - Business.football.Season 2019added to: test league
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:47:40 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:47:40 - Business.football.Season 2019added to: test league
+INFO    2020-05-05 15:47:40 - The player has been removed successfully
+INFO    2020-05-05 15:49:21 - The team manager has been added successfully
+INFO    2020-05-05 15:49:21 - The team manager has been removed successfully
+INFO    2020-05-05 15:49:21 - Business.policies.Policy assigned to season 2019 in league super league
+INFO    2020-05-05 15:49:21 - Business.football.Season 2019added to: super league
+INFO    2020-05-05 15:49:22 - The team manager has been added successfully
+INFO    2020-05-05 15:49:22 - The team manager has been removed successfully
+INFO    2020-05-05 15:49:22 - new complaint was added to the system -> 0
+INFO    2020-05-05 15:49:22 - the member -> korenISH sent new complaint to the system, compID:0
+INFO    2020-05-05 15:49:22 - the member -> korenISH was notify that his complaint with comId: 0 has been answered
+INFO    2020-05-05 15:49:22 - the member -> korenISH read the answer for his complaint, compId: 0
+INFO    2020-05-05 15:49:22 - new complaint was added to the system -> 1
+INFO    2020-05-05 15:49:22 - the member -> korenISH sent new complaint to the system, compID:1
+INFO    2020-05-05 15:49:22 - new complaint was added to the system -> 2
+INFO    2020-05-05 15:49:22 - the member -> korenISH sent new complaint to the system, compID:2
+INFO    2020-05-05 15:49:22 - complaint was removed from the system -> 0
+INFO    2020-05-05 15:49:22 - complaint was removed from the system -> 1
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2012 in league league1
+INFO    2020-05-05 15:49:22 - Business.football.Season 2012added to: league1
+INFO    2020-05-05 15:49:22 - The player has been added successfully
+INFO    2020-05-05 15:49:22 - referee referee is not authorized to add events to the game
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2012 in league league1
+INFO    2020-05-05 15:49:22 - Business.football.Season 2012added to: league1
+INFO    2020-05-05 15:49:22 - The player has been added successfully
+INFO    2020-05-05 15:49:22 - This referee is not authorized to change events of this game
+INFO    2020-05-05 15:49:22 - new complaint was added to the system -> 3
+INFO    2020-05-05 15:49:22 - new complaint was added to the system -> 3
+INFO    2020-05-05 15:49:22 - the member -> korenISH was notify that his complaint with comId: 3 has been answered
+INFO    2020-05-05 15:49:22 - the guest: Koren failed to register as the member: korenISH
+INFO    2020-05-05 15:49:22 - the guest: Koren register as the member: newMem
+INFO    2020-05-05 15:49:22 - the guest: Koren failed to login as the member: bim
+INFO    2020-05-05 15:49:22 - the guest: Koren login as the member: korenISH
+INFO    2020-05-05 15:49:22 - the member -> korenISH changed his password
+INFO    2020-05-05 15:49:22 - new complaint was added to the system -> 4
+INFO    2020-05-05 15:49:22 - the member -> korenISH was notify that his complaint with comId: 4 has been answered
+INFO    2020-05-05 15:49:22 - new complaint was added to the system -> 5
+INFO    2020-05-05 15:49:22 - complaint was removed from the system -> 5
+INFO    2020-05-05 15:49:22 - the member -> korenISH read the answer for his complaint, compId: 5
+INFO    2020-05-05 15:49:22 - new complaint was added to the system -> 6
+INFO    2020-05-05 15:49:22 - the member -> korenISH sent new complaint to the system, compID:6
+INFO    2020-05-05 15:49:22 - new complaint was added to the system -> 7
+INFO    2020-05-05 15:49:22 - the member -> korenISH sent new complaint to the system, compID:7
+INFO    2020-05-05 15:49:22 - the member -> Koren Ishlach changed his userName to -> bla
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The coach has been added successfully
+INFO    2020-05-05 15:49:22 - The coach has been added successfully
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The coach has been removed successfully
+INFO    2020-05-05 15:49:22 - The team manager has been added successfully
+INFO    2020-05-05 15:49:22 - The new team owner has been added successfully
+INFO    2020-05-05 15:49:22 - You don't have the authority to remove this team manager
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The team manager has been removed successfully
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The team manager has been added successfully
+INFO    2020-05-05 15:49:22 - This member is already owner/manager of this team
+INFO    2020-05-05 15:49:22 - This player is not part of the team's player
+INFO    2020-05-05 15:49:22 - The player has been added successfully
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The player has been removed successfully
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The new team owner has been added successfully
+INFO    2020-05-05 15:49:22 - the member is already a team owner
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The player has been added successfully
+INFO    2020-05-05 15:49:22 - This player is already part of the team
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The new team owner has been added successfully
+INFO    2020-05-05 15:49:22 - The team owner has been removed successfully
+INFO    2020-05-05 15:49:22 - The new team owner has been added successfully
+INFO    2020-05-05 15:49:22 - You don't have the authority to remove this team owner
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The team owner has been removed successfully
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league super league
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: super league
+INFO    2020-05-05 15:49:22 - Business.football.Game between host team1-test and team2-test in 2020-05-05T15:49:22.186 added to test league
+INFO    2020-05-05 15:49:22 - Business.football.Game between host team1-test and team2-test in 2020-05-05T15:49:22.186 added to test league
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: test league
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: test league
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:49:22 - Business.football.Game Setting policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:49:22 - Business.football.Game Setting policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:49:22 - Business.football.Game Setting policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: test league
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: test league
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2020 in league test league
+INFO    2020-05-05 15:49:22 - Business.football.Season 2020added to: test league
+INFO    2020-05-05 15:49:22 - This referee is not authorized to change events of this game
+INFO    2020-05-05 15:49:22 - name referee is not authorized to add events to the game
+INFO    2020-05-05 15:49:22 - the system manager: sysMen built new recommender system
+INFO    2020-05-05 15:49:22 - new system manager was added to the system -> korenISH by -> sysMen
+INFO    2020-05-05 15:49:22 - new complaint was added to the system -> 8
+INFO    2020-05-05 15:49:22 - new complaint was added to the system -> 8
+INFO    2020-05-05 15:49:22 - the member -> korenISH was notify that his complaint with comId: 8 has been answered
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2012 in league league2
+INFO    2020-05-05 15:49:22 - Business.football.Season 2012added to: league2
+INFO    2020-05-05 15:49:22 - League: league2 was added to the system
+INFO    2020-05-05 15:49:22 - the League:league1 already exists
+INFO    2020-05-05 15:49:22 - memeber -> com.domain.logic.users.Member@5a955565 is Referee
+INFO    2020-05-05 15:49:22 - member already a Referee
+INFO    2020-05-05 15:49:22 - The coach has been removed successfully
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:49:22 - League: league2 was added to the system
+INFO    2020-05-05 15:49:22 - the League:league1 already exists
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:49:22 - Ranking Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:49:22 - Business.football.Game Setting policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:49:22 - memeber -> com.domain.logic.users.Member@2a32de6c is Referee
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:49:22 - memeber -> com.domain.logic.users.Member@7f1302d6 is Referee
+INFO    2020-05-05 15:49:22 - The referee has been removed successfully
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:49:22 - memeber -> com.domain.logic.users.Member@4fe767f3 is Referee
+INFO    2020-05-05 15:49:22 - member already a Referee
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league league1
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: league1
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2012 in league league1
+INFO    2020-05-05 15:49:22 - Business.football.Season 2012added to: league1
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2012 in league league2
+INFO    2020-05-05 15:49:22 - Business.football.Season 2012added to: league2
+INFO    2020-05-05 15:49:22 - This player is not part of the team's player
+INFO    2020-05-05 15:49:22 - The player has been added successfully
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The player has been removed successfully
+INFO    2020-05-05 15:49:22 - The coach has been added successfully
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The coach has been removed successfully
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The player has been added successfully
+INFO    2020-05-05 15:49:22 - This player is already part of the team
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The team manager has been added successfully
+INFO    2020-05-05 15:49:22 - This member is already owner/manager of this team
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The new team owner has been added successfully
+INFO    2020-05-05 15:49:22 - the member is already a team owner
+INFO    2020-05-05 15:49:22 - The team manager has been added successfully
+INFO    2020-05-05 15:49:22 - The new team owner has been added successfully
+INFO    2020-05-05 15:49:22 - You don't have the authority to remove this team manager
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The team manager has been removed successfully
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The coach has been added successfully
+INFO    2020-05-05 15:49:22 - The new team owner has been added successfully
+INFO    2020-05-05 15:49:22 - You don't have the authority to remove this team owner
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The team owner has been removed successfully
+INFO    2020-05-05 15:49:22 - The team status is closed, you can't do any operations
+INFO    2020-05-05 15:49:22 - The new team owner has been added successfully
+INFO    2020-05-05 15:49:22 - The team owner has been removed successfully
+INFO    2020-05-05 15:49:22 - Business.football.Game between host team1-test and team2-test in 2020-05-05T15:49:22.436 added to test league
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: test league
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:49:22 - Business.policies.Policy assigned to season 2019 in league test league
+INFO    2020-05-05 15:49:22 - Business.football.Season 2019added to: test league
+INFO    2020-05-05 15:49:22 - The player has been removed successfully
+INFO    2020-05-05 15:52:01 - The team manager has been added successfully
+INFO    2020-05-05 15:52:01 - The team manager has been removed successfully
+INFO    2020-05-05 15:52:01 - Business.policies.Policy assigned to season 2019 in league super league
+INFO    2020-05-05 15:52:01 - Business.football.Season 2019added to: super league
+INFO    2020-05-05 15:52:01 - The team manager has been added successfully
+INFO    2020-05-05 15:52:01 - The team manager has been removed successfully
+INFO    2020-05-05 15:52:01 - new complaint was added to the system -> 0
+INFO    2020-05-05 15:52:01 - the member -> korenISH sent new complaint to the system, compID:0
+INFO    2020-05-05 15:52:01 - the member -> korenISH was notify that his complaint with comId: 0 has been answered
+INFO    2020-05-05 15:52:01 - the member -> korenISH read the answer for his complaint, compId: 0
+INFO    2020-05-05 15:52:01 - new complaint was added to the system -> 1
+INFO    2020-05-05 15:52:01 - the member -> korenISH sent new complaint to the system, compID:1
+INFO    2020-05-05 15:52:01 - new complaint was added to the system -> 2
+INFO    2020-05-05 15:52:01 - the member -> korenISH sent new complaint to the system, compID:2
+INFO    2020-05-05 15:52:01 - complaint was removed from the system -> 0
+INFO    2020-05-05 15:52:01 - complaint was removed from the system -> 1
+INFO    2020-05-05 15:52:01 - Business.policies.Policy assigned to season 2012 in league league1
+INFO    2020-05-05 15:52:01 - Business.football.Season 2012added to: league1
+INFO    2020-05-05 15:52:01 - The player has been added successfully
+INFO    2020-05-05 15:52:01 - referee referee is not authorized to add events to the game
+INFO    2020-05-05 15:52:01 - Business.policies.Policy assigned to season 2012 in league league1
+INFO    2020-05-05 15:52:01 - Business.football.Season 2012added to: league1
+INFO    2020-05-05 15:52:01 - The player has been added successfully
+INFO    2020-05-05 15:52:01 - This referee is not authorized to change events of this game
+INFO    2020-05-05 15:52:01 - new complaint was added to the system -> 3
+INFO    2020-05-05 15:52:01 - new complaint was added to the system -> 3
+INFO    2020-05-05 15:52:01 - the member -> korenISH was notify that his complaint with comId: 3 has been answered
+INFO    2020-05-05 15:52:01 - the guest: Koren failed to register as the member: korenISH
+INFO    2020-05-05 15:52:01 - the guest: Koren register as the member: newMem
+INFO    2020-05-05 15:52:01 - the guest: Koren failed to login as the member: bim
+INFO    2020-05-05 15:52:01 - the guest: Koren login as the member: korenISH
+INFO    2020-05-05 15:52:01 - the member -> korenISH changed his password
+INFO    2020-05-05 15:52:01 - new complaint was added to the system -> 4
+INFO    2020-05-05 15:52:01 - the member -> korenISH was notify that his complaint with comId: 4 has been answered
+INFO    2020-05-05 15:52:01 - new complaint was added to the system -> 5
+INFO    2020-05-05 15:52:01 - complaint was removed from the system -> 5
+INFO    2020-05-05 15:52:01 - the member -> korenISH read the answer for his complaint, compId: 5
+INFO    2020-05-05 15:52:01 - new complaint was added to the system -> 6
+INFO    2020-05-05 15:52:01 - the member -> korenISH sent new complaint to the system, compID:6
+INFO    2020-05-05 15:52:01 - new complaint was added to the system -> 7
+INFO    2020-05-05 15:52:01 - the member -> korenISH sent new complaint to the system, compID:7
+INFO    2020-05-05 15:52:01 - the member -> Koren Ishlach changed his userName to -> bla
