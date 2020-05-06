@@ -82,7 +82,7 @@ public class AssociationSystem {
         this.associationAccountingSystem = new AssociationAccountingSystem();
 
         JSONParser parser = new JSONParser();
-        String baseFilePath = "resources\\base_file.json";
+        String baseFilePath = "src\\main\\resources\\base_file.json";
         try {
             FileReader fileReader = new FileReader(new File(baseFilePath));
             Object obj = parser.parse(fileReader);
