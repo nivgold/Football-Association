@@ -17,7 +17,7 @@ public class Logger {
     }
 
     private Logger() {
-        String confPath = "resources\\log4j.properties";
+        String confPath = "src\\main\\resources\\log4j.properties";
         PropertyConfigurator.configure(confPath);
     }
 

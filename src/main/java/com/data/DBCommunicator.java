@@ -8,9 +8,32 @@ import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class DBCommunicator implements Dao {
+    public static void main(String[] args) {
+        try{
+            getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void getConnection() throws SQLException {
+        Connection connection = DBConnector.getConnection();
+        Statement statement = connection.createStatement();
+        String createTableQuery = "CREATE TABLE exmaple (" +
+                "id INT," +
+                "first_name VARCHAR(100)," +
+                "last_name VARCHAR(100)" +
+                ");";
+        statement.executeUpdate(createTableQuery);
+        System.out.println("Created.");
+    }
 
     @Override
     public League findLeague(String leagueName) {
