@@ -1,4 +1,4 @@
-package com.domain.domaincontroller.recommender_system_strategies;
+package com.domain.logic.recommender_system_strategies;
 
 import com.domain.logic.football.Game;
 import com.domain.logic.football.Season;

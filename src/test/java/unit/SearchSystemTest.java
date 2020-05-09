@@ -2,7 +2,7 @@ package unit;
 
 
 import com.domain.logic.AssociationSystem;
-import com.domain.domaincontroller.SearchSystem;
+import com.domain.logic.SearchSystem;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.football.Field;

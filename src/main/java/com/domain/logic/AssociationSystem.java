@@ -1,9 +1,5 @@
 package com.domain.logic;
 
-import com.domain.domaincontroller.managers.ManageLeagues;
-import com.domain.domaincontroller.managers.ManageMembers;
-import com.domain.domaincontroller.managers.ManageSeasons;
-import com.domain.domaincontroller.managers.ManageTeams;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.football.Field;
@@ -25,22 +21,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
 
 public class AssociationSystem {
     private static AssociationSystem system;
 
-    private ManageMembers manageMembers;
-    private ManageLeagues manageLeagues;
-    private ManageTeams manageTeams;
-    private ManageSeasons manageSeasons;
+    private static HashSet<Member> connectedUsers;
+
+
     private AssociationAccountingSystem associationAccountingSystem;
     private CountryTaxLawSystem countryTaxLawSystem;
 
     private AssociationSystem() {
-        this.manageMembers = ManageMembers.getInstance();
-        this.manageLeagues = ManageLeagues.getInstance();
-        this.manageTeams = ManageTeams.getInstance();
-        this.manageSeasons = ManageSeasons.getInstance();
     }
 
     public static AssociationSystem getInstance()
@@ -51,28 +43,20 @@ public class AssociationSystem {
         return system;
     }
 
-    public ManageMembers getManageMembers() {
-        return manageMembers;
+    public void logOutUser(Member member){
+        connectedUsers.remove(member);
     }
 
-    public ManageTeams getManageTeams() {
-        return manageTeams;
+    public void connectUser(Member member){
+        connectedUsers.add(member);
     }
 
-    public ManageLeagues getManageLeagues() {
-        return manageLeagues;
-    }
-
-    public ManageSeasons getManageSeasons() {
-        return manageSeasons;
+    public boolean checkIfConnected(Member member){
+        return connectedUsers.contains(member);
     }
 
     public void clearSystem(){
-        manageMembers.removeAllMembers();
-        manageLeagues.removeAllLeagues();
-        manageSeasons.removeAllSeasons();
-        manageTeams.removeAllTeams();
-
+        //TODO remove all data from DB
     }
 
     public boolean resetSystem(){

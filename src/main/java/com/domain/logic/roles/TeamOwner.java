@@ -23,6 +23,7 @@ public class TeamOwner implements IRole, ITeamObserver {
         this.member = member;
         this.appointments = new ArrayList<>();
         this.team = new Team(teamName, teamStatus, this, field);
+        //TODO call the DAO to add new team to the DB
         member.getRoles().add(this);
     }
 

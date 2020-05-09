@@ -28,12 +28,16 @@ public class Game implements IGameObservable {
     private ArrayList<IGameObserver> fanObservers;
     private ArrayList<IGameObserver> refereeObservers;
     private GameState gameState;
+    private String report;
 
 
     static final int numOfSideReferees = 2;
 
-
-
+    public String createReport(){
+        this.report = events.toString();
+        //TODO call dao to update game report
+        return this.report;
+    }
 
     public Game(Team host, Team guest, Season season, League league, LocalDateTime date, Field field){
         this.host = host;
@@ -43,6 +47,7 @@ public class Game implements IGameObservable {
         this.date = date;
         this.field = field;
         this.gameState = GameState.ToBe;
+        this.report = null;
 
         this.events = new ArrayList<>();
         this.sideReferees = new ArrayList<>();

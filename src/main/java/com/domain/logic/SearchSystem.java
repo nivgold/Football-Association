@@ -1,9 +1,5 @@
-package com.domain.domaincontroller;
+package com.domain.logic;
 
-import com.domain.domaincontroller.managers.ManageLeagues;
-import com.domain.domaincontroller.managers.ManageMembers;
-import com.domain.domaincontroller.managers.ManageSeasons;
-import com.domain.domaincontroller.managers.ManageTeams;
 import com.domain.logic.enums.SearchCategory;
 import com.domain.logic.football.League;
 import com.domain.logic.football.Season;
@@ -30,6 +26,7 @@ public class SearchSystem {
      */
     private String searchByName(String name){
         ArrayList<String> result = new ArrayList<>();
+        //TODO call DAO find members with name
         ManageMembers manageMembersSystem = ManageMembers.getInstance();
         ArrayList<Member> members = manageMembersSystem.findMemberByName(name);
         return members.toString();
@@ -42,16 +39,19 @@ public class SearchSystem {
     private String searchByCategory(SearchCategory category){
         if (category == SearchCategory.Coach){
             // search all coaches
+            //TODO call DAO to return all Coaches from the DB
             ArrayList<Coach> coaches = ManageMembers.getInstance().findAllCoaches();
             return coaches.toString();
         }
         else if (category == SearchCategory.Player){
             // search all players
+            //TODO call DAO to return all Players from the DB
             ArrayList<Player> players = ManageMembers.getInstance().findAllPlayers();
             return players.toString();
         }
         else{
             // search all teams
+            //TODO call DAO to return all Teams from the DB
             return Arrays.toString(ManageTeams.getInstance().getAllTeams().toArray());
         }
     }

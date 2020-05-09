@@ -1,6 +1,6 @@
-package com.domain.domaincontroller;
+package com.domain.logic;
 
-import com.domain.domaincontroller.recommender_system_strategies.IRecommenderSystemStrategy;
+import com.domain.logic.recommender_system_strategies.IRecommenderSystemStrategy;
 import com.domain.logic.football.Game;
 
 public class RecommenderSystem {

@@ -1,8 +1,7 @@
 package com.domain.logic.users;
 
-import com.domain.domaincontroller.RecommenderSystem;
-import com.domain.domaincontroller.managers.ManageMembers;
-import com.domain.domaincontroller.recommender_system_strategies.IRecommenderSystemStrategy;
+import com.domain.logic.RecommenderSystem;
+import com.domain.logic.recommender_system_strategies.IRecommenderSystemStrategy;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.Complaint;
 import com.domain.logic.football.Team;
@@ -29,11 +28,13 @@ public class SystemManagerMember extends Member{
         super(userName, SHA1Function.hash(password), email, address, name);
         this.passwordHash = SHA1Function.hash(password);
         this.userName = userName;
+        //TODO call DAO to add SystemMember to the DB
         ManageMembers.getInstance().addMember(this);
         managerCount++;
     }
 
     public SystemManagerMember(Member member) {
+        //TODO call DAO to add SystemMember to the DB
         super(member.getUserName(), member.getPasswordHash(), member.getEmail(), member.getAddress(), member.getName());
         ManageMembers.getInstance().addMember(this);
         managerCount++;
@@ -114,6 +115,7 @@ public class SystemManagerMember extends Member{
     public SystemManagerMember appointSystemManager(Member member){
         if(member instanceof SystemManagerMember)
             return null;
+        //TODO call DAO to remove Member from DB
         if(ManageMembers.getInstance().removeMember(member.getUserName(), member.getPasswordHash())) {
             SystemManagerMember appoint = new SystemManagerMember(member);
             Logger.getInstance().saveLog("new system manager was added to the system -> " + member.getUserName() + " by -> " + this.userName);

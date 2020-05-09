@@ -1,7 +1,9 @@
 package com.domain.logic.users;
 
-import com.domain.domaincontroller.SearchSystem;
-import com.domain.domaincontroller.managers.ManageMembers;
+import com.data.DBCommunicator;
+import com.data.Dao;
+import com.domain.logic.AssociationSystem;
+import com.domain.logic.SearchSystem;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.utils.SHA1Function;
 import com.logger.Logger;
@@ -21,19 +23,20 @@ public class Guest {
 
     public Member login(String userName, String password){
         String hashPassword = SHA1Function.hash(password);
-        ManageMembers log = ManageMembers.getInstance();
-        Member member = log.findMember(userName, hashPassword);
+        Dao dao = DBCommunicator.getInstance();
+        Member member = dao.findMember(userName, hashPassword);
         if(member != null)
             Logger.getInstance().saveLog("the guest: " + this.firstName + " login as the member: " + userName);
         else
             Logger.getInstance().saveLog("the guest: " + this.firstName + " failed to login as the member: " + userName);
+        AssociationSystem.getInstance().connectUser(member);
         return member;
     }
 
     public Member registerAsMember(String userName, String password, String email, String country, String state, String city, String postalCode){
-        ManageMembers log = ManageMembers.getInstance();
+        Dao dao = DBCommunicator.getInstance();
         String hashPassword = SHA1Function.hash(password);
-        Member newMember = log.findMember(userName, hashPassword);
+        Member newMember = dao.findMember(userName, hashPassword);
         if (newMember == null){
             Address memberAdd = new Address(country, state, city, postalCode);
             newMember = new Member(userName, hashPassword, email, memberAdd, this.firstName + " " + this.lastName);

@@ -1,6 +1,5 @@
 package com.domain.logic.football;
 
-import com.domain.domaincontroller.managers.ManageLeagues;
 import com.domain.logic.policies.GameSettingPolicy;
 import com.domain.logic.policies.Policy;
 import com.domain.logic.policies.RankingPolicy;
@@ -34,7 +33,7 @@ public class League {
         this.seasons = new ArrayList<>();
         leagueRefereeMap = new HashMap<>();
         this.seasonTeamsInLeague = new HashMap<>();
-        ManageLeagues.getInstance().addLeague(this);
+        //TODO call DAO to add league
     }
 
 
@@ -148,9 +147,11 @@ public class League {
         seasonLeaguePolicy.put(season, policy);
         season.setPolicyToLeague(this, policy);
 
+        //TODO call DAO to add new policy of league-season to DB
+
         //com.logger
         Logger logger = Logger.getInstance();
-        logger.saveLog("Business.policies.Policy assigned to season " + season.getYear() + " in league " + leagueName);
+        logger.saveLog("Policy assigned to season " + season.getYear() + " in league " + leagueName);
 
 
     }
@@ -177,6 +178,8 @@ public class League {
     public void setRankingPolicy(Season season, RankingPolicy rPolicy){
         Policy policy = seasonLeaguePolicy.get(season);
         policy.setRankingPolicy(rPolicy);
+
+        //TODO call DAO to add RankingPolicy to the policy in the DB
 
         //com.logger
         Logger logger = Logger.getInstance();
@@ -214,6 +217,8 @@ public class League {
     public void setGameSettingPolicy(Season season, GameSettingPolicy settingPolicy) {
         Policy policy = seasonLeaguePolicy.get(season);
         policy.setGameSettingPolicy(settingPolicy);
+
+        //TODO call DAO to add GameSettingPolicy to policy in the DB
 
         //com.logger
         Logger logger = Logger.getInstance();
