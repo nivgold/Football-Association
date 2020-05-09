@@ -1,7 +1,6 @@
 package com.domain.logic.football;
 
 
-import com.domain.domaincontroller.managers.ManageSeasons;
 import com.domain.logic.policies.Policy;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class Season {
         this.seasonLeaguePolicy = new HashMap<>();
         this.games = new ArrayList<>();
         leagues = new ArrayList<>();
-        ManageSeasons.getInstance().addSeason(this);
+        //TODO call DAO to add new Season
     }
 
     public void addGame(Game game){

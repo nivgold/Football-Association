@@ -2,11 +2,7 @@ package com.domain.domaincontroller;
 
 
 import com.domain.logic.AssociationSystem;
-import com.domain.domaincontroller.RecommenderSystem;
-import com.domain.domaincontroller.managers.ManageLeagues;
-import com.domain.domaincontroller.managers.ManageMembers;
-import com.domain.domaincontroller.managers.ManageSeasons;
-import com.domain.domaincontroller.managers.ManageTeams;
+import com.domain.logic.RecommenderSystem;
 import com.domain.logic.enums.EventType;
 import com.domain.logic.enums.PlayerRole;
 import com.domain.logic.football.*;
@@ -21,7 +17,7 @@ import com.domain.logic.users.SystemManagerMember;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ServiceLayerManager {
+public class DomainController {
 
     // System UC's
 
@@ -315,26 +311,32 @@ public class ServiceLayerManager {
     }
 
     public Member findMember(Member member){
+        //TODO call DAO to find Member
         return ManageMembers.getInstance().findMember(member);
     }
 
     public Member findMember(String userName, String hashPassword){
+        //TODO call DAO to find Member
         return ManageMembers.getInstance().findMember(userName, hashPassword);
     }
 
     public League findLeague(String leagueName){
+        //TODO call DAO to find league
          return ManageLeagues.getInstance().findLeague(leagueName);
     }
 
     public Season findSeason(int seasonYear){
+        //TODO call DAO to find season
          return ManageSeasons.getInstance().findSeason(seasonYear);
     }
 
     public Team findTeam(String teamName){
+        //TODO call DAO to find Team
         return ManageTeams.getInstance().findTeam(teamName);
     }
 
     public ArrayList<Team> getALLTeams(){
+        //TODO call DAO to get all Teams
         return ManageTeams.getInstance().getAllTeams();
     }
 }

@@ -1,8 +1,8 @@
 package unit;
 
 import com.domain.logic.AssociationSystem;
-import com.domain.domaincontroller.RecommenderSystem;
-import com.domain.domaincontroller.recommender_system_strategies.GamesHistoryRecommenderStrategy;
+import com.domain.logic.RecommenderSystem;
+import com.domain.logic.recommender_system_strategies.GamesHistoryRecommenderStrategy;
 import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.football.*;
 import com.domain.logic.roles.TeamOwner;

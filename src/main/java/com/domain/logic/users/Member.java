@@ -1,6 +1,7 @@
 package com.domain.logic.users;
 
-import com.domain.domaincontroller.SearchSystem;
+import com.domain.logic.AssociationSystem;
+import com.domain.logic.SearchSystem;
 import com.domain.domaincontroller.managers.ManageMembers;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.Complaint;
@@ -32,7 +33,16 @@ public class Member implements IGameObserver, IPersonalPageObserver {
         this.unresolvedComplaints = new ArrayList<>();
         this.resolvedComplaints = new ArrayList<>();
         this.roles = new ArrayList<>();
+        //TODO call DAO to add Member to the DB
         ManageMembers.getInstance().addMember(this);
+    }
+
+    public boolean logout(){
+        if (!AssociationSystem.getInstance().checkIfConnected(this))
+            return false;
+        AssociationSystem.getInstance().logOutUser(this);
+        Logger.getInstance().saveLog("Member logout successfully");
+        return true;
     }
 
     /**
@@ -103,10 +113,6 @@ public class Member implements IGameObserver, IPersonalPageObserver {
         return searcher.search(key, query);
     }
 
-    public void logout(){
-        System.out.println("The logic logged out from the system");
-    }
-
     @Override
     public void updateGame(Game game) {
         System.out.println(game.toString());
@@ -118,10 +124,14 @@ public class Member implements IGameObserver, IPersonalPageObserver {
     }
 
     public boolean setUserName(String userName) {
+        //TODO need to update Member username in the DB
+
+        //TODO call DAO to remove user
         ManageMembers manageMembers = ManageMembers.getInstance();
         boolean removal = manageMembers.removeMember(this.userName, this.passwordHash);
         if(removal) {
             this.userName = userName;
+            //TODO call DAO to add the Member
             if(manageMembers.addMember(this)){
                 Logger.getInstance().saveLog("the member -> " + this.name + " changed his userName to -> " + userName);
                 return true;
@@ -131,6 +141,9 @@ public class Member implements IGameObserver, IPersonalPageObserver {
     }
 
     public boolean setPasswordHash(String password) {
+        //TODO need to update Member password in the DB
+
+
         ManageMembers manageMembers = ManageMembers.getInstance();
         boolean removal = manageMembers.removeMember(this.userName, this.passwordHash);
         if(removal){
@@ -153,6 +166,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
             if(!complaint.removeYourself())
                 return false;
         }
+        //TODO call DAO to remove Member from DB
         ManageMembers manageMembers = ManageMembers.getInstance();
         Logger.getInstance().saveLog("the member -> " + this.userName + " was deleted from the system");
         return manageMembers.removeMember(this.userName, this.passwordHash);

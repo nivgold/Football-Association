@@ -44,6 +44,7 @@ public class Referee implements IRole, IGameObserver {
         if (isAuthorized) {
             Event e = new Event(gameMinute, description, type, dateTime, game, player);
             game.getEvents().add(e);
+            //TODO call DAO to add new event to game
             return true;
         }
         else {
@@ -52,6 +53,9 @@ public class Referee implements IRole, IGameObserver {
         }
     }
 
+    public String createReport(Game game){
+        return game.createReport();
+    }
     
     /**
      * edit an event of finished game.

@@ -26,6 +26,7 @@ public class AssociationAgent implements IRole {
      */
     public void createLeague(String name) {
         AssociationSystem system = AssociationSystem.getInstance();
+        //TODO call DAO to find the league
         if (system.getManageLeagues().findLeague(name) == null){
             League league = new League(name);
             Logger.getInstance().saveLog("League: "+name+" was added to the system");
@@ -44,6 +45,7 @@ public class AssociationAgent implements IRole {
     public void createSeasonInLeague(League l, int year) {
         AssociationSystem system = AssociationSystem.getInstance();
         //check if the league already exists
+        //TODO call DAO to find the league
         if (system.getManageLeagues().findLeague(l.getLeagueName()) != null) {
             boolean seasonExists = false;
 
@@ -55,10 +57,10 @@ public class AssociationAgent implements IRole {
                 }
             }
             if (!seasonExists) {
+                //TODO call DAO to find season
                 Season s = AssociationSystem.getInstance().getManageSeasons().findSeason(year);
                 if (s==null) {
                     s = new Season(year);
-                    AssociationSystem.getInstance().getManageSeasons().addSeason(s);
                 }
                 l.addSeason(s);
                 System.out.println("The season has been added successfully to the league");
@@ -104,6 +106,7 @@ public class AssociationAgent implements IRole {
     public void setRefereeInLeague(Referee r, League l, Season s) {
         AssociationSystem system = AssociationSystem.getInstance();
         //check if the league is valid
+        //TODO call DAO to find league
         if (system.getManageLeagues().findLeague(l.getLeagueName()) != null) {
             //check if the season is valid
             if (l.getSeasons().contains(s)) {

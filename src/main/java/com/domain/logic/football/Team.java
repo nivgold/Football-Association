@@ -1,7 +1,6 @@
 package com.domain.logic.football;
 
 
-import com.domain.domaincontroller.managers.ManageTeams;
 import com.domain.logic.data_types.PersonalPage;
 import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.roles.Coach;
@@ -43,7 +42,7 @@ public class Team implements IPersonalPageable, ITeamObservable {
         this.gameGuest = new ArrayList<>();
         this.coachesInTeam = new ArrayList<>();
         this.personal_page = new PersonalPage(this);
-        ManageTeams.getInstance().addTeam(this);
+        //TODO call DAO to add Team
     }
 
     public Team(ArrayList<Game> gameHost, ArrayList<Season> season, ArrayList<PlayerRoleInTeam> players, ArrayList<TeamManager> team_managers, ArrayList<TeamOwner> team_owners, ArrayList<Game> gameGuest, Field field, ArrayList<CoachInTeam> coaches, String teamName, TeamStatus status) {
@@ -59,7 +58,7 @@ public class Team implements IPersonalPageable, ITeamObservable {
         this.status = status;
         this.personal_page = new PersonalPage(this);
         this.teamObservers = new ArrayList<>();
-        ManageTeams.getInstance().addTeam(this);
+        //TODO call DAO to add TEAM
         field.setOwnerTeam(this);
     }
 

@@ -3,7 +3,7 @@ package unit;
 
 import com.domain.logic.AssociationSystem;
 import com.domain.domaincontroller.managers.ManageMembers;
-import com.domain.domaincontroller.recommender_system_strategies.GamesHistoryRecommenderStrategy;
+import com.domain.logic.recommender_system_strategies.GamesHistoryRecommenderStrategy;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.Complaint;
 import com.domain.logic.users.Member;
