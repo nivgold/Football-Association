@@ -15,7 +15,7 @@ public class TeamManager implements IRole, ITeamObserver {
         this.team = team;
         this.member = member;
         this.appointer = appointer;
-        member.getRoles().add(this);
+        member.addTeamManager(this);
     }
 
     /**
@@ -26,7 +26,7 @@ public class TeamManager implements IRole, ITeamObserver {
     public boolean removeYourself() {
         try {
             team.getTeam_managers().remove(this);
-            member.getRoles().remove(this);
+            member.removeTeamManager(this);
             this.appointer.getAppointments().remove(this);
             this.team = null;
             this.appointer=null;

@@ -82,10 +82,10 @@ public class Team implements IPersonalPageable, ITeamObservable {
             coach.getTeams().remove(coachInTeam);
         }
         for (TeamOwner teamOwner : Team_owners) { //delete teamOwner role from member
-            teamOwner.getMember().getRoles().remove(teamOwner);
+            teamOwner.getMember().removeTeamOwner(teamOwner);
         }
         for (TeamManager teamManager : Team_managers) { //delete teamManager role from member
-            teamManager.getMember().getRoles().remove(teamManager);
+            teamManager.getMember().removeTeamManager(teamManager);
         }
         this.Team_owners.removeAll(this.Team_owners);
         this.Team_managers.removeAll(this.Team_managers);

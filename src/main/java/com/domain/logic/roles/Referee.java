@@ -26,7 +26,7 @@ public class Referee implements IRole, IGameObserver {
         this.leagues = new ArrayList<>();
         this.main = new ArrayList<>();
         this.side = new ArrayList<>();
-        member.getRoles().add(this);
+        member.addReferee(this);
     }
 
     /**
@@ -139,7 +139,7 @@ public class Referee implements IRole, IGameObserver {
                     }
                 }
             }
-            member.getRoles().remove(this);
+            member.removeReferee(this);
             this.removeRefereeFromGames();
             main.clear();
             side.clear();

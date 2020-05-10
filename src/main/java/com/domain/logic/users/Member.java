@@ -2,12 +2,11 @@ package com.domain.logic.users;
 
 import com.domain.logic.AssociationSystem;
 import com.domain.logic.SearchSystem;
-import com.domain.domaincontroller.managers.ManageMembers;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.Complaint;
 import com.domain.logic.data_types.PersonalPage;
 import com.domain.logic.football.Game;
-import com.domain.logic.roles.IRole;
+import com.domain.logic.roles.*;
 import com.domain.logic.utils.SHA1Function;
 import com.logger.Logger;
 
@@ -188,16 +187,6 @@ public class Member implements IGameObserver, IPersonalPageObserver {
         game.remove(this);
     }
 
-    //TODO fix the adding roles func
-    public ArrayList<IRole> getRoles() {
-        if(!(this instanceof SystemManagerMember))
-            return roles;
-        else{
-            System.err.println("system manager doesn't have roles!");
-            return null;
-        }
-    }
-
     public String getUserName() {
         return userName;
     }
@@ -236,5 +225,51 @@ public class Member implements IGameObserver, IPersonalPageObserver {
 
     public ArrayList<Complaint> getResolvedComplaints() {
         return resolvedComplaints;
+    }
+
+    //TODO fix the adding roles func
+    public ArrayList<IRole> getRoles() {
+        if(!(this instanceof SystemManagerMember))
+            return roles;
+        else{
+            System.err.println("system manager doesn't have roles!");
+            return null;
+        }
+    }
+
+    public void removeTeamOwner(TeamOwner teamOwner) {//TODO
+    }
+
+    public void removeTeamManager(TeamManager teamManager) {//TODO
+    }
+
+    public void addAssociationAgent(AssociationAgent associationAgent) {//TODO
+    }
+
+    public void removeAssociationAgent(AssociationAgent associationAgent) {//TODO
+    }
+
+    public void addChoach(Coach coach) {//TODO
+    }
+
+    public void removeCoach(Coach coach) {//TODO
+    }
+
+    public void addPlayer(Player player) {//TODO
+    }
+
+    public void removePlayer(Player player) {//TODO
+    }
+
+    public void addReferee(Referee referee) {//TODO
+    }
+
+    public void removeReferee(Referee referee) {//TODO
+    }
+
+    public void addTeamManager(TeamManager teamManager) {//TODO
+    }
+
+    public void addTeamOwner(TeamOwner teamOwner) {//TODO
     }
 }

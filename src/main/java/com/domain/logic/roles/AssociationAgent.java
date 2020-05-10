@@ -17,7 +17,7 @@ public class AssociationAgent implements IRole {
 
     public AssociationAgent(Member member) {
         this.member = member;
-        member.getRoles().add(this);
+        member.addAssociationAgent(this);
     }
 
     /**
@@ -170,7 +170,7 @@ public class AssociationAgent implements IRole {
     @Override
     public boolean removeYourself() {
         try {
-            member.getRoles().remove(this);
+            member.removeAssociationAgent(this);
             return true;
         }
         catch (Exception e) {

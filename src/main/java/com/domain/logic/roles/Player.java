@@ -31,7 +31,7 @@ public class Player implements IRole, IPersonalPageable {
         this.events = new ArrayList<>();
         this.member = member;
         this.birthDate = birthDate;
-        member.getRoles().add(this);
+        member.addPlayer(this);
     }
 
     /**
@@ -44,7 +44,7 @@ public class Player implements IRole, IPersonalPageable {
             for (PlayerRoleInTeam prit : roleInTeams) {
                 prit.getTeam().getPlayers().remove(prit);
             }
-            member.getRoles().remove(this);
+            member.removePlayer(this);
             events.clear();
             roleInTeams.clear();
             Logger.getInstance().saveLog("The player has been removed successfully");

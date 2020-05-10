@@ -24,21 +24,21 @@ public class TeamOwner implements IRole, ITeamObserver {
         this.appointments = new ArrayList<>();
         this.team = new Team(teamName, teamStatus, this, field);
         //TODO call the DAO to add new team to the DB
-        member.getRoles().add(this);
+        member.addTeamOwner(this);
     }
 
     public TeamOwner(Member member)
     {
         this.member = member;
         this.appointments = new ArrayList<>();
-        member.getRoles().add(this);
+        member.addTeamOwner(this);
     }
 
     public TeamOwner(Team team, Member member) {
         this.team = team;
         this.member = member;
         this.appointments = new ArrayList<>();
-        member.getRoles().add(this);
+        member.addTeamOwner(this);
     }
 
     /**
@@ -211,7 +211,7 @@ public class TeamOwner implements IRole, ITeamObserver {
                     team.getCoaches().remove(toRemove);
                     c.getTeams().remove(toRemove);
                     if (c.getTeams().size()==0){
-                        c.getMember().getRoles().remove(c);
+                        c.getMember().removeCoach(c);
                     }
                     Logger.getInstance().saveLog("The coach has been removed successfully");
                 }
@@ -266,7 +266,7 @@ public class TeamOwner implements IRole, ITeamObserver {
                     team.getPlayers().remove(prit);
                     p.getRoleInTeams().remove(prit);
                     if (p.getRoleInTeams().size()==0){
-                        p.getMember().getRoles().remove(p);
+                        p.getMember().removePlayer(p);
                     }
                     Logger.getInstance().saveLog("The player has been removed successfully");
                     exists = true;
@@ -317,7 +317,7 @@ public class TeamOwner implements IRole, ITeamObserver {
                     appointments.clear();
                     this.team = null;
                     this.appointer = null;
-                    this.member.getRoles().remove(this);
+                    this.member.removeTeamOwner(this);
                     Logger.getInstance().saveLog("The team owner has been removed successfully");
                     return true;
                 }

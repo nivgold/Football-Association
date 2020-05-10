@@ -24,7 +24,7 @@ public class Coach implements IPersonalPageable, IRole {
         this.teams = new ArrayList<>();
         this.qualification = "New";
         this.personalPage = new PersonalPage(this);
-        member.getRoles().add(this);
+        member.addChoach(this);
     }
 
     /**
@@ -38,7 +38,7 @@ public class Coach implements IPersonalPageable, IRole {
         this.teams = teams;
         this.personalPage = new PersonalPage(this);
         this.member = member;
-        member.getRoles().add(this);
+        member.addChoach(this);
     }
 
     public void addCoachInTeam(CoachInTeam coachInTeam){
@@ -72,7 +72,7 @@ public class Coach implements IPersonalPageable, IRole {
                 t.getTeam().getCoaches().remove(t);
             }
             teams.clear();
-            member.getRoles().remove(this);
+            member.removeCoach(this);
             Logger.getInstance().saveLog("The coach has been removed successfully");
             return true;
         }
