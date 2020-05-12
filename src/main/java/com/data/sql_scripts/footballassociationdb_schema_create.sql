@@ -193,3 +193,8 @@ REFERENCES `team` (`teamID`),
 ADD CONSTRAINT `fk_address` FOREIGN KEY (`addressID`)
 REFERENCS `address` (`addressID`)
 )
+
+-- adding field foreign key to Team table
+ALTER TABLE team
+ADD CONSTRAINT `fk_field` FOREIGN KEY (`fieldID`)
+REFERENCES `field` (`fieldID`);
