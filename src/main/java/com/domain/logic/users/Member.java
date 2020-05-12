@@ -156,7 +156,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
         return false;
     }
 
-    public boolean removeYourself() {
+    public boolean removeYourself() throws Exception {
         for (IRole role: this.roles) {
             if(!role.removeYourself())
                 return false;
