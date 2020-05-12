@@ -156,7 +156,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
         return false;
     }
 
-    public boolean removeYourself() {
+    public boolean removeYourself() throws Exception {
         for (IRole role: this.roles) {
             if(!role.removeYourself())
                 return false;
@@ -237,39 +237,138 @@ public class Member implements IGameObserver, IPersonalPageObserver {
         }
     }
 
-    public void removeTeamOwner(TeamOwner teamOwner) {//TODO
+    public boolean removeTeamOwner(TeamOwner teamOwner) throws Exception {
+        if(!this.roles.remove(teamOwner)){
+            String excepData = "the member: " + this.getUserName() + " is not the team owner of the team: " + teamOwner.getTeam().getTeamName();
+            throw new Exception(excepData);
+        }
+        return true;
     }
 
-    public void removeTeamManager(TeamManager teamManager) {//TODO
+    public boolean removeTeamManager(TeamManager teamManager) throws Exception {
+        if(!this.roles.remove(teamManager)){
+            String excepData = "the member: " + this.getUserName() + " is not the team manager of the team: " + teamManager.getTeam().getTeamName();
+            throw new Exception(excepData);
+        }
+        return true;
     }
 
-    public void addAssociationAgent(AssociationAgent associationAgent) {//TODO
+    public boolean addAssociationAgent(AssociationAgent associationAgent) throws Exception {
+        if(checkRoleAddition(associationAgent)){
+            this.roles.add(associationAgent);
+            return true;
+        }
+        else{
+            String excepData = "the member: " + this.getUserName() + " can't be assigned as association agent ";
+            throw new Exception(excepData);
+        }
     }
 
-    public void removeAssociationAgent(AssociationAgent associationAgent) {//TODO
+    public boolean removeAssociationAgent(AssociationAgent associationAgent) throws Exception {
+        if(!this.roles.remove(associationAgent)){
+            String excepData = "the member: " + this.getUserName() + " is not an association agent";
+            throw new Exception(excepData);
+        }
+        return true;
     }
 
-    public void addChoach(Coach coach) {//TODO
+    public boolean addChoach(Coach coach) throws Exception {
+        if(checkRoleAddition(coach)){
+            this.roles.add(coach);
+            return true;
+        }
+        else{
+            String excepData = "the member: " + this.getUserName() + " can't be assigned as coach ";
+            throw new Exception(excepData);
+        }
     }
 
-    public void removeCoach(Coach coach) {//TODO
+    public boolean removeCoach(Coach coach) throws Exception {
+        if(!this.roles.remove(coach)){
+            String excepData = "the member: " + this.getUserName() + " is not a coach";
+            throw new Exception(excepData);
+        }
+        return true;
     }
 
-    public void addPlayer(Player player) {//TODO
+    public boolean addPlayer(Player player) throws Exception {
+        if(checkRoleAddition(player)){
+            this.roles.add(player);
+            return true;
+        }
+        else{
+            String excepData = "the member: " + this.getUserName() + " can't be assigned as player ";
+            throw new Exception(excepData);
+        }
     }
 
-    public void removePlayer(Player player) {//TODO
+    public boolean removePlayer(Player player) throws Exception {
+        if(!this.roles.remove(player)){
+            String excepData = "the member: " + this.getUserName() + " is not the player: " + player.getPlayerID();
+            throw new Exception(excepData);
+        }
+        return true;
     }
 
-    public void addReferee(Referee referee) {//TODO
+    public boolean addReferee(Referee referee) throws Exception {
+        if(checkRoleAddition(referee)){
+            this.roles.add(referee);
+            return true;
+        }
+        else{
+            String excepData = "the member: " + this.getUserName() + " can't be assigned as referee";
+            throw new Exception(excepData);
+        }
     }
 
-    public void removeReferee(Referee referee) {//TODO
+    public boolean removeReferee(Referee referee) throws Exception {
+        if(!this.roles.remove(referee)){
+            String excepData = "the member: " + this.getUserName() + " is not a referee";
+            throw new Exception(excepData);
+        }
+        return true;
     }
 
-    public void addTeamManager(TeamManager teamManager) {//TODO
+    public boolean addTeamManager(TeamManager teamManager) throws Exception {
+        if(checkRoleAddition(teamManager)){
+            this.roles.add(teamManager);
+            return true;
+        }
+        else{
+            String excepData = "the member: " + this.getUserName() + " can't be assigned as team manager";
+            throw new Exception(excepData);
+        }
     }
 
-    public void addTeamOwner(TeamOwner teamOwner) {//TODO
+    public boolean addTeamOwner(TeamOwner teamOwner) throws Exception {
+        if(checkRoleAddition(teamOwner)){
+            this.roles.add(teamOwner);
+            return true;
+        }
+        else{
+            String excepData = "the member: " + this.getUserName() + " can't be assigned as team owner";
+            throw new Exception(excepData);
+        }
+    }
+
+    private boolean checkRoleAddition(IRole role) {
+        if(role instanceof AssociationAgent || role instanceof Referee) {
+            if (this.roles.size() == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        else{
+            for (int i = 0; i < this.roles.size(); i++) {
+                IRole currentRole = this.roles.get(i);
+                if(currentRole instanceof AssociationAgent || currentRole instanceof Referee ||
+                    currentRole.getClass() == role.getClass()){
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
+

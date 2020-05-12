@@ -15,7 +15,7 @@ public class AssociationAgent implements IRole {
 
     private Member member;
 
-    public AssociationAgent(Member member) {
+    public AssociationAgent(Member member) throws Exception {
         this.member = member;
         member.addAssociationAgent(this);
     }
@@ -63,11 +63,11 @@ public class AssociationAgent implements IRole {
                     s = new Season(year);
                 }
                 l.addSeason(s);
-                System.out.println("The season has been added successfully to the league");
+                Logger.getInstance().saveLog("The season has been added successfully to the league");
             }
         }
         else {
-            System.out.println("The league does not exists.");
+            Logger.getInstance().saveLog("The league does not exists.");
         }
     }
 
@@ -76,7 +76,7 @@ public class AssociationAgent implements IRole {
      * adds new referee to the system
      * @param member
      */
-    public void appointReferee(Member member) {
+    public void appointReferee(Member member) throws Exception {
         // check if member already a referee in the system
         for (IRole role : member.getRoles()){
             if (role instanceof Referee) {
@@ -92,9 +92,9 @@ public class AssociationAgent implements IRole {
      * removes existing referee from the system
      * @param r
      */
-    public void removeReferee(Referee r) {
+    public void removeReferee(Referee r) throws Exception {
         r.removeYourself();
-        System.out.println("The referee has been removed successfully");
+        Logger.getInstance().saveLog("The referee has been removed successfully");
     }
 
     /**
@@ -168,15 +168,9 @@ public class AssociationAgent implements IRole {
      * @return
      */
     @Override
-    public boolean removeYourself() {
-        try {
-            member.removeAssociationAgent(this);
-            return true;
-        }
-        catch (Exception e) {
-            e.getStackTrace();
-        }
-        return false;
+    public boolean removeYourself() throws Exception {
+        member.removeAssociationAgent(this);
+        return true;
     }
 
     public Member getMember() {
