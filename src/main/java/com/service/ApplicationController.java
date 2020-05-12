@@ -3,9 +3,6 @@ package com.service;
 import com.domain.domaincontroller.DomainController;
 import com.domain.logic.football.League;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("api/v1")
