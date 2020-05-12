@@ -3,23 +3,22 @@ package com.domain.logic.policies;
 
 import com.domain.logic.football.League;
 import com.domain.logic.football.Season;
+import com.domain.logic.football.SeasonInLeague;
 import com.domain.logic.policies.game_setting_policies.IGameSettingPolicyStrategy;
 
 public class Policy {
 
-    private League league;
-    private Season season;
     private GameSettingPolicy gameSettingPolicy;
     private RankingPolicy rankingPolicy;
 
-    public Policy(League league, Season season){
-        this.league = league;
-        this.season = season;
+    private SeasonInLeague seasonInLeague;
+
+    public Policy(SeasonInLeague seasonInLeague){
+        this.seasonInLeague = seasonInLeague;
     }
 
-    public Policy(League league, Season season, GameSettingPolicy gameSettingPolicy, RankingPolicy rankingPolicy){
-        this.league = league;
-        this.season = season;
+    public Policy(SeasonInLeague seasonInLeague, GameSettingPolicy gameSettingPolicy, RankingPolicy rankingPolicy){
+        this.seasonInLeague = seasonInLeague;
         this.gameSettingPolicy = gameSettingPolicy;
         this.rankingPolicy = rankingPolicy;
     }
@@ -30,8 +29,6 @@ public class Policy {
      */
     public void setRankingPolicy(RankingPolicy rankingPolicy){
         this.rankingPolicy = rankingPolicy;
-
-
     }
 
     /**
@@ -77,7 +74,7 @@ public class Policy {
      * @return
      */
     public League getLeague() {
-        return league;
+        return this.seasonInLeague.getLeague();
     }
 
     /**
@@ -85,18 +82,22 @@ public class Policy {
      * @return
      */
     public Season getSeason() {
-        return season;
+        return this.seasonInLeague.getSeason();
     }
 
     public void setLeague(League league) {
-        this.league = league;
+        this.seasonInLeague.setLeague(league);
     }
 
     public void setSeason(Season season) {
-        this.season = season;
+        this.seasonInLeague.setSeason(season);
     }
 
     public void setGameSettingPolicy(GameSettingPolicy gameSettingPolicy) {
         this.gameSettingPolicy = gameSettingPolicy;
+    }
+
+    public SeasonInLeague getSeasonInLeague() {
+        return seasonInLeague;
     }
 }

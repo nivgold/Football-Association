@@ -14,6 +14,9 @@ import java.util.HashMap;
 public class League {
 
     private String leagueName;
+    private ArrayList<SeasonInLeague> seasonInLeagues;
+
+
     private ArrayList<Game> games;
     private ArrayList<Season> seasons;
     private HashMap<Season, Policy> seasonLeaguePolicy;
@@ -108,10 +111,11 @@ public class League {
      */
     public void addSeason(Season season) {
         if (!containingSeasonWithYear(season.getYear())) {
-            seasons.add(season);
-            season.addLeague(this);
+            // added
+            SeasonInLeague seasonInLeague = new SeasonInLeague(this, season);
+            // added
 
-            Policy policy = new Policy(this, season);
+            Policy policy = new Policy(seasonInLeague);
 
             try {
                 setPolicyToSeason(season, policy);
@@ -223,6 +227,10 @@ public class League {
         //com.logger
         Logger logger = Logger.getInstance();
         logger.saveLog("Business.football.Game Setting policy assigned to season " + season.getYear() + " in league " + leagueName);
+    }
+
+    public void addSeasonInLeague(SeasonInLeague seasonInLeague){
+        this.seasonInLeagues.add(seasonInLeague);
     }
 
     public String getLeagueName() {

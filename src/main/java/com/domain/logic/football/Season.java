@@ -9,24 +9,30 @@ import java.util.HashMap;
 public class Season {
 
     private int year;
-    private ArrayList<League> leagues;
-    private HashMap<League, Policy> seasonLeaguePolicy;
-    private ArrayList<Game> games;
+    private ArrayList<SeasonInLeague> seasonInLeagues;
+
 
     public Season(int year) {
         this.year = year;
-        this.seasonLeaguePolicy = new HashMap<>();
-        this.games = new ArrayList<>();
-        leagues = new ArrayList<>();
+        this.seasonInLeagues = new ArrayList<>();
         //TODO call DAO to add new Season
     }
 
-    public void addGame(Game game){
-        this.games.add(game);
+    private SeasonInLeague findSeasonInLeague(League league){
+        for (SeasonInLeague seasonInLeague : this.seasonInLeagues){
+            if (seasonInLeague.getLeague().getLeagueName().equals(league.getLeagueName()))
+                return seasonInLeague;
+        }
+        return null;
     }
 
-    public void addLeague(League league) {
-        leagues.add(league);
+    public void addGame(Game game){
+        SeasonInLeague seasonInLeague = findSeasonInLeague(game.getLeague());
+        seasonInLeague.addGame(game);
+    }
+
+    public void addSeasonInLeague(SeasonInLeague seasonInLeague){
+        this.seasonInLeagues.add(seasonInLeague);
     }
 
     public int getYear() {
@@ -34,34 +40,32 @@ public class Season {
     }
 
     public void setPolicyToLeague(League league, Policy policy){
-        this.seasonLeaguePolicy.put(league, policy);
+        SeasonInLeague seasonInLeague = findSeasonInLeague(league);
+        seasonInLeague.setPolicy(policy);
     }
 
     public ArrayList<League> getLeagues() {
-        return leagues;
+        ArrayList<League> result = new ArrayList<>();
+        for (SeasonInLeague seasonInLeague : this.seasonInLeagues)
+            result.add(seasonInLeague.getLeague());
+        return result;
     }
 
     public HashMap<League, Policy> getSeasonLeaguePolicy() {
-        return seasonLeaguePolicy;
+        HashMap<League, Policy> result = new HashMap<>();
+        for (SeasonInLeague seasonInLeague : this.seasonInLeagues)
+            result.put(seasonInLeague.getLeague(), seasonInLeague.getPolicy());
+        return result;
     }
 
     public ArrayList<Game> getGames() {
-        return games;
+        ArrayList<Game> result = new ArrayList<>();
+        for (SeasonInLeague seasonInLeague : this.seasonInLeagues)
+            result.addAll(seasonInLeague.getGames());
+        return result;
     }
 
     public void setYear(int year) {
         this.year = year;
-    }
-
-    public void setLeagues(ArrayList<League> leagues) {
-        this.leagues = leagues;
-    }
-
-    public void setSeasonLeaguePolicy(HashMap<League, Policy> seasonLeaguePolicy) {
-        this.seasonLeaguePolicy = seasonLeaguePolicy;
-    }
-
-    public void setGames(ArrayList<Game> games) {
-        this.games = games;
     }
 }
