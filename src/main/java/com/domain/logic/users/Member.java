@@ -141,8 +141,6 @@ public class Member implements IGameObserver, IPersonalPageObserver {
 
     public boolean setPasswordHash(String password) {
         //TODO need to update Member password in the DB
-
-
         ManageMembers manageMembers = ManageMembers.getInstance();
         boolean removal = manageMembers.removeMember(this.userName, this.passwordHash);
         if(removal){

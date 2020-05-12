@@ -32,8 +32,8 @@ addressID int NOT NULL,
 coachID int,
 teamOwnerID int,
 teamManagerID int,
-player int,
-referee int,
+playerID int,
+refereeID int,
 associationAgentID int,
 -- CONSTRAINTS
 CONSTRAINT `fk_address` FOREIGN KEY (`addressID`)
@@ -53,7 +53,7 @@ qualification varchar (255),
 memberID int NOT NULL,
 -- CONSTRAINTS
 CONSTRAINT  `fk_member` FOREIGN KEY (`memberID`)
-REFERENCS `member` (`memberID`)
+REFERENCES `member` (`memberID`)
 );
 
 -- create AssociationAgent table
@@ -123,26 +123,24 @@ REFERENCES `team_owner` (`teamOwnerID`);
 ALTER TABLE member
 ADD CONSTRAINT `fk_coach` FOREIGN KEY (`coachID`)
 REFERENCES `coach` (`coachID`),
-CONSTRAINT `fk_player` FOREIGN KEY ('playerID`)
+ADD CONSTRAINT `fk_player` FOREIGN KEY (`playerID`)
 REFERENCES `player` (`playerID`),
-CONSTRAINT `fk_referee` FOREIGN KEY (`refereeID`)
-REFERENCES `referee` (`refereeID`)
-CONSTRAINT `fk_teamManager` FOREIGN KEY (`teamManagerID`)
-REFERENCES `team_manager` (`teamManagerID`)
-CONSTRAINT `fk_teamOwner` FOREIGN KEY (`teamOwnerID`)
-REFERENCES `team_owner` (teamOwnerID`)
-CONSTRAINT `fk_associationAgent` FOREIGN KEY (`associationAgentID`)
-REFERENCES `associationAgent` (`associationAgentID`);
+ADD CONSTRAINT `fk_referee` FOREIGN KEY (`refereeID`)
+REFERENCES `referee` (`refereeID`),
+ADD CONSTRAINT `fk_teamManager` FOREIGN KEY (`teamManagerID`)
+REFERENCES `team_manager` (`teamManagerID`),
+ADD CONSTRAINT `fk_teamOwner` FOREIGN KEY (`teamOwnerID`)
+REFERENCES `team_owner` (`teamOwnerID`),
+ADD CONSTRAINT `fk_associationAgent` FOREIGN KEY (`associationAgentID`)
+REFERENCES `association_agent` (`associationAgentID`);
 
 -- create Team table
--- TODO add foreign key to field
 CREATE TABLE team(
 teamID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 teamName varchar (255) UNIQUE NOT NULL,
 teamStatus TINYINT (1) DEFAULT 1,
 -- FOREIGN KEYS
-fieldID int,
--- CONSTRAINTS
+fieldID int
 );
 
 -- adding TeamOwner team foreign key
@@ -161,9 +159,9 @@ CREATE TABLE coach_in_team(
 coachID int NOT NULL,
 teamID int NOT NULL,
 -- CONSTRAINTS
-ADD CONSTRAINT `fk_coach` FOREIGN KEY (`coachID`)
+CONSTRAINT `fk_coach` FOREIGN KEY (`coachID`)
 REFERENCES `coach` (`coachID`),
-ADD CONSTRAINT `fk_team` FOREIGN KEY (`teamID`)
+CONSTRAINT `fk_team` FOREIGN KEY (`teamID`)
 REFERENCES `team` (`teamID`),
 PRIMARY KEY (coachID, teamID)
 );
@@ -174,9 +172,9 @@ CREATE TABLE player_in_team(
 playerID int NOT NULL,
 teamID int NOT NULL,
 -- CONSTRAINTS
-ADD CONSTRAINT `fk_player` FOREIGN KEY (`playerID`)
+CONSTRAINT `fk_player` FOREIGN KEY (`playerID`)
 REFERENCES `player` (`playerID`),
-ADD CONSTRAINT `fk_team` FOREIGN KEY (`teamID`)
+CONSTRAINT `fk_team` FOREIGN KEY (`teamID`)
 REFERENCES `team` (`teamID`),
 PRIMARY KEY (playerID, teamID)
 );
@@ -188,13 +186,8 @@ fieldID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 teamID int,
 addressID int NOT NULL,
 -- CONSTRAINTS
-ADD CONSTRAINT `fk_team` FOREIGN KEY (`teamID`)
+CONSTRAINT `fk_team` FOREIGN KEY (`teamID`)
 REFERENCES `team` (`teamID`),
-ADD CONSTRAINT `fk_address` FOREIGN KEY (`addressID`)
-REFERENCS `address` (`addressID`)
-)
-
--- adding field foreign key to Team table
-ALTER TABLE team
-ADD CONSTRAINT `fk_field` FOREIGN KEY (`fieldID`)
-REFERENCES `field` (`fieldID`);
+CONSTRAINT `fk_address` FOREIGN KEY (`addressID`)
+REFERENCES `address` (`addressID`)
+);
