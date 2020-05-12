@@ -192,6 +192,12 @@ CONSTRAINT `fk_address` FOREIGN KEY (`addressID`)
 REFERENCES `address` (`addressID`)
 );
 
+
+
+CREATE TABLE season(
+  seasonID int NOT NULL PRIMARY KEY
+);
+
 CREATE TABLE rankingPolicy(
     rankingPolicyID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     win int NOT NULL,
