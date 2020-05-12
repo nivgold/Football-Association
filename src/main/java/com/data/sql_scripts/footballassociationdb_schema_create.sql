@@ -228,7 +228,8 @@ CREATE TABLE game(
     host_teamID int NOT NULL ,
     guest_teamID int NOT NULL ,
     main_refereeID int NOT NULL ,
-    seasonInLeagueKey int NOT NULL,
+    seasonYear int NOT NULL,
+    leagueID int NOT NULL,
     fieldID int NOT NULL ,
     -- CONSTRAINTS
     CONSTRAINT `fk_host_team_game` FOREIGN KEY (`host_teamID`)
@@ -239,7 +240,7 @@ CREATE TABLE game(
     REFERENCES `referee` (`refereeID`),
     CONSTRAINT `fk_field_game` FOREIGN KEY (`fieldID`)
     REFERENCES `field` (`fieldID`),
-    CONSTRAINT `fk_seasonInLeague_game` FOREIGN KEY (`seasonInLeagueKey`)
+    CONSTRAINT `fk_seasonInLeague_game` FOREIGN KEY (`leagueID`, `seasonYear`)
     REFERENCES `seasonInLeague` (`leagueID`, `seasonYear`)
 );
 
