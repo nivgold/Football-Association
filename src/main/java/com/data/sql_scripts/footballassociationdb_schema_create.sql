@@ -193,7 +193,6 @@ CREATE TABLE field(
 );
 
 -- create Game table
--- TODO add foreign keys to season, league
 CREATE TABLE game(
     gameID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `date` DATETIME NOT NULL ,
