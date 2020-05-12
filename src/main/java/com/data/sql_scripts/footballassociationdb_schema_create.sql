@@ -289,11 +289,12 @@ CREATE TABLE policy(
     gameSettingPolicy tinyint NOT NULL,
     -- FOREIGN KEYS
     rankingPolicyID int NOT NULL,
-    seasonInLeagueKey int NOT NULL,
+    seasonYear int NOT NULL,
+    leagueID int NOT NULL,
     -- CONSTRAINTS
     CONSTRAINT `fk_rankingPolicy_policy` FOREIGN KEY (`rankingPolicyID`)
     REFERENCES `rankingPolicy` (`rankingPolicyID`),
-    CONSTRAINT `fk_seasonInLeague_policy` FOREIGN KEY (`seasonInLeagueKey`)
+    CONSTRAINT `fk_seasonInLeague_policy` FOREIGN KEY (`leagueID`,`seasonYear`)
     REFERENCES `seasonInLeague` (`leagueID`,`seasonYear`)
 );
 
@@ -307,26 +308,28 @@ ALTER TABLE rankingPolicy
 
 CREATE TABLE refereesInSIL(
     -- FOREIGN KEY
-    seasonInLeagueKey int NOT NULL,
+    seasonYear int NOT NULL,
+    leagueID int NOT NULL,
     refereeID int NOT NULL,
     -- CONSTRAINT
-    CONSTRAINT `fk_seasonInLeague_refereesInSIL` FOREIGN KEY (`seasonInLeagueKey`)
+    CONSTRAINT `fk_seasonInLeague_refereesInSIL` FOREIGN KEY (`leagueID`, `seasonYear`)
     REFERENCES `seasonInLeague` (`leagueID`,`seasonYear`),
     CONSTRAINT `fk_referee_refereesInSIL` FOREIGN KEY (`refereeID`)
     REFERENCES `referee` (`refereeID`),
     -- PRIMARY KEY
-    PRIMARY KEY (seasonInLeagueKey, refereeID)
+    PRIMARY KEY (leagueID, seasonYear, refereeID)
 );
 
 CREATE TABLE teamsInSIL(
     -- FOREIGN KEY
-    seasonInLeagueKey int NOT NULL,
+    seasonYear int NOT NULL,
+    leagueID int NOT NULL,
     teamID int NOT NULL,
     -- CONSTRAINT
-    CONSTRAINT `fk_seasonInLeague_refereesInSIL` FOREIGN KEY (`seasonInLeagueKey`)
+    CONSTRAINT `fk_seasonInLeague_teamsInSIL` FOREIGN KEY (`leagueID`, `seasonYear`)
     REFERENCES `seasonInLeague` (`leagueID`,`seasonYear`),
     CONSTRAINT `fk_team_refereesInSIL` FOREIGN KEY (`teamID`)
     REFERENCES `team` (`teamID`),
     -- PRIMARY KEY
-    PRIMARY KEY (seasonInLeagueKey, teamID)
+    PRIMARY KEY (`leagueID`, `seasonYear`, teamID)
 );
