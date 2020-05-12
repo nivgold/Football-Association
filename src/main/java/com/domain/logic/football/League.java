@@ -14,11 +14,7 @@ import java.util.HashMap;
 public class League {
 
     private String leagueName;
-    private ArrayList<Game> games;
-    private ArrayList<Season> seasons;
-    private HashMap<Season, Policy> seasonLeaguePolicy;
-    private HashMap<Season, ArrayList<Referee>> leagueRefereeMap; //TODO make sure to check when adding a referee to game
-    private HashMap<Season, ArrayList<Team>> seasonTeamsInLeague;
+    private ArrayList<SeasonInLeague> seasonInLeagues;
 
 
 
@@ -28,11 +24,6 @@ public class League {
      */
     public League(String leagueName) {
         this.leagueName = leagueName;
-        this.games = new ArrayList<>();
-        this.seasonLeaguePolicy = new HashMap<>();
-        this.seasons = new ArrayList<>();
-        leagueRefereeMap = new HashMap<>();
-        this.seasonTeamsInLeague = new HashMap<>();
         //TODO call DAO to add league
     }
 
@@ -43,22 +34,20 @@ public class League {
      * @param team - team that we want to be registered to the season in the league
      * @return
      */
-    public boolean addteamToSeasonInLeague(Season season, Team team){
-        if (!seasons.contains(season)){
+    public boolean addTeamToSeasonInLeague(Season season, Team team){
+        SeasonInLeague seasonInLeague = findSeasonInLeague(season);
+        if (seasonInLeague == null)
             return false;
-        }
-        if (this.seasonTeamsInLeague.get(season)== null)
-            this.seasonTeamsInLeague.put(season, new ArrayList<>());
-        if (this.seasonTeamsInLeague.get(season).contains(team))
-            return true;
-
-        this.seasonTeamsInLeague.get(season).add(team);
+        seasonInLeague.addTeam(team);
         return true;
     }
 
-
-    public HashMap<Season, ArrayList<Team>> getSeasonTeamsInLeague() {
-        return seasonTeamsInLeague;
+    public SeasonInLeague findSeasonInLeague(Season season){
+        for (SeasonInLeague seasonInLeague : this.seasonInLeagues){
+            if (seasonInLeague.getSeason().getYear()==season.getYear())
+                return seasonInLeague;
+        }
+        return null;
     }
 
     /**
@@ -70,20 +59,10 @@ public class League {
      * @return
      */
     public boolean addRefereeToSeasonInLeague(Season season, Referee referee) {
-        //checking if season exist, if not return false
-        if (!seasons.contains(season)) {
+        SeasonInLeague seasonInLeague = findSeasonInLeague(season);
+        if (seasonInLeague == null)
             return false;
-        }
-
-        //adding referee to season in the map (creating new array list if the season is not in the list yet
-        if (leagueRefereeMap.get(season)==null) { // if list doesn't exist
-            leagueRefereeMap.put(season,new ArrayList<>());
-        }
-        if (leagueRefereeMap.get(season).contains(referee)) { //already in
-            return true;
-        }
-
-        leagueRefereeMap.get(season).add(referee);
+        seasonInLeague.addReferee(referee);
         return true;
     }
 
@@ -92,7 +71,10 @@ public class League {
      * @param game
      */
     public void addGame(Game game) {
-        games.add(game);
+        SeasonInLeague seasonInLeague = findSeasonInLeague(game.getSeason());
+        if (seasonInLeague == null)
+            return;
+        seasonInLeague.addGame(game);
         game.setLeague(this);
 
         //write log
@@ -108,10 +90,11 @@ public class League {
      */
     public void addSeason(Season season) {
         if (!containingSeasonWithYear(season.getYear())) {
-            seasons.add(season);
-            season.addLeague(this);
+            // added
+            SeasonInLeague seasonInLeague = new SeasonInLeague(this, season);
+            // added
 
-            Policy policy = new Policy(this, season);
+            Policy policy = new Policy(seasonInLeague);
 
             try {
                 setPolicyToSeason(season, policy);
@@ -126,7 +109,8 @@ public class League {
     }
 
     private boolean containingSeasonWithYear(int year) {
-        for (Season s : seasons) {
+        for (SeasonInLeague seasonInLeague : this.seasonInLeagues) {
+            Season s = seasonInLeague.getSeason();
             if (s.getYear()==year)
                 return true;
         }
@@ -141,10 +125,11 @@ public class League {
      * @throws Exception if the input season is not connected to the league
      */
     public void setPolicyToSeason(Season season, Policy policy) throws Exception {
-        if (!seasons.contains(season)) {
+        SeasonInLeague seasonInLeague = findSeasonInLeague(season);
+        if (seasonInLeague == null) {
             throw new Exception("season not connected to league yet");
         }
-        seasonLeaguePolicy.put(season, policy);
+        seasonInLeague.setPolicy(policy);
         season.setPolicyToLeague(this, policy);
 
         //TODO call DAO to add new policy of league-season to DB
@@ -152,8 +137,6 @@ public class League {
         //com.logger
         Logger logger = Logger.getInstance();
         logger.saveLog("Policy assigned to season " + season.getYear() + " in league " + leagueName);
-
-
     }
 
     /**
@@ -166,7 +149,10 @@ public class League {
      * @param redCards - score for red cards
      */
     public void setRankingPolicy(Season season, int win, int goals, int draw, int yellowCards, int redCards){
-        Policy policy = seasonLeaguePolicy.get(season);
+        SeasonInLeague seasonInLeague = findSeasonInLeague(season);
+        if (seasonInLeague == null)
+            return;
+        Policy policy = seasonInLeague.getPolicy();
         policy.setRankingPolicy(win, goals, draw, yellowCards, redCards);
 
         //com.logger
@@ -176,7 +162,10 @@ public class League {
     }
 
     public void setRankingPolicy(Season season, RankingPolicy rPolicy){
-        Policy policy = seasonLeaguePolicy.get(season);
+        SeasonInLeague seasonInLeague = findSeasonInLeague(season);
+        if (seasonInLeague == null)
+            return;
+        Policy policy = seasonInLeague.getPolicy();
         policy.setRankingPolicy(rPolicy);
 
         //TODO call DAO to add RankingPolicy to the policy in the DB
@@ -195,7 +184,11 @@ public class League {
      * @param settingPolicy - the wanted game setting policy
      */
     public void setGameSettingPolicy(Season season, String settingPolicy){
-        Policy policy = seasonLeaguePolicy.get(season);
+        SeasonInLeague seasonInLeague = findSeasonInLeague(season);
+        if (seasonInLeague == null)
+            return;
+
+        Policy policy = seasonInLeague.getPolicy();
 
         switch (settingPolicy){
             case "onematch":
@@ -215,7 +208,11 @@ public class League {
     }
 
     public void setGameSettingPolicy(Season season, GameSettingPolicy settingPolicy) {
-        Policy policy = seasonLeaguePolicy.get(season);
+        SeasonInLeague seasonInLeague = findSeasonInLeague(season);
+        if (seasonInLeague == null)
+            return;
+
+        Policy policy = seasonInLeague.getPolicy();
         policy.setGameSettingPolicy(settingPolicy);
 
         //TODO call DAO to add GameSettingPolicy to policy in the DB
@@ -225,47 +222,41 @@ public class League {
         logger.saveLog("Business.football.Game Setting policy assigned to season " + season.getYear() + " in league " + leagueName);
     }
 
+    public void addSeasonInLeague(SeasonInLeague seasonInLeague){
+        this.seasonInLeagues.add(seasonInLeague);
+    }
+
     public String getLeagueName() {
         return leagueName;
     }
 
     public ArrayList<Game> getGames() {
+        ArrayList<Game> games = new ArrayList<>();
+        for (SeasonInLeague seasonInLeague : this.seasonInLeagues)
+            games.addAll(seasonInLeague.getGames());
         return games;
     }
 
     public ArrayList<Season> getSeasons() {
+        ArrayList<Season> seasons = new ArrayList<>();
+        for (SeasonInLeague seasonInLeague : this.seasonInLeagues)
+            seasons.add(seasonInLeague.getSeason());
         return seasons;
     }
 
     public HashMap<Season, Policy> getSeasonLeaguePolicy() {
-        return seasonLeaguePolicy;
+        HashMap<Season, Policy> hashMap = new HashMap<>();
+        for (SeasonInLeague seasonInLeague : this.seasonInLeagues){
+            hashMap.put(seasonInLeague.getSeason(), seasonInLeague.getPolicy());
+        }
+        return hashMap;
     }
 
     public HashMap<Season, ArrayList<Referee>> getLeagueRefereeMap() {
-        return leagueRefereeMap;
-    }
-
-    public void setLeagueName(String leagueName) {
-        this.leagueName = leagueName;
-    }
-
-    public void setGames(ArrayList<Game> games) {
-        this.games = games;
-    }
-
-    public void setSeasons(ArrayList<Season> seasons) {
-        this.seasons = seasons;
-    }
-
-    public void setSeasonLeaguePolicy(HashMap<Season, Policy> seasonLeaguePolicy) {
-        this.seasonLeaguePolicy = seasonLeaguePolicy;
-    }
-
-    public void setLeagueRefereeMap(HashMap<Season, ArrayList<Referee>> leagueRefereeMap) {
-        this.leagueRefereeMap = leagueRefereeMap;
-    }
-
-    public void setSeasonTeamsInLeague(HashMap<Season, ArrayList<Team>> seasonTeamsInLeague) {
-        this.seasonTeamsInLeague = seasonTeamsInLeague;
+        HashMap<Season, ArrayList<Referee>> hashMap = new HashMap<>();
+        for (SeasonInLeague seasonInLeague : this.seasonInLeagues){
+            hashMap.put(seasonInLeague.getSeason(), seasonInLeague.getReferees());
+        }
+        return hashMap;
     }
 }

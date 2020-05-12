@@ -16,20 +16,20 @@ public class Game implements IGameObservable {
 
     private Team host;
     private Team guest;
-    private Season season;
     private LocalDateTime date;
     private int hostTeamScore;
     private int guestTeamScore;
-    private ArrayList<Event> events;
-    private Referee mainReferee;
-    private ArrayList<Referee> sideReferees;
-    private League league;
-    private Field field;
-    private ArrayList<IGameObserver> fanObservers;
-    private ArrayList<IGameObserver> refereeObservers;
     private GameState gameState;
     private String report;
 
+    private ArrayList<Event> events;
+    private Field field;
+    private ArrayList<IGameObserver> fanObservers;
+    private ArrayList<IGameObserver> refereeObservers;
+    private Referee mainReferee;
+    private ArrayList<Referee> sideReferees;
+
+    private SeasonInLeague seasonInLeague;
 
     static final int numOfSideReferees = 2;
 
@@ -39,48 +39,14 @@ public class Game implements IGameObservable {
         return this.report;
     }
 
-    public Game(Team host, Team guest, Season season, League league, LocalDateTime date, Field field){
+    public Game(Team host, Team guest, SeasonInLeague seasonInLeague, LocalDateTime date, Field field){
         this.host = host;
         this.guest = guest;
-        this.season = season;
-        this.league = league;
+        this.seasonInLeague = seasonInLeague;
         this.date = date;
         this.field = field;
         this.gameState = GameState.ToBe;
         this.report = null;
-
-        this.events = new ArrayList<>();
-        this.sideReferees = new ArrayList<>();
-        this.fanObservers = new ArrayList<>();
-        this.refereeObservers = new ArrayList<>();
-    }
-
-    /**
-     * constructor receiving all params as input
-     * @param host
-     * @param guest
-     * @param date
-     * @param hostTeamScore
-     * @param guestTeamScore
-     * @param events
-     * @param mainReferee
-     * @param sideReferees
-     * @param league
-     */
-    public Game(Team host, Team guest, LocalDateTime date, int hostTeamScore, int guestTeamScore,
-                ArrayList<Event> events, Referee mainReferee, ArrayList<Referee> sideReferees,
-                League league, Field field) {
-        this.host = host;
-        this.guest = guest;
-        this.date = date;
-        this.hostTeamScore = hostTeamScore;
-        this.guestTeamScore = guestTeamScore;
-        this.events = events;
-        this.mainReferee = mainReferee;
-        this.sideReferees = sideReferees;
-        this.league = league;
-        this.field=field;
-        this.gameState = GameState.ToBe;
 
         this.events = new ArrayList<>();
         this.sideReferees = new ArrayList<>();
@@ -101,11 +67,11 @@ public class Game implements IGameObservable {
     }
 
     public void setLeague(League league) {
-        this.league = league;
+        this.seasonInLeague.setLeague(league);
     }
 
     public void setSeason(Season season){
-        this.season = season;
+        this.seasonInLeague.setSeason(season);
     }
 
     public void addSideReferee(Referee referee){
@@ -155,7 +121,7 @@ public class Game implements IGameObservable {
     }
 
     public Season getSeason() {
-        return season;
+        return this.seasonInLeague.getSeason();
     }
 
     public LocalDateTime getDate() {
@@ -207,7 +173,7 @@ public class Game implements IGameObservable {
     }
 
     public League getLeague() {
-        return league;
+        return this.seasonInLeague.getLeague();
     }
 
     public Field getField() {
@@ -231,14 +197,14 @@ public class Game implements IGameObservable {
         return "Business.football.Game{" +
                 "host=" + host +
                 ", guest=" + guest +
-                ", season=" + season +
+                ", season=" + this.seasonInLeague.getSeason() +
                 ", date=" + date +
                 ", hostTeamScore=" + hostTeamScore +
                 ", guestTeamScore=" + guestTeamScore +
                 ", events=" + events +
                 ", mainReferee=" + mainReferee +
                 ", sideReferees=" + sideReferees +
-                ", league=" + league +
+                ", league=" + this.seasonInLeague.getLeague() +
                 ", field=" + field +
                 '}';
     }

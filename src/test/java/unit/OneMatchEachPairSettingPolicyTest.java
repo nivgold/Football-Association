@@ -32,7 +32,7 @@ public class OneMatchEachPairSettingPolicyTest {
         policy.setGameSettingPolicy(new GameSettingPolicy(policy,new OneMatchEachPairSettingPolicy()));
         for (int i=0; i<3; i++) {
             Team team = new Team("team" + i, TeamStatus.Open,new TeamOwner(new Member("","","",null,"")),new Field("",",",",",""));
-            league.addteamToSeasonInLeague(season2019,team);
+            league.addTeamToSeasonInLeague(season2019,team);
         }
 
         ArrayList<Game> games = policy.getGameSettingPolicy().createGames();

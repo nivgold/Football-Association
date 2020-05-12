@@ -1,10 +1,7 @@
 package com.domain.logic.policies;
 
 
-import com.domain.logic.football.Game;
-import com.domain.logic.football.League;
-import com.domain.logic.football.Season;
-import com.domain.logic.football.Team;
+import com.domain.logic.football.*;
 import com.domain.logic.policies.game_setting_policies.IGameSettingPolicyStrategy;
 
 import java.time.LocalDateTime;
@@ -27,10 +24,9 @@ public class GameSettingPolicy {
      * @return returns the games of the season in the league
      */
     public ArrayList<Game> createGames(){
-        League league = policy.getLeague();
-        Season season = policy.getSeason();
-        ArrayList<Team> teams = league.getSeasonTeamsInLeague().get(season);
-        HashSet<Game> games = settingStrategy.createGames(league, season, teams);
+        SeasonInLeague seasonInLeague = policy.getSeasonInLeague();
+        ArrayList<Team> teams = seasonInLeague.getTeams();
+        HashSet<Game> games = settingStrategy.createGames(seasonInLeague, teams);
         ArrayList<Game> result = new ArrayList<>();
         LocalDateTime baseDate = LocalDateTime.now();
         baseDate = baseDate.plusDays(30);
