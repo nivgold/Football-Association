@@ -17,13 +17,6 @@ public class League {
     private ArrayList<SeasonInLeague> seasonInLeagues;
 
 
-    private ArrayList<Game> games;
-    private ArrayList<Season> seasons;
-    private HashMap<Season, Policy> seasonLeaguePolicy;
-    private HashMap<Season, ArrayList<Referee>> leagueRefereeMap; //TODO make sure to check when adding a referee to game
-    private HashMap<Season, ArrayList<Team>> seasonTeamsInLeague;
-
-
 
     /**
      * creates a league with the given input name
@@ -31,11 +24,6 @@ public class League {
      */
     public League(String leagueName) {
         this.leagueName = leagueName;
-        this.games = new ArrayList<>();
-        this.seasonLeaguePolicy = new HashMap<>();
-        this.seasons = new ArrayList<>();
-        leagueRefereeMap = new HashMap<>();
-        this.seasonTeamsInLeague = new HashMap<>();
         //TODO call DAO to add league
     }
 
@@ -47,7 +35,7 @@ public class League {
      * @return
      */
     public boolean addteamToSeasonInLeague(Season season, Team team){
-        if (!seasons.contains(season)){
+        if (findSeasonInLeague(season) == null){
             return false;
         }
         if (this.seasonTeamsInLeague.get(season)== null)
@@ -57,6 +45,14 @@ public class League {
 
         this.seasonTeamsInLeague.get(season).add(team);
         return true;
+    }
+
+    public SeasonInLeague findSeasonInLeague(Season season){
+        for (SeasonInLeague seasonInLeague : this.seasonInLeagues){
+            if (seasonInLeague.getSeason().getYear()==season.getYear())
+                return seasonInLeague;
+        }
+        return null;
     }
 
 
