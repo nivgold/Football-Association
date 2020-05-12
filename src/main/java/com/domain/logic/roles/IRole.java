@@ -1,5 +1,5 @@
 package com.domain.logic.roles;
 
 public interface IRole {
-    boolean removeYourself();
+    boolean removeYourself() throws Exception;
 }

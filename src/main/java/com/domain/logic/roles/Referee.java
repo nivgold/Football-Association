@@ -20,17 +20,19 @@ public class Referee implements IRole, IGameObserver {
     private ArrayList<Game> main;
     private ArrayList<Game> side;
 
-    public Referee(Member member) {
+    public Referee(Member member) throws Exception {
         this.qualification = "New";
         this.member = member;
         this.leagues = new ArrayList<>();
         this.main = new ArrayList<>();
         this.side = new ArrayList<>();
         member.addReferee(this);
+        //TODO call the DAO to add new referee to the DB
     }
 
     /**
      * add new event to ongoing game.
+     *
      * @param gameMinute
      * @param description
      * @param type
@@ -46,19 +48,19 @@ public class Referee implements IRole, IGameObserver {
             game.getEvents().add(e);
             //TODO call DAO to add new event to game
             return true;
-        }
-        else {
-            Logger.getInstance().saveLog(member.getUserName() +" referee is not authorized to add events to the game");
+        } else {
+            Logger.getInstance().saveLog(member.getUserName() + " referee is not authorized to add events to the game");
             return false;
         }
     }
 
-    public String createReport(Game game){
+    public String createReport(Game game) {
         return game.createReport();
     }
-    
+
     /**
      * edit an event of finished game.
+     *
      * @param g
      * @param oldEvent
      * @param newEvent
@@ -66,7 +68,7 @@ public class Referee implements IRole, IGameObserver {
     public void editGameEvent(Game g, Event oldEvent, Event newEvent) {
         //check if the edit time is valid
         boolean validTime = (LocalDateTime.now().getHour() - g.getDate().getHour()) <= 5;
-        if(validTime) {
+        if (validTime) {
             //check if the referee is authorized to judge this game
             boolean isAuthorized = main.contains(g);
             if (isAuthorized) {
@@ -76,12 +78,10 @@ public class Referee implements IRole, IGameObserver {
                     g.getEvents().remove(oldEvent);
                 }
                 g.getEvents().add(newEvent);
-            }
-            else {
+            } else {
                 Logger.getInstance().saveLog("This referee is not authorized to change events of this game");
             }
-        }
-        else {
+        } else {
             Logger.getInstance().saveLog("The valid time to make changes to this game is over");
         }
 
@@ -90,6 +90,7 @@ public class Referee implements IRole, IGameObserver {
     /**
      * show the referee the game details.
      * only for game he was assigned to.
+     *
      * @param g
      * @return
      */
@@ -97,9 +98,9 @@ public class Referee implements IRole, IGameObserver {
         String ans = "";
         if (main.contains(g) || side.contains(g)) {
             ans = g.toString();
-        }
-        else {
-            System.out.println("You are not assigned to this game");;
+        } else {
+            System.out.println("You are not assigned to this game");
+            ;
         }
         return ans;
     }
@@ -127,30 +128,26 @@ public class Referee implements IRole, IGameObserver {
 
     /**
      * remove the object from all occurrences
+     *
      * @return
      */
     @Override
-    public boolean removeYourself() {
-        try {
-            for (League l : leagues) {
-                for (ArrayList<Referee> rl : l.getLeagueRefereeMap().values()) {
-                    if (rl.contains(this)) {
-                        rl.remove(this);
-                    }
+    public boolean removeYourself() throws Exception {
+
+        for (League l : leagues) {
+            for (ArrayList<Referee> rl : l.getLeagueRefereeMap().values()) {
+                if (rl.contains(this)) {
+                    rl.remove(this);
                 }
             }
-            member.removeReferee(this);
-            this.removeRefereeFromGames();
-            main.clear();
-            side.clear();
-            Logger.getInstance().saveLog("The referee has been removed successfully");
-            return true;
         }
-        catch (Exception e) {
-            e.getStackTrace();
-        }
-        Logger.getInstance().saveLog("An error occurred - couldn't remove the referee");
-        return false;
+        member.removeReferee(this);
+        this.removeRefereeFromGames();
+        main.clear();
+        side.clear();
+        Logger.getInstance().saveLog("The referee has been removed successfully");
+        return true;
+
     }
 
     private void removeRefereeFromGames() {

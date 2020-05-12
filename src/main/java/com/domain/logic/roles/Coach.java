@@ -17,31 +17,33 @@ public class Coach implements IPersonalPageable, IRole {
 
     /**
      * Business.roles.Coach constructor
+     *
      * @param member
      */
-    public Coach(Member member) {
+    public Coach(Member member) throws Exception {
         this.member = member;
         this.teams = new ArrayList<>();
         this.qualification = "New";
         this.personalPage = new PersonalPage(this);
         member.addChoach(this);
+        //TODO call the DAO to add new coach to the DB
     }
 
     /**
-     *
      * @param qualification
      * @param teams
      * @param member
      */
-    public Coach(String qualification, ArrayList<CoachInTeam> teams, Member member) {
+    public Coach(String qualification, ArrayList<CoachInTeam> teams, Member member) throws Exception {
         this.qualification = qualification;
         this.teams = teams;
         this.personalPage = new PersonalPage(this);
         this.member = member;
         member.addChoach(this);
+        //TODO call the DAO to add new coach to the DB
     }
 
-    public void addCoachInTeam(CoachInTeam coachInTeam){
+    public void addCoachInTeam(CoachInTeam coachInTeam) {
         this.teams.add(coachInTeam);
     }
 
@@ -63,24 +65,19 @@ public class Coach implements IPersonalPageable, IRole {
 
     /**
      * remove the object from all occurrences
+     *
      * @return
      */
     @Override
-    public boolean removeYourself() {
-        try {
-            for (CoachInTeam t : teams) {
-                t.getTeam().getCoaches().remove(t);
-            }
-            teams.clear();
-            member.removeCoach(this);
-            Logger.getInstance().saveLog("The coach has been removed successfully");
-            return true;
+    public boolean removeYourself() throws Exception {
+        for (CoachInTeam t : teams) {
+            t.getTeam().getCoaches().remove(t);
         }
-        catch (Exception e) {
-            e.getStackTrace();
-        }
-        Logger.getInstance().saveLog("An error occurred - couldn't remove the coach");
-        return  false;
+        teams.clear();
+        member.removeCoach(this);
+        Logger.getInstance().saveLog("The coach has been removed successfully");
+        return true;
+
     }
 
     public String getQualification() {

@@ -23,7 +23,7 @@ public class Player implements IRole, IPersonalPageable {
     /**
      * player constructor
      */
-    public Player(Member member, Date birthDate) {
+    public Player(Member member, Date birthDate) throws Exception {
         this.playerID = countIDs;
         countIDs++;
         this.roleInTeams = new ArrayList<>();
@@ -32,29 +32,25 @@ public class Player implements IRole, IPersonalPageable {
         this.member = member;
         this.birthDate = birthDate;
         member.addPlayer(this);
+        //TODO call the DAO to add new player to the DB
     }
 
     /**
      * remove the object from all occurrences
+     *
      * @return
      */
     @Override
-    public boolean removeYourself() {
-        try {
-            for (PlayerRoleInTeam prit : roleInTeams) {
-                prit.getTeam().getPlayers().remove(prit);
-            }
-            member.removePlayer(this);
-            events.clear();
-            roleInTeams.clear();
-            Logger.getInstance().saveLog("The player has been removed successfully");
-            return true;
+    public boolean removeYourself() throws Exception {
+        for (PlayerRoleInTeam prit : roleInTeams) {
+            prit.getTeam().getPlayers().remove(prit);
         }
-        catch (Exception e) {
-            e.getStackTrace();
-        }
-        Logger.getInstance().saveLog("An error occurred - couldn't remove the player");
-        return false;
+        member.removePlayer(this);
+        events.clear();
+        roleInTeams.clear();
+        Logger.getInstance().saveLog("The player has been removed successfully");
+        return true;
+
     }
 
     /**

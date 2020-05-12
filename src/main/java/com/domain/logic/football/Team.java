@@ -68,7 +68,7 @@ public class Team implements IPersonalPageable, ITeamObservable {
         this.personal_page.updatePage(this.toString());
     }
 
-    public boolean removeTeamPermanently() {
+    public boolean removeTeamPermanently() throws Exception {
         this.setStatus(TeamStatus.PermanentlyClosed);
         //notify observers
         for (ITeamObserver teamObserver : teamObservers) {
