@@ -191,3 +191,35 @@ REFERENCES `team` (`teamID`),
 CONSTRAINT `fk_address` FOREIGN KEY (`addressID`)
 REFERENCES `address` (`addressID`)
 );
+
+CREATE TABLE rankingPolicy(
+    rankingPolicyID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    win int NOT NULL,
+    goals int NOT NULL,
+    draw int NOT NULL,
+    yellowCards int NOT NULL,
+    redCards int NOT NULL,
+    -- FOREIGN KEYS
+    policyKey int NOT NULL
+);
+
+CREATE TABLE policy(
+    gameSettingPolicy tinyint NOT NULL,
+    -- FOREIGN KEYS
+    leagueID int NOT NULL,
+    seasonID int NOT NULL,
+    rankingPolicyID int NOT NULL,
+    -- CONSTRAINTS
+    CONSTRAINT `fk_rankingPolicy_policy` FOREIGN KEY (`rankingPolicyID`)
+    REFERENCES `rankingPolicy` (`rankingPolicyID`),
+    CONSTRAINT `fk_league_policy` FOREIGN KEY (`leagueID`)
+    REFERENCES `league` (`leagueID`),
+    CONSTRAINT `fk_season_policy` FOREIGN KEY (`seasonID`)
+    REFERENCES `season` (`seasonID`),
+    -- PRIMARY KEY
+    PRIMARY KEY (leagueID, seasonID)
+);
+
+ALTER TABLE rankingPolicy
+    ADD CONSTRAINT `fk_policy_rankingPolicy` FOREIGN KEY (`policyKey`)
+    REFERENCES `policy` (`leagueID`, `seasonID`);
