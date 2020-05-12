@@ -1,6 +1,7 @@
 package com.domain.domaincontroller;
 
 
+import com.data.Dao;
 import com.domain.logic.AssociationSystem;
 import com.domain.logic.RecommenderSystem;
 import com.domain.logic.enums.EventType;
@@ -13,14 +14,42 @@ import com.domain.logic.roles.*;
 import com.domain.logic.users.Guest;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.Date;
 
+@Service
 public class DomainController {
 
-    // System UC's
+    @Autowired
+    private final Dao dao;
 
+    public DomainController(@Qualifier("DBCommunicator") Dao dao) {
+        this.dao = dao;
+    }
+
+    /**
+     * just a test - not as stav wants
+     */
+    public void addLeagueByObject(League league){
+        dao.addLeague(league);
+    }
+
+    /**
+     * just a test - as stav wants
+     */
+    public void addLeagueByName(String leagueName){
+        dao.addLeague(new League(leagueName));
+    }
+
+
+    // System UC's
     /**
      * "Reset System" UC
      */

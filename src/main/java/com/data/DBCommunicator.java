@@ -8,10 +8,12 @@ import com.domain.logic.football.Team;
 import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
+import org.springframework.stereotype.Repository;
 
 
 import java.util.ArrayList;
 
+@Repository("DBCommunicator")
 public class DBCommunicator implements Dao {
 
     private static DBCommunicator dbCommunicator;

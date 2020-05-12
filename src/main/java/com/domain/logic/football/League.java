@@ -6,6 +6,7 @@ import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
 import com.domain.logic.policies.game_setting_policies.TwoMatchEachPairSettingPolicy;
 import com.domain.logic.roles.Referee;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.logger.Logger;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class League {
      * creates a league with the given input name
      * @param leagueName
      */
-    public League(String leagueName) {
+    public League(@JsonProperty("leagueName") String leagueName) {
         this.leagueName = leagueName;
         //TODO call DAO to add league
     }
