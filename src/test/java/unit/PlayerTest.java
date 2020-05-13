@@ -32,8 +32,17 @@ public class PlayerTest {
         Member m = new Member("name", "1", "mail", add, "name");
         Member m2 = new Member("name2", "1", "mail", add, "name");
         Date d = new Date();
-        p = new Player( m, d);
-        TeamOwner to = new TeamOwner(m2);
+        try {
+            p = new Player( m, d);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        TeamOwner to = null;
+        try {
+            to = new TeamOwner(m2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Field f = new Field("Israel", "hasharon", "Herzliya", "12345");
         Team t = new Team("name", TeamStatus.Open, to, f);
         prits = new PlayerRoleInTeamStub(p, t, PlayerRole.CAM);
@@ -45,7 +54,11 @@ public class PlayerTest {
     public void removeYourself() {
         assertTrue( p.getMember().getRoles().size() == 1);
         assertTrue(prits.getTeam().getPlayers().size() == 1);
-        assertTrue(p.removeYourself());
+        try {
+            assertTrue(p.removeYourself());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertTrue(prits.getTeam().getPlayers().size() == 0);
         assertFalse(p.getMember().getRoles().contains(p));
     }

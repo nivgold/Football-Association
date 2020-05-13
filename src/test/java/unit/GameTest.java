@@ -19,20 +19,36 @@ public class GameTest {
     League league = new League("test league");
     Member member1 = new Member("Talfrim","123","x@x.x",null,"Tal");
     Member member2 = new Member("member2","123","x@x.x",null,"Tal");
-    TeamOwner teamOwner1 = new TeamOwner(member1);
+    TeamOwner teamOwner1;
+
+    {
+        try {
+            teamOwner1 = new TeamOwner(member1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     Field filed1 = new Field("Israel","hasharon","Herzliya","12345");
     Field filed2 = new Field("Israel","hasharon","Herzliya","54321");
     Team team1 = new Team("team1-test", TeamStatus.Open,teamOwner1,filed1);
     Team team2 = new Team("team2-test",TeamStatus.Open,teamOwner1,filed2);
-    Game game = new Game(team1,team2,new Season(2019),league, LocalDateTime.now(),filed1);
-    Referee referee = new Referee(member2);
+    Game game = new Game(team1,team2,new SeasonInLeague(league, new Season(2019)), LocalDateTime.now(),filed1);
+    Referee referee;
 
+    {
+        try {
+            referee = new Referee(member2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @BeforeEach
     public void clean(){
         AssociationSystem.getInstance().clearSystem();
-        game = new Game(team1,team2,new Season(2019),league, LocalDateTime.now(),filed1);
+        game = new Game(team1,team2,new SeasonInLeague(league, new Season(2019)), LocalDateTime.now(),filed1);
     }
 
 

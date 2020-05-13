@@ -7,6 +7,10 @@ import com.domain.logic.RecommenderSystem;
 import com.domain.logic.enums.EventType;
 import com.domain.logic.enums.PlayerRole;
 import com.domain.logic.football.*;
+import com.domain.logic.managers.ManageLeagues;
+import com.domain.logic.managers.ManageMembers;
+import com.domain.logic.managers.ManageSeasons;
+import com.domain.logic.managers.ManageTeams;
 import com.domain.logic.policies.GameSettingPolicy;
 import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.policies.game_setting_policies.IGameSettingPolicyStrategy;
@@ -16,8 +20,6 @@ import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 
@@ -53,7 +55,7 @@ public class DomainController {
     /**
      * "Reset System" UC
      */
-    public void performResetSystem(){
+    public void performResetSystem() throws Exception {
         AssociationSystem.getInstance().resetSystem();
     }
 
@@ -62,7 +64,7 @@ public class DomainController {
     /**
      * "Close Team Permanently" UC
      */
-    public void performCloseTeamPermanently(SystemManagerMember systemManagerMember, Team team){
+    public void performCloseTeamPermanently(SystemManagerMember systemManagerMember, Team team) throws Exception {
         systemManagerMember.closeTeamPermanently(team);
     }
 
@@ -72,7 +74,7 @@ public class DomainController {
      * @param toDelete
      * @return
      */
-    public boolean performRemoveMember(SystemManagerMember sysManager, Member toDelete){
+    public boolean performRemoveMember(SystemManagerMember sysManager, Member toDelete) throws Exception {
         return sysManager.deleteMember(toDelete);
     }
 
@@ -172,7 +174,7 @@ public class DomainController {
     /**
      * "Add Asset to Team" UC
      */
-    public void performAppointCoach(TeamOwner teamOwner, Member member){
+    public void performAppointCoach(TeamOwner teamOwner, Member member) throws Exception {
         Coach coach = new Coach(member);
         teamOwner.appointCoach(coach);
     }
@@ -180,14 +182,14 @@ public class DomainController {
     /**
      * "Remove Asset From Team" UC
      */
-    public void performRemoveCoach(TeamOwner teamOwner, Coach coach){
+    public void performRemoveCoach(TeamOwner teamOwner, Coach coach) throws Exception {
         teamOwner.removeCoach(coach);
     }
 
     /**
      * "Add Asset to Team" UC
      */
-    public void performAddPlayer(TeamOwner teamOwner, Member member, PlayerRole playerRole){
+    public void performAddPlayer(TeamOwner teamOwner, Member member, PlayerRole playerRole) throws Exception {
         Player player = new Player(member, new Date());
         teamOwner.addPlayer(player, playerRole);
     }
@@ -195,7 +197,7 @@ public class DomainController {
     /**
      * "Remove Asset from Team" UC
      */
-    public void performRemovePlayer(TeamOwner teamOwner, Player player){
+    public void performRemovePlayer(TeamOwner teamOwner, Player player) throws Exception {
         teamOwner.removePlayer(player);
     }
 
@@ -209,28 +211,28 @@ public class DomainController {
     /**
      * "Appoint Team Owner" UC
      */
-    public void performAppointTeamOwner(TeamOwner teamOwner, Member member){
+    public void performAppointTeamOwner(TeamOwner teamOwner, Member member) throws Exception {
         teamOwner.appointTeamOwner(member);
     }
 
     /**
      * "Remove Team Owner" UC
      */
-    public void performRemoveTeamOwner(TeamOwner teamOwner, TeamOwner otherTeamOwner){
+    public void performRemoveTeamOwner(TeamOwner teamOwner, TeamOwner otherTeamOwner) throws Exception {
         teamOwner.removeTeamOwner(otherTeamOwner);
     }
 
     /**
      * "Appoint Team Manager" UC
      */
-    public void performAppointTeamManager(TeamOwner teamOwner, Member member){
+    public void performAppointTeamManager(TeamOwner teamOwner, Member member) throws Exception {
         teamOwner.appointTeamManager(member);
     }
 
     /**
      * "Remove Team Manager" UC
      */
-    public void performRemoveTeamManager(TeamOwner teamOwner, TeamManager teamManager){
+    public void performRemoveTeamManager(TeamOwner teamOwner, TeamManager teamManager) throws Exception {
         teamOwner.removeTeamManager(teamManager);
     }
 
@@ -267,14 +269,14 @@ public class DomainController {
     /**
      * "Appoint Referee" UC
      */
-    public void performAppointReferee(AssociationAgent associationAgent, Member member){
+    public void performAppointReferee(AssociationAgent associationAgent, Member member) throws Exception {
         associationAgent.appointReferee(member);
     }
 
     /**
      * "Remove Referee" UC
      */
-    public void performRemoveReferee(AssociationAgent associationAgent, Referee referee){
+    public void performRemoveReferee(AssociationAgent associationAgent, Referee referee) throws Exception {
         associationAgent.removeReferee(referee);
     }
 

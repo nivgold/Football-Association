@@ -20,9 +20,16 @@ public class TwoMatchEachPairSettingPolicyTest {
 
     League league = new League("super league");
     Season season2019 = new Season(2019);
-    Policy policy = new Policy(league,season2019);
-    Referee referee = new Referee(new Member("","","",null,""));
+    Policy policy = new Policy(new SeasonInLeague(league, season2019));
+    Referee referee;
 
+    {
+        try {
+            referee = new Referee(new Member("","","",null,""));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @Test
@@ -31,7 +38,12 @@ public class TwoMatchEachPairSettingPolicyTest {
         league.addSeason(season2019);
         policy.setGameSettingPolicy(new GameSettingPolicy(policy,new TwoMatchEachPairSettingPolicy()));
         for (int i=0; i<3; i++) {
-            Team team = new Team("team" + i, TeamStatus.Open,new TeamOwner(new Member("","","",null,"")),new Field("",",",",",""));
+            Team team = null;
+            try {
+                team = new Team("team" + i, TeamStatus.Open,new TeamOwner(new Member("","","",null,"")),new Field("",",",",",""));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             league.addTeamToSeasonInLeague(season2019,team);
         }
 

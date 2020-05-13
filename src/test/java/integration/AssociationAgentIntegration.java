@@ -28,7 +28,11 @@ class AssociationAgentIntegration {
     public void beforeTestMethod(){
         AssociationSystem.getInstance().clearSystem();
         Member member = new Member("agent", SHA1Function.hash("agent"), "agent@gmail.com", new Address("Israel", "Israel", "Haifa", "3189240"), "moshe");
-        this.associationAgent = new AssociationAgent(member);
+        try {
+            this.associationAgent = new AssociationAgent(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.system = AssociationSystem.getInstance();
         League league = new League("league1");
         Season season = new Season(2019);
@@ -66,20 +70,35 @@ class AssociationAgentIntegration {
     public void testAppointReferee(){
         Member member = new Member("referee", SHA1Function.hash("referee"), "referee@gmail.com", new Address("Israel", "Israel", "Naharia", "2919056"), "yossi");
 
-        this.associationAgent.appointReferee(member);
+        try {
+            this.associationAgent.appointReferee(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(Referee.class, member.getRoles().get(0).getClass());
 
-        this.associationAgent.appointReferee(member);
+        try {
+            this.associationAgent.appointReferee(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(1, member.getRoles().size());
     }
 
     @Test
     public void testRemoveReferee(){
         Member member = new Member("referee", SHA1Function.hash("referee"), "referee@gmail.com", new Address("Israel", "Israel", "Naharia", "2919056"), "yossi");
-        this.associationAgent.appointReferee(member);
-        Coach coach = new Coach(member);
+        try {
+            this.associationAgent.appointReferee(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        this.associationAgent.removeReferee((Referee)member.getRoles().get(0));
+        try {
+            this.associationAgent.removeReferee((Referee)member.getRoles().get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         for (IRole role : member.getRoles()){
             assertFalse(role instanceof Referee);
         }
@@ -88,7 +107,11 @@ class AssociationAgentIntegration {
     @Test
     public void testSetRefereeInLeague(){
         Member member = new Member("referee", SHA1Function.hash("referee"), "referee@gmail.com", new Address("Israel", "Israel", "Naharia", "2919056"), "yossi");
-        this.associationAgent.appointReferee(member);
+        try {
+            this.associationAgent.appointReferee(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Referee referee = (Referee)member.getRoles().get(0);
 
         League league1 = this.system.getManageLeagues().findLeague("league1");

@@ -2,9 +2,9 @@ package unit;
 
 
 import com.domain.logic.AssociationSystem;
-import com.domain.domaincontroller.managers.ManageMembers;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.Complaint;
+import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.roles.Coach;
 import com.domain.logic.roles.IRole;
 import com.domain.logic.roles.Referee;
@@ -53,12 +53,26 @@ class MemberTest {
     @Test
     void getAllTypeRole() {
         //one insertion
-        Coach coach = new Coach(member);
-        member.getRoles().add(new Referee(member));
+        Coach coach = null;
+        try {
+            coach = new Coach(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            member.getRoles().add(new Referee(member));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ArrayList<IRole> allReferees = member.getAllTypeRole(Coach.class);
         assertEquals(allReferees.get(0), coach);
         //another one
-        Coach coach2 = new Coach(member);
+        Coach coach2 = null;
+        try {
+            coach2 = new Coach(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         allReferees = member.getAllTypeRole(Coach.class);
         assertEquals(allReferees.get(1), coach2);
     }

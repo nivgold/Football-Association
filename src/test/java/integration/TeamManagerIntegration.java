@@ -27,9 +27,18 @@ class TeamManagerIntegration {
         AssociationSystem.getInstance().clearSystem();
         Member memberOwner = new Member("owner", SHA1Function.hash("owner"), "owner@gmail.com", new Address("Israel", "Israel", "Haifa", "3189240"), "moshe");
         Member memberManager = new Member("manager", SHA1Function.hash("manager"), "manager@gmail.com", new Address("Israel", "Israel", "Haifa", "3189240"), "moshe");
-        TeamOwner teamOwner = new TeamOwner(memberOwner);
+        TeamOwner teamOwner = null;
+        try {
+            teamOwner = new TeamOwner(memberOwner);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Team team = new Team("Hapoel Beer Sheva", TeamStatus.Open, teamOwner, new Field("Isael", "Israel", "Beer Sheva", "6809815"));
-        teamOwner.appointTeamManager(memberManager);
+        try {
+            teamOwner.appointTeamManager(memberManager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.teamManager = team.getTeam_managers().get(0);
     }
 
@@ -39,7 +48,11 @@ class TeamManagerIntegration {
         TeamOwner teamOwner = this.teamManager.getAppointer();
         assertNotNull(team);
         assertTrue(team.getTeam_managers().contains(this.teamManager));
-        this.teamManager.removeYourself();
+        try {
+            this.teamManager.removeYourself();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         assertEquals(0, team.getTeam_managers().size());
         assertNull(this.teamManager.getTeam());

@@ -28,8 +28,17 @@ class CoachTest {
         Address add = new Address("1", "1", "1,", "1");
         Member m = new Member("name", "1", "mail", add, "name");
         Member m2 = new Member("name2", "1", "mail", add, "name");
-        this.c = new Coach(m);
-        TeamOwner to = new TeamOwner(m2);
+        try {
+            this.c = new Coach(m);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        TeamOwner to = null;
+        try {
+            to = new TeamOwner(m2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Field f = new Field("Israel", "hasharon", "Herzliya", "12345");
         this.t = new Team("name", TeamStatus.Open, to, f);
         this.cits = new CoachInTeamStub("description", c, t);
@@ -50,7 +59,11 @@ class CoachTest {
         c.addCoachInTeam(cits);
         t.addCoachInTeam(cits);
         assertTrue(cits.getTeam().getCoaches().size() == 1);
-        assertTrue(c.removeYourself());
+        try {
+            assertTrue(c.removeYourself());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertTrue(cits.getTeam().getCoaches().size() == 0);
         assertFalse(c.getMember().getRoles().contains(c));
     }

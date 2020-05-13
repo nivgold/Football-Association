@@ -39,15 +39,28 @@ class RefereeTest {
         AssociationSystem.getInstance().clearSystem();
         Address add = new Address("1", "1", "1,", "1");
         m = new Member("name", "1", "mail", add, "name");
-        r = new Referee(m);
+        try {
+            r = new Referee(m);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         d = new Date();
-        p = new Player( m, d);
-        to = new TeamOwner(m);
+        try {
+            p = new Player( m, d);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            to = new TeamOwner(m);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         f = new Field("1", "1", "1,", "1");
         t = new Team("team", TeamStatus.Open, to, f);
         s = new Season(2020);
         l = new League("league");
-        g = new Game(t, t, s, l, LocalDateTime.now(), f);
+        SeasonInLeague seasonInLeague = new SeasonInLeague(l,s);
+        g = new Game(t, t, seasonInLeague, LocalDateTime.now(), f);
         ne = new Event(1, "a", EventType.Foul, g, p);
         oe = new Event(2, "a", EventType.Foul, g, p);
     }

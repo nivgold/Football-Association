@@ -4,6 +4,7 @@ package unit;
 import com.domain.logic.AssociationSystem;
 import com.domain.logic.football.League;
 import com.domain.logic.football.Season;
+import com.domain.logic.football.SeasonInLeague;
 import com.domain.logic.policies.Policy;
 import com.domain.logic.users.Member;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +18,7 @@ public class SeasonTest {
     Member member1 = new Member("Talfrim","123","x@x.x",null,"Tal");
     Season season2019 = new Season(2019);
     Season season2020 = new Season(2020);
-    Policy policy = new Policy(league,season2020);
+    Policy policy = new Policy(new SeasonInLeague(league, season2020));
 
     @BeforeEach
     public void clean() {

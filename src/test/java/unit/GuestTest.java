@@ -2,8 +2,8 @@ package unit;
 
 
 import com.domain.logic.AssociationSystem;
-import com.domain.domaincontroller.managers.ManageMembers;
 import com.domain.logic.data_types.Address;
+import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.users.Guest;
 import com.domain.logic.users.Member;
 import com.domain.logic.utils.SHA1Function;
