@@ -23,7 +23,7 @@ public class League {
      * creates a league with the given input name
      * @param leagueName
      */
-    public League(@JsonProperty("leagueName") String leagueName) {
+    public League(String leagueName) {
         this.leagueName = leagueName;
         //TODO call DAO to add league
     }

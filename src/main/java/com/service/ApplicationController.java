@@ -27,7 +27,7 @@ public class ApplicationController {
     }
 
     /**
-     * just a test - pass json - not as stav wants - very bad solution (needs changing code)
+     * just a test - pass json
      */
     @PostMapping
     public void addLeagueByObj(@RequestBody League league){
