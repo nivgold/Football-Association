@@ -30,7 +30,11 @@ class TeamManagerTest {
         AssociationSystem.getInstance().clearSystem();
         m = new Member("owner", SHA1Function.hash("owner"), "owner@gmail.com", new Address("Israel", "Israel", "Haifa", "3189240"), "moshe");
         m2 = new Member("manager", SHA1Function.hash("manager"), "manager@gmail.com", new Address("Israel", "Israel", "Haifa", "3189240"), "moshe");
-        to = new TeamOwner(m);
+        try {
+            to = new TeamOwner(m);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // creating a team for the team owner
         t = new TeamStub("Hapoel Beer Sheva", TeamStatus.Open, to, new Field("Israel", "Israel", "Haifa", "2018756"));
         t.teamOwners.add(to);
@@ -41,10 +45,18 @@ class TeamManagerTest {
     @Test
     void removeYourself() {
         assertFalse(t.getTeam_managers().contains(tm));
-        to.appointTeamManager(m2);
+        try {
+            to.appointTeamManager(m2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         tm = t.getTeam_managers().get(0);
         assertTrue(t.getTeam_managers().contains(tm));
-        assertTrue(tm.removeYourself());
+        try {
+            assertTrue(tm.removeYourself());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertFalse(t.getTeam_managers().contains(tm));
     }
 }

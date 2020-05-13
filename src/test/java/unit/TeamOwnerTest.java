@@ -26,7 +26,7 @@ public class TeamOwnerTest {
     private TeamStub teamStub;
 
     @BeforeEach
-    public void beforeTestMethod(){
+    public void beforeTestMethod() throws Exception {
         AssociationSystem.getInstance().clearSystem();
         Member member = new Member("owner", SHA1Function.hash("owner"), "owner@gmail.com", new Address("Israel", "Israel", "Haifa", "3189240"), "moshe");
         this.teamOwner = new TeamOwner(member);
@@ -42,15 +42,27 @@ public class TeamOwnerTest {
 
         // closed Team
         this.teamStub.teamStatus = TeamStatus.Closed;
-        this.teamOwner.appointTeamOwner(member);
+        try {
+            this.teamOwner.appointTeamOwner(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(1, this.teamStub.getTeam_owners().size());
         // adding successfully
         this.teamStub.teamStatus = TeamStatus.Open;
-        this.teamOwner.appointTeamOwner(member);
+        try {
+            this.teamOwner.appointTeamOwner(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertTrue(this.teamStub.getTeam_owners().get(1).getMember().equals(member));
 
         // already Team Owner in the team
-        this.teamOwner.appointTeamOwner(member);
+        try {
+            this.teamOwner.appointTeamOwner(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(2, this.teamStub.getTeam_owners().size());
 
     }
@@ -58,21 +70,37 @@ public class TeamOwnerTest {
     @Test
     public void removeTeamOwner() {
         Member member = new Member("owner2", SHA1Function.hash("owner2"), "owner2@gmail.com", new Address("Israel" , "Israel", "Tel Aviv", "8109054"), "shimon");
-        this.teamOwner.appointTeamOwner(member);
+        try {
+            this.teamOwner.appointTeamOwner(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         TeamOwner shimonTeamOwner = this.teamStub.getTeam_owners().get(1);
 
         // not authorized Team owner
-        shimonTeamOwner.removeTeamOwner(this.teamOwner);
+        try {
+            shimonTeamOwner.removeTeamOwner(this.teamOwner);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertTrue(this.teamStub.getTeam_owners().contains(this.teamOwner));
 
         // closed Team
         this.teamStub.teamStatus = TeamStatus.Closed;
-        this.teamOwner.removeTeamOwner(shimonTeamOwner);
+        try {
+            this.teamOwner.removeTeamOwner(shimonTeamOwner);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertTrue(this.teamStub.getTeam_owners().contains(shimonTeamOwner));
 
         // successful removal
         this.teamStub.teamStatus = TeamStatus.Open;
-        this.teamOwner.removeTeamOwner(shimonTeamOwner);
+        try {
+            this.teamOwner.removeTeamOwner(shimonTeamOwner);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(1, this.teamStub.getTeam_owners().size());
 
     }
@@ -83,16 +111,28 @@ public class TeamOwnerTest {
 
         // closed Team
         this.teamStub.teamStatus = TeamStatus.Closed;
-        this.teamOwner.appointTeamManager(member);
+        try {
+            this.teamOwner.appointTeamManager(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(0, this.teamStub.getTeam_managers().size());
 
         // adding successfully
         this.teamStub.teamStatus = TeamStatus.Open;
-        this.teamOwner.appointTeamManager(member);
+        try {
+            this.teamOwner.appointTeamManager(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertTrue(this.teamStub.getTeam_managers().get(0).getMember().equals(member));
 
         // already team manager
-        this.teamOwner.appointTeamManager(member);
+        try {
+            this.teamOwner.appointTeamManager(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(1, this.teamStub.getTeam_managers().size());
     }
 
@@ -100,29 +140,54 @@ public class TeamOwnerTest {
     public void removeTeamManager() {
         Member member = new Member("owner2", SHA1Function.hash("owner2"), "owner2@gmail.com", new Address("Israel" , "Israel", "Tel Aviv", "8109054"), "shimon");
         Member member2 = new Member("manager", SHA1Function.hash("manager"), "manager@gmail.com", new Address("Israel" , "Israel", "Tel Aviv", "5815719"), "yossi");
-        this.teamOwner.appointTeamManager(member2);
-        this.teamOwner.appointTeamOwner(member);
+        try {
+            this.teamOwner.appointTeamManager(member2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            this.teamOwner.appointTeamOwner(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         TeamOwner shimonTeamOwner = this.teamStub.getTeam_owners().get(1);
         TeamManager teamManager = this.teamStub.getTeam_managers().get(0);
 
         // not authorized removal of team manager
-        shimonTeamOwner.removeTeamManager(teamManager);
+        try {
+            shimonTeamOwner.removeTeamManager(teamManager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(1, this.teamStub.getTeam_managers().size());
 
         // closed Team
         this.teamStub.teamStatus = TeamStatus.Closed;
-        this.teamOwner.removeTeamManager(teamManager);
+        try {
+            this.teamOwner.removeTeamManager(teamManager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(1, this.teamStub.getTeam_managers().size());
         // successful removal
         this.teamStub.teamStatus = TeamStatus.Open;
-        this.teamOwner.removeTeamManager(teamManager);
+        try {
+            this.teamOwner.removeTeamManager(teamManager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(0, this.teamStub.getTeam_managers().size());
     }
 
     @Test
     public void appointCoach() {
         Member member = new Member("owner2", SHA1Function.hash("owner2"), "owner2@gmail.com", new Address("Israel" , "Israel", "Tel Aviv", "8109054"), "shimon");
-        Coach coach = new Coach(member);
+        Coach coach = null;
+        try {
+            coach = new Coach(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // closed Team
         this.teamStub.teamStatus = TeamStatus.Closed;
@@ -138,24 +203,42 @@ public class TeamOwnerTest {
     @Test
     public void removeCoach() {
         Member member = new Member("owner2", SHA1Function.hash("owner2"), "owner2@gmail.com", new Address("Israel" , "Israel", "Tel Aviv", "8109054"), "shimon");
-        Coach coach = new Coach(member);
+        Coach coach = null;
+        try {
+            coach = new Coach(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.teamOwner.appointCoach(coach);
 
         // closed Team
         this.teamStub.teamStatus = TeamStatus.Closed;
-        this.teamOwner.removeCoach(coach);
+        try {
+            this.teamOwner.removeCoach(coach);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(1, this.teamStub.getCoaches().size());
 
         // successful removal of coach
         this.teamStub.teamStatus = TeamStatus.Open;
-        this.teamOwner.removeCoach(coach);
+        try {
+            this.teamOwner.removeCoach(coach);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(0,this.teamStub.getCoaches().size());
     }
 
     @Test
     public void addPlayer() {
         Member member = new Member("owner2", SHA1Function.hash("owner2"), "owner2@gmail.com", new Address("Israel" , "Israel", "Tel Aviv", "8109054"), "shimon");
-        Player player = new Player( member, new Date());
+        Player player = null;
+        try {
+            player = new Player( member, new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // closed Team
         this.teamStub.teamStatus = TeamStatus.Closed;
@@ -176,10 +259,19 @@ public class TeamOwnerTest {
     @Test
     public void removePlayer() {
         Member member = new Member("owner2", SHA1Function.hash("owner2"), "owner2@gmail.com", new Address("Israel" , "Israel", "Tel Aviv", "8109054"), "shimon");
-        Player player = new Player(member, new Date());
+        Player player = null;
+        try {
+            player = new Player(member, new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // the player is not on the Team
-        this.teamOwner.removePlayer(player);
+        try {
+            this.teamOwner.removePlayer(player);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(0, this.teamStub.getPlayers().size());
 
 
@@ -188,13 +280,21 @@ public class TeamOwnerTest {
 
         // closed Team
         this.teamStub.teamStatus = TeamStatus.Closed;
-        this.teamOwner.removePlayer(player);
+        try {
+            this.teamOwner.removePlayer(player);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(1, this.teamStub.getPlayers().size());
         assertEquals(player, this.teamStub.getPlayers().get(0).getPlayer());
 
         // successful removal
         this.teamStub.teamStatus = TeamStatus.Open;
-        this.teamOwner.removePlayer(player);
+        try {
+            this.teamOwner.removePlayer(player);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(0, this.teamStub.getPlayers().size());
     }
 
@@ -203,19 +303,31 @@ public class TeamOwnerTest {
     public void removeYourself() {
         //closed Team
         this.teamStub.teamStatus = TeamStatus.Closed;
-        assertFalse(this.teamOwner.removeYourself());
+        try {
+            assertFalse(this.teamOwner.removeYourself());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(1, this.teamStub.getTeam_owners().size());
         assertEquals(this.teamOwner, teamStub.getTeam_owners().get(0));
 
 
         this.teamStub.teamStatus = TeamStatus.Open;
         Member member = new Member("owner2", SHA1Function.hash("owner2"), "owner2@gmail.com", new Address("Israel" , "Israel", "Tel Aviv", "8109054"), "shimon");
-        this.teamOwner.appointTeamOwner(member);
+        try {
+            this.teamOwner.appointTeamOwner(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         TeamOwner shimonTeamOwner = this.teamStub.getTeam_owners().get(1);
 
         assertEquals(2, this.teamStub.getTeam_owners().size());
 
-        assertTrue(shimonTeamOwner.removeYourself());
+        try {
+            assertTrue(shimonTeamOwner.removeYourself());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(1, this.teamStub.getTeam_owners().size());
         assertEquals(null, shimonTeamOwner.getTeam());
     }

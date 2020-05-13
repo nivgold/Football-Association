@@ -22,22 +22,36 @@ public class LeagueTest {
 
     League league = new League("test league");
     Member member1 = new Member("Talfrim","123","x@x.x",null,"Tal");
-    TeamOwner teamOwner1 = new TeamOwner(member1);
+    TeamOwner teamOwner1;
+
+    {
+        try {
+            teamOwner1 = new TeamOwner(member1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     Field filed1 = new Field("Israel","hasharon","Herzliya","12345");
     Field filed2 = new Field("Israel","hasharon","Herzliya","54321");
     Team team1 = new Team("team1-test", TeamStatus.Open,teamOwner1,filed1);
     Team team2 = new Team("team2-test", TeamStatus.Open,teamOwner1,filed2);
-    Game game = new Game(team1,team2,new Season(2019),league, LocalDateTime.now(),filed1);
-    Game game2 = new Game(team1,team2,new Season(2019),league, LocalDateTime.now(),filed1);
+    SeasonInLeague seasonInLeague = new SeasonInLeague(league, new Season(2019));
+    Game game = new Game(team1,team2,seasonInLeague, LocalDateTime.now(),filed1);
+    Game game2 = new Game(team1,team2,seasonInLeague, LocalDateTime.now(),filed1);
     Season season2019 = new Season(2019);
     Season season2020 = new Season(2020);
-    Policy policy = new Policy(league,season2019);
-    Referee referee = new Referee(member1);
+    SeasonInLeague seasonInLeague2 = new SeasonInLeague(league, season2019);
+    Policy policy = new Policy(seasonInLeague2);
+    Referee referee;
 
-
-
-
-
+    {
+        try {
+            referee = new Referee(member1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public LeagueTest() {

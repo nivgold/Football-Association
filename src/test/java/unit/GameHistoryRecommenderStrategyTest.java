@@ -21,13 +21,23 @@ public class GameHistoryRecommenderStrategyTest {
     public RecommenderSystem getRecommenderSystem;
     League league = new League("league");
     Member member = new Member("test1","password","test@test",null,"yossi");
-    TeamOwner teamOwner = new TeamOwner(member);
+    TeamOwner teamOwner;
+
+    {
+        try {
+            teamOwner = new TeamOwner(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     Team team1 = new Team("team1", TeamStatus.Open,teamOwner,new Field("c","c","c","c"));
     Team team2 = new Team("team2", TeamStatus.Open,teamOwner,new Field("c","v","c","c"));
     Season season2019 = new Season(2019);
     Season season2020 = new Season(2020);
-    Game game1 = new Game(team1,team2, season2019, league, LocalDateTime.now(),team1.getField());
-    Game game2 = new Game(team1,team2,season2019,league,LocalDateTime.now(),team1.getField());
+    SeasonInLeague seasonInLeague = new SeasonInLeague(league, season2019);
+    Game game1 = new Game(team1,team2, seasonInLeague, LocalDateTime.now(),team1.getField());
+    Game game2 = new Game(team1,team2,seasonInLeague,LocalDateTime.now(),team1.getField());
 
 
 
@@ -50,7 +60,9 @@ public class GameHistoryRecommenderStrategyTest {
         season2019.addGame(game1);
         season2019.addGame(game2);
 
-        Game game3 = new Game(team1,team2,season2019,league,LocalDateTime.now(),team1.getField());
+        SeasonInLeague seasonInLeague = new SeasonInLeague(league, season2019);
+
+        Game game3 = new Game(team1,team2,seasonInLeague,LocalDateTime.now(),team1.getField());
         double chancesGame3 = recommenderSystem.getChances(game3);
         assertEquals(chancesGame3,1,"Team 1 100% against team 2 0%");
     }

@@ -1,6 +1,8 @@
 package com.domain.logic.users;
 
+import com.domain.logic.AssociationSystem;
 import com.domain.logic.RecommenderSystem;
+import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.recommender_system_strategies.IRecommenderSystemStrategy;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.Complaint;
@@ -29,7 +31,7 @@ public class SystemManagerMember extends Member{
         this.passwordHash = SHA1Function.hash(password);
         this.userName = userName;
         //TODO call DAO to add SystemMember to the DB
-        ManageMembers.getInstance().addMember(this);
+        AssociationSystem.getInstance().getManageMembers().addMember(this);
         managerCount++;
     }
 
@@ -125,7 +127,7 @@ public class SystemManagerMember extends Member{
             return null;
     }
 
-    public boolean deleteMember(Member member){
+    public boolean deleteMember(Member member) throws Exception {
         if(member instanceof  SystemManagerMember) {
             if(managerCount > 1){
                 if(member.removeYourself()) {
@@ -142,7 +144,7 @@ public class SystemManagerMember extends Member{
         }
     }
 
-    public boolean closeTeamPermanently(Team team){
+    public boolean closeTeamPermanently(Team team) throws Exception {
         Logger.getInstance().saveLog("the system manager: " + this.userName + " tried to remove the team: " + team.getTeamName());
         return team.removeTeamPermanently();
     }

@@ -30,19 +30,34 @@ class RefereeIntegration {
     public void beforeTestMethod(){
         AssociationSystem.getInstance().clearSystem();
         Member member = new Member("referee", SHA1Function.hash("referee"), "referee@gmail.com", new Address("Israel", "Israel", "Haifa", "6127824"), "shimon");
-        this.referee = new Referee(member);
+        try {
+            this.referee = new Referee(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.system = AssociationSystem.getInstance();
 
         League league = new League("league1");
         Season season = new Season(2012);
         league.addSeason(season);
         Member member2 = new Member("owner", SHA1Function.hash("owner"), "owner@gmail.com", new Address("Israel", "Israel", "Haifa", "3189240"), "moshe");
-        TeamOwner teamOwner = new TeamOwner(member2);
+        TeamOwner teamOwner = null;
+        try {
+            teamOwner = new TeamOwner(member2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Team team = new Team("Hapoel Beer Sheva", TeamStatus.Open, teamOwner, new Field("Isael", "Israel", "Beer Sheva", "6809815"));
         Member member3 = new Member("player", SHA1Function.hash("player"), "player@gmail.com", new Address("Israel", "Israel", "Haifa", "3189240"), "yossi");
-        Player player3 = new Player(member3, new Date());
+        Player player3 = null;
+        try {
+            player3 = new Player(member3, new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         teamOwner.addPlayer(player3, PlayerRole.CAM);
-        this.game = new Game(team, team, season, league, LocalDateTime.now(), team.getField());
+        SeasonInLeague seasonInLeague = new SeasonInLeague(league, season);
+        this.game = new Game(team, team, seasonInLeague, LocalDateTime.now(), team.getField());
         Event event = new Event(1, "a", EventType.Foul, this.game, player3);
         this.game.getEvents().add(event);
     }

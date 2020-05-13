@@ -1,9 +1,9 @@
 package integration;
 
 import com.domain.logic.AssociationSystem;
-import com.domain.domaincontroller.managers.ManageMembers;
-import com.domain.domaincontroller.managers.ManageTeams;
 import com.domain.logic.football.Team;
+import com.domain.logic.managers.ManageMembers;
+import com.domain.logic.managers.ManageTeams;
 import com.domain.logic.roles.TeamOwner;
 import com.domain.logic.utils.SHA1Function;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,11 @@ public class AssociationSystemIntegrationTest {
     @Test
     void resetSystem() {
         AssociationSystem.getInstance().clearSystem();
-        assertTrue(AssociationSystem.getInstance().resetSystem());
+        try {
+            assertTrue(AssociationSystem.getInstance().resetSystem());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertTrue(ManageMembers.getInstance().findMember("managerSys", SHA1Function.hash("admin")) != null);
         assertTrue(ManageMembers.getInstance().findAllReferees().size() == 3);
         assertTrue(ManageMembers.getInstance().findAllTeamOwner().size() == 2);

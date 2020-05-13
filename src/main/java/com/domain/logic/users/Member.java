@@ -6,6 +6,7 @@ import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.Complaint;
 import com.domain.logic.data_types.PersonalPage;
 import com.domain.logic.football.Game;
+import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.roles.*;
 import com.domain.logic.utils.SHA1Function;
 import com.logger.Logger;
@@ -33,7 +34,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
         this.resolvedComplaints = new ArrayList<>();
         this.roles = new ArrayList<>();
         //TODO call DAO to add Member to the DB
-        ManageMembers.getInstance().addMember(this);
+        AssociationSystem.getInstance().getManageMembers().addMember(this);
     }
 
     public boolean logout(){

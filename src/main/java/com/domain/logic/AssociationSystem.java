@@ -4,6 +4,10 @@ import com.domain.logic.data_types.Address;
 import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.football.Field;
 import com.domain.logic.football.Team;
+import com.domain.logic.managers.ManageLeagues;
+import com.domain.logic.managers.ManageMembers;
+import com.domain.logic.managers.ManageSeasons;
+import com.domain.logic.managers.ManageTeams;
 import com.domain.logic.roles.AssociationAgent;
 import com.domain.logic.roles.Referee;
 import com.domain.logic.roles.TeamOwner;
@@ -28,11 +32,19 @@ public class AssociationSystem {
 
     private static HashSet<Member> connectedUsers;
 
+    private ManageLeagues manageLeagues;
+    private ManageMembers manageMembers;
+    private ManageSeasons manageSeasons;
+    private ManageTeams manageTeams;
 
     private AssociationAccountingSystem associationAccountingSystem;
     private CountryTaxLawSystem countryTaxLawSystem;
 
     private AssociationSystem() {
+        this.manageLeagues = ManageLeagues.getInstance();
+        this.manageMembers = ManageMembers.getInstance();
+        this.manageSeasons = ManageSeasons.getInstance();
+        this.manageTeams = ManageTeams.getInstance();
     }
 
     public static AssociationSystem getInstance()
@@ -59,7 +71,7 @@ public class AssociationSystem {
         //TODO remove all data from DB
     }
 
-    public boolean resetSystem(){
+    public boolean resetSystem() throws Exception {
         clearSystem();
 
         this.countryTaxLawSystem = new CountryTaxLawSystem();
@@ -125,5 +137,21 @@ public class AssociationSystem {
         }
 
         return false;
+    }
+
+    public ManageLeagues getManageLeagues() {
+        return manageLeagues;
+    }
+
+    public ManageMembers getManageMembers() {
+        return manageMembers;
+    }
+
+    public ManageSeasons getManageSeasons() {
+        return manageSeasons;
+    }
+
+    public ManageTeams getManageTeams() {
+        return manageTeams;
     }
 }

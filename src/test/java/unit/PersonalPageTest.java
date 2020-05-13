@@ -12,7 +12,16 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class PersonalPageTest {
 
     Member member = new Member("avi","1234","avi@avi.avi",null,"avi avi");
-    Coach coach = new Coach(member);
+    Coach coach;
+
+    {
+        try {
+            coach = new Coach(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     PersonalPage personalPage = new PersonalPage(coach);
 
 

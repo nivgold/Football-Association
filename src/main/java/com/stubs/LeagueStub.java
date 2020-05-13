@@ -2,6 +2,7 @@ package com.stubs;
 
 import com.domain.logic.football.League;
 import com.domain.logic.football.Season;
+import com.domain.logic.football.SeasonInLeague;
 import com.domain.logic.policies.GameSettingPolicy;
 import com.domain.logic.policies.Policy;
 import com.domain.logic.policies.RankingPolicy;
@@ -20,10 +21,11 @@ public class LeagueStub extends League {
         super(leagueName);
         this.seasons = new ArrayList<>();
         Season season = new Season(2012);
+        SeasonInLeague seasonInLeague = new SeasonInLeague(this, season);
         this.seasons.add(season);
         this.leagueRefereeMap = new HashMap<>();
         this.seasonLeaguePolicy = new HashMap<>();
-        Policy policy = new Policy(this, season, null, null);
+        Policy policy = new Policy(seasonInLeague, null, null);
         this.seasonLeaguePolicy.put(season, policy);
         //GameSettingPolicy gameSettingPolicy = new GameSettingPolicy(policy, new OneMatchEachPairSettingPolicy());
         //policy.setGameSettingPolicy(gameSettingPolicy);

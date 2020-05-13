@@ -28,15 +28,31 @@ class SearchSystemTest {
         this.searchSystem = SearchSystem.getInstance();
         // coach & Team Owner
         Member member1 = new Member("coach", SHA1Function.hash("coach"), "coach@gmail.com", new Address("Israel", "Israel", "Tel Aviv", "6804035"), "yossi");
-        Coach coach = new Coach(member1);
+        try {
+            Coach coach = new Coach(member1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // player
         Member member2 = new Member("player1", SHA1Function.hash("player1"), "player1@gmail.com", new Address("Israel", "Israel", "Haifa", "7906823"), "yoSSI");
-        Player player2 = new Player( member2, new Date());
+        try {
+            Player player2 = new Player( member2, new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //player
         Member member3 = new Member("player2", SHA1Function.hash("player2"), "player2@gmail.com", new Address("Israel", "Israel", "Beer Sheva", "7125820"), "shimon");
-        Player player3 = new Player( member3, new Date());
+        try {
+            Player player3 = new Player( member3, new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // team
-        TeamOwner teamOwner = new TeamOwner(member1, "Hapoel Beer Sheva", TeamStatus.Open, new Field("Israel", "Israel", "Beer Sheva", "6808157"));
+        try {
+            TeamOwner teamOwner = new TeamOwner(member1, "Hapoel Beer Sheva", TeamStatus.Open, new Field("Israel", "Israel", "Beer Sheva", "6808157"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

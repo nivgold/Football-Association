@@ -28,7 +28,11 @@ public class AssociationAgentTest {
     public void beforeTestMethod(){
         AssociationSystem.getInstance().clearSystem();
         Member member = new Member("agent", SHA1Function.hash("agent"), "agent@gmail.com", new Address("Israel", "Israel", "Haifa", "3189240"), "moshe");
-        this.associationAgent = new AssociationAgent(member);
+        try {
+            this.associationAgent = new AssociationAgent(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.system = AssociationSystem.getInstance();
         this.system.getManageLeagues().addLeague(new LeagueStub("league1"));
     }
@@ -66,18 +70,31 @@ public class AssociationAgentTest {
         Member member = new Member("referee", SHA1Function.hash("referee"), "referee@gmail.com", new Address("Israel", "Israel", "Naharia", "2919056"), "yossi");
 
         // adding member as Referee successfully
-        this.associationAgent.appointReferee(member);
+        try {
+            this.associationAgent.appointReferee(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(Referee.class, member.getRoles().get(0).getClass());
 
         // member already a Referee
-        this.associationAgent.appointReferee(member);
+        try {
+            this.associationAgent.appointReferee(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(1, member.getRoles().size());
     }
 
     @Test
     public void setRefereeInLeague() {
         Member member = new Member("referee", SHA1Function.hash("referee"), "referee@gmail.com", new Address("Israel", "Israel", "Naharia", "2919056"), "yossi");
-        Referee referee = new Referee(member);
+        Referee referee = null;
+        try {
+            referee = new Referee(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // season not exist in league
         League league1 = system.getManageLeagues().findLeague("league1");
@@ -132,7 +149,11 @@ public class AssociationAgentTest {
     public void removeYourself() {
         Member member = this.associationAgent.getMember();
 
-        this.associationAgent.removeYourself();
+        try {
+            this.associationAgent.removeYourself();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(0, member.getRoles().size());
     }
 }
