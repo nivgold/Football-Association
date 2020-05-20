@@ -2,6 +2,7 @@ package com.data;
 
 
 import com.domain.logic.AssociationSystem;
+import com.domain.logic.football.Game;
 import com.domain.logic.football.League;
 import com.domain.logic.football.Season;
 import com.domain.logic.football.Team;
@@ -28,6 +29,25 @@ public class DBCommunicator implements Dao {
 
         return dbCommunicator;
     }
+
+    // -------------added functions---------------
+    @Override
+    public boolean checkIfTeamExists(String teamName){
+        return false;
+    }
+    @Override
+    public Game findGame(int gameID){
+        return null;
+    }
+    @Override
+    public Player findPlayer(int playerID){
+        return null;
+    }
+    @Override
+    public boolean hasTeam(String teamOwnerUsername, String teamName){
+        return false;
+    }
+    // -------------added functions---------------
 
     @Override
     public League findLeague(String leagueName) {

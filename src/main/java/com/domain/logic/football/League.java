@@ -218,7 +218,6 @@ public class League {
 
         //TODO call DAO to add GameSettingPolicy to policy in the DB
 
-        //com.logger
         Logger logger = Logger.getInstance();
         logger.saveLog("Business.football.Game Setting policy assigned to season " + season.getYear() + " in league " + leagueName);
     }

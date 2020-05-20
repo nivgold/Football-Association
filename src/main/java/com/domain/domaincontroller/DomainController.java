@@ -12,15 +12,17 @@ import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.managers.ManageSeasons;
 import com.domain.logic.managers.ManageTeams;
 import com.domain.logic.policies.GameSettingPolicy;
+import com.domain.logic.policies.Policy;
 import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.policies.game_setting_policies.IGameSettingPolicyStrategy;
+import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
+import com.domain.logic.policies.game_setting_policies.TwoMatchEachPairSettingPolicy;
 import com.domain.logic.roles.*;
 import com.domain.logic.users.Guest;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 
@@ -38,32 +40,120 @@ public class DomainController {
     }
 
     // ------------------------1.Login---------------------------
-    public void login(String usename, String password){
-
+    public boolean login(String username, String password, String firstName, String lastName){
+        try {
+            Guest guest = new Guest(firstName, lastName);
+            Member member = guest.login(username, password);
+            // TODO - send OK to the service layer
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // TODO - send FAIL to the service layer
+            return false;
+        }
     }
 
     // ------------------------2.Create Team---------------------
-
-    public void createTeam(String teamOwnerUsername, String teamName, String fieldCountry, String fieldState, String fieldCity, String fieldPostalCode){
-
-
+    public boolean createTeam(String teamOwnerUsername, String teamName, String fieldCountry, String fieldState, String fieldCity, String fieldPostalCode){
+        try {
+            Member member = AssociationSystem.getInstance().findConnectedUser(teamOwnerUsername);
+            TeamOwner teamOwner = (TeamOwner) member.getSpecificRole(TeamOwner.class);
+            if (dao.hasTeam(teamOwnerUsername, teamName)) throw new Exception("team owner has team already");
+            teamOwner.createTeam(teamName, new Field(fieldCountry, fieldState, fieldCity, fieldPostalCode));
+            // TODO - send OK to the service layer
+            return true;
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+            // TODO - send FAIL service layer
+            return false;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // TODO - send FAIL service layer
+            return false;
+        }
     }
 
     // ------------------------3.1.Define GameSetting Policy-------
-    public void defineGameSettingPolicy(String associationAgentUsername, String leagueName, int seasonYear, String gameSettingPolicy){
-
+    public boolean defineGameSettingPolicy(String associationAgentUsername, String leagueName, int seasonYear, String gameSettingPolicy){
+        try{
+            Member member = AssociationSystem.getInstance().findConnectedUser(associationAgentUsername);
+            AssociationAgent associationAgent = (AssociationAgent) member.getSpecificRole(AssociationAgent.class);
+            Season season = dao.findSeason(seasonYear);
+            League league = dao.findLeague(leagueName);
+            Policy policy = league.getSeasonLeaguePolicy().get(season);
+            // creating the appropriate game setting policy
+            if (gameSettingPolicy.equals("one")){
+                associationAgent.setGameSettingPolicy(league, season, new GameSettingPolicy(policy, new OneMatchEachPairSettingPolicy()));
+            }
+            else if(gameSettingPolicy.equals("two")){
+                associationAgent.setGameSettingPolicy(league, season, new GameSettingPolicy(policy, new TwoMatchEachPairSettingPolicy()));
+            }
+            // TODO - send OK message to service layer
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // TODO - send FAIL message to service layer
+            return false;
+        }
     }
 
     // ------------------------3.2.Define Game Ranking Policy------
-    public void defineGameRankingPolicy(String associationAgentUsername, String leagueName, int seasonYear, int win, int goals, int draw, int yellowCards, int redCards){
-
+    public boolean defineGameRankingPolicy(String associationAgentUsername, String leagueName, int seasonYear, int win, int goals, int draw, int yellowCards, int redCards){
+        try{
+            Member member = AssociationSystem.getInstance().findConnectedUser(associationAgentUsername);
+            AssociationAgent associationAgent = (AssociationAgent) member.getSpecificRole(AssociationAgent.class);
+            Season season = dao.findSeason(seasonYear);
+            League league = dao.findLeague(leagueName);
+            Policy policy = league.getSeasonLeaguePolicy().get(season);
+            // creating the appropriate game ranking policy
+            associationAgent.setRankingPolicy(league, season, new RankingPolicy(policy, win, goals, draw, yellowCards, redCards));
+            // TODO - send OK message to service layer
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // TODO - send FAIL message to service layer
+            return false;
+        }
     }
 
     // ------------------------4.1.Referee Adds Events To Game------
+    public boolean addGameEvent(String refereeUsername, int gameID, Date date, int gameMinute, String description, EventType type, int playerID){
+        try{
+            Member member = AssociationSystem.getInstance().findConnectedUser(refereeUsername);
+            Referee referee = (Referee) member.getSpecificRole(Referee.class);
+            Game game = dao.findGame(gameID);
+            Player player = dao.findPlayer(playerID);
+            // create the game event
+            return  referee.createGameEvent(gameMinute, description, type, date, game, player);
+            // TODO - send OK message to service layer
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // TODO - send FAIL message to service layer
+            return false;
+        }
+    }
 
     // ------------------------4.2.Referee Create Game Report-------
+    public boolean createGameReport(String refereeUsername, int gameID){
+        try{
+            Member member = AssociationSystem.getInstance().findConnectedUser(refereeUsername);
+            Referee referee = (Referee) member.getSpecificRole(Referee.class);
+            Game game = dao.findGame(gameID);
+            // create game report
+            referee.createReport(game);
+            // TODO - send OK message to service layer
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // TODO - send FAIL message to service layer
+            return false;
+        }
+    }
 
     // ------------------------4.3.Game Notifications To Users------
+    public void sendNotification(String username){
+
+    }
 
 
     /**
@@ -186,7 +276,11 @@ public class DomainController {
      * "Login" UC
      */
     public void performLogin(Guest guest, String userName, String password){
-        guest.login(userName,password);
+        try {
+            guest.login(userName,password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -333,7 +427,11 @@ public class DomainController {
      */
     public void performSetGameSettingPolicy(AssociationAgent associationAgent, League league, Season season, IGameSettingPolicyStrategy policyStrategy){
         GameSettingPolicy gameSettingPolicy = new GameSettingPolicy(league.getSeasonLeaguePolicy().get(season), policyStrategy);
-        associationAgent.setGameSettingPolicy(league, season, gameSettingPolicy);
+        try {
+            associationAgent.setGameSettingPolicy(league, season, gameSettingPolicy);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Referee

@@ -140,9 +140,10 @@ public class AssociationAgent implements IRole {
         if (current != rp) {
             l.setRankingPolicy(s, rp);
             System.out.println("The ranking policy changed successfully");
+            // TODO - update dao
         }
         else {
-            System.out.println("The current ranking policy is the same as the ranking policy you have entered");
+            throw new Exception("The current ranking policy is the same as the ranking policy you have entered");
         }
     }
 
@@ -152,14 +153,15 @@ public class AssociationAgent implements IRole {
      * @param s
      * @param gsp
      */
-    public void setGameSettingPolicy(League l, Season s, GameSettingPolicy gsp) {
+    public void setGameSettingPolicy(League l, Season s, GameSettingPolicy gsp) throws Exception {
         GameSettingPolicy current = l.getSeasonLeaguePolicy().get(s).getGameSettingPolicy();
         if (current== null || current.getSettingStrategy().getClass() != gsp.getSettingStrategy().getClass()) {
             l.setGameSettingPolicy(s, gsp);
             System.out.println("The ranking policy changed successfully");
+            // TODO - update dao
         }
         else {
-            System.out.println("The current ranking policy is the same as the ranking policy you have entered");
+            throw new Exception("cannot update the game setting policy");
         }
     }
 

@@ -28,11 +28,20 @@ class GuestTest {
     @Test
     void login() {
         //fail to log in
-        assertEquals(null, guest.login("bim", "bam"));
+        try {
+            assertEquals(null, guest.login("bim", "bam"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //log in to existing member
         assertEquals(manageMembers.findMember(member.getUserName(), member.getPasswordHash()), member);
-        Member testor = guest.login(member.getUserName(), "pass");
+        Member testor = null;
+        try {
+            testor = guest.login(member.getUserName(), "pass");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(testor, member);
     }
 
