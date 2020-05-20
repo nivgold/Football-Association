@@ -7,6 +7,7 @@ import com.domain.logic.SearchSystem;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.utils.SHA1Function;
 import com.logger.Logger;
+import org.apache.tomcat.jni.Error;
 
 public class Guest {
     private static int countID = 0;
@@ -21,7 +22,7 @@ public class Guest {
         this.lastName = lastName;
     }
 
-    public Member login(String userName, String password){
+    public Member login(String userName, String password) throws Exception {
         String hashPassword = SHA1Function.hash(password);
         Dao dao = DBCommunicator.getInstance();
         Member member = dao.findMember(userName, hashPassword);
@@ -29,8 +30,10 @@ public class Guest {
             Logger.getInstance().saveLog("the guest: " + this.firstName + " login as the member: " + userName);
             // TODO upload all dependencies
         }
-        else
+        else {
             Logger.getInstance().saveLog("the guest: " + this.firstName + " failed to login as the member: " + userName);
+            throw new Exception();
+        }
         AssociationSystem.getInstance().connectUser(member);
         return member;
     }

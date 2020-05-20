@@ -11,6 +11,7 @@ import com.domain.logic.roles.*;
 import com.domain.logic.utils.SHA1Function;
 import com.logger.Logger;
 
+import javax.management.relation.Role;
 import java.util.ArrayList;
 
 public class Member implements IGameObserver, IPersonalPageObserver {
@@ -111,6 +112,14 @@ public class Member implements IGameObserver, IPersonalPageObserver {
         SearchSystem searcher = SearchSystem.getInstance();
         Logger.getInstance().saveLog("the member -> " + this.userName + " searched -> " + query);
         return searcher.search(key, query);
+    }
+
+    public IRole getSpecificRole(Class<? extends IRole> role) throws ClassNotFoundException {
+        for (IRole memberRole : this.roles){
+            if (memberRole.getClass().equals(role.getClass()))
+                return memberRole;
+        }
+        throw new ClassNotFoundException();
     }
 
     @Override

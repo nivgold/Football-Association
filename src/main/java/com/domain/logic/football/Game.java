@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 public class Game implements IGameObservable {
 
+    private int gameID;
     private Team host;
     private Team guest;
     private LocalDateTime date;
@@ -52,6 +53,10 @@ public class Game implements IGameObservable {
         this.sideReferees = new ArrayList<>();
         this.fanObservers = new ArrayList<>();
         this.refereeObservers = new ArrayList<>();
+
+        // TODO call dao to add a new game
+
+        // TODO call dao to update gameID
     }
 
     public void setStartGame(){

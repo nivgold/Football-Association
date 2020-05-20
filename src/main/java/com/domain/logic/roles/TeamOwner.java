@@ -1,5 +1,7 @@
 package com.domain.logic.roles;
 
+import com.data.DBCommunicator;
+import com.data.Dao;
 import com.domain.logic.enums.PlayerRole;
 import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.football.CoachInTeam;
@@ -24,6 +26,16 @@ public class TeamOwner implements IRole, ITeamObserver {
         this.team = new Team(teamName, teamStatus, this, field);
         member.addTeamOwner(this);
         //TODO call the DAO to add new team owner to the DB
+    }
+
+    public void createTeam(String teamName, Field field) throws Exception {
+        Dao dao = DBCommunicator.getInstance();
+        if (!dao.checkIfTeamExists(teamName)){
+            // TODO - call dao to add new team to the DB
+        }
+        else{
+            throw new Exception();
+        }
     }
 
     public TeamOwner(Member member) throws Exception {

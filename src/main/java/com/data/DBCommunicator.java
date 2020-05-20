@@ -29,6 +29,13 @@ public class DBCommunicator implements Dao {
         return dbCommunicator;
     }
 
+    // -------------added functions---------------
+    @Override
+    public boolean checkIfTeamExists(String teamName){
+        return false;
+    }
+    // -------------added functions---------------
+
     @Override
     public League findLeague(String leagueName) {
 

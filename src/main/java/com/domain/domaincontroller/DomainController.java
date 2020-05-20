@@ -20,7 +20,6 @@ import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 
@@ -38,14 +37,33 @@ public class DomainController {
     }
 
     // ------------------------1.Login---------------------------
-    public void login(String usename, String password){
-
+    public void login(String usename, String password, String firstName, String lastName){
+        Guest guest = new Guest(firstName, lastName);
+        Member member;
+        try {
+            member = guest.login(usename, password);
+            // TODO - send OK to the service layer
+        } catch (Exception e) {
+            System.out.println("Cannot login member");
+            // TODO - send FAIL to the service layer
+        }
     }
 
     // ------------------------2.Create Team---------------------
-
     public void createTeam(String teamOwnerUsername, String teamName, String fieldCountry, String fieldState, String fieldCity, String fieldPostalCode){
-
+        try {
+            Member member = AssociationSystem.getInstance().findConnectedUser(teamOwnerUsername);
+            TeamOwner teamOwner = (TeamOwner) member.getSpecificRole(TeamOwner.class);
+            if (teamOwner.getTeam()!=null) throw new Exception();
+            teamOwner.createTeam(teamName, new Field(fieldCountry, fieldState, fieldCity, fieldPostalCode));
+            // TODO - send OK to the service layer
+        } catch (ClassNotFoundException e) {
+            System.out.println("Member is not a teamOwner");
+            // TODO - send FAIL service layer?
+        } catch (Exception e) {
+            System.out.println("Cannot do the operation");
+            // TODO - send FAIL service layer?
+        }
     }
 
     // ------------------------3.1.Define GameSetting Policy-------
@@ -59,10 +77,19 @@ public class DomainController {
     }
 
     // ------------------------4.1.Referee Adds Events To Game------
+    public void addGameEvent(String refereeUsername, String gameID, Date date, int gameMinute, String description, EventType type, String playerID){
+
+    }
 
     // ------------------------4.2.Referee Create Game Report-------
+    public void createGameReport(String refereeUsername, String gameID){
+
+    }
 
     // ------------------------4.3.Game Notifications To Users------
+    public void sendNotification(String username){
+
+    }
 
 
     /**
@@ -185,7 +212,11 @@ public class DomainController {
      * "Login" UC
      */
     public void performLogin(Guest guest, String userName, String password){
-        guest.login(userName,password);
+        try {
+            guest.login(userName,password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

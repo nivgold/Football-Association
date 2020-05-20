@@ -10,6 +10,13 @@ import com.domain.logic.users.SystemManagerMember;
 import java.util.ArrayList;
 
 public interface Dao {
+
+
+    // -------------added functions---------------
+    boolean checkIfTeamExists(String teamName);
+    // -------------added functions---------------
+
+
     // LEAGUE
 
     /**
