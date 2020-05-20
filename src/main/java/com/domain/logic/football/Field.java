@@ -13,7 +13,7 @@ public class Field {
 
     public Field(String country, String state, String city, String postalCode) {
         this.location = new Address(country, state, city, postalCode);
-        games = new ArrayList<>();
+        this.games = new ArrayList<>();
     }
 
     public void addGame(Game g){

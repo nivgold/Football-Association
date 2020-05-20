@@ -25,8 +25,10 @@ public class Guest {
         String hashPassword = SHA1Function.hash(password);
         Dao dao = DBCommunicator.getInstance();
         Member member = dao.findMember(userName, hashPassword);
-        if(member != null)
+        if(member != null) {
             Logger.getInstance().saveLog("the guest: " + this.firstName + " login as the member: " + userName);
+            // TODO upload all dependencies
+        }
         else
             Logger.getInstance().saveLog("the guest: " + this.firstName + " failed to login as the member: " + userName);
         AssociationSystem.getInstance().connectUser(member);

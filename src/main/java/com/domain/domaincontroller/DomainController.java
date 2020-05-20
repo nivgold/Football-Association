@@ -36,6 +36,34 @@ public class DomainController {
         this.dao = dao;
     }
 
+    // ------------------------1.Login---------------------------
+    public void login(String usename, String password){
+
+    }
+
+    // ------------------------2.Create Team---------------------
+
+    public void createTeam(String teamOwnerUsername, String teamName, String fieldCountry, String fieldState, String fieldCity, String fieldPostalCode){
+
+    }
+
+    // ------------------------3.1.Define GameSetting Policy-------
+    public void defineGameSettingPolicy(String associationAgentUsername, String leagueName, int seasonYear, String gameSettingPolicy){
+
+    }
+
+    // ------------------------3.2.Define Game Ranking Policy------
+    public void defineGameRankingPolicy(String associationAgentUsername, String leagueName, int seasonYear, int win, int goals, int draw, int yellowCards, int redCards){
+
+    }
+
+    // ------------------------4.1.Referee Adds Events To Game------
+
+    // ------------------------4.2.Referee Create Game Report-------
+
+    // ------------------------4.3.Game Notifications To Users------
+
+
     /**
      * just a test - not as stav wants
      */
