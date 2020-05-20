@@ -68,7 +68,7 @@ public class AssociationSystem {
             if (member.getUserName().equals(username))
                 return member;
         }
-        throw new Exception();
+        throw new Exception("user not found in connected users");
     }
 
     public boolean checkIfConnected(Member member){

@@ -34,7 +34,7 @@ public class TeamOwner implements IRole, ITeamObserver {
             // TODO - call dao to add new team to the DB
         }
         else{
-            throw new Exception();
+            throw new Exception("team name already exists in the DB");
         }
     }
 

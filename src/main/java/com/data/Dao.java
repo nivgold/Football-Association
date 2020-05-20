@@ -1,5 +1,6 @@
 package com.data;
 
+import com.domain.logic.football.Game;
 import com.domain.logic.football.League;
 import com.domain.logic.football.Season;
 import com.domain.logic.football.Team;
@@ -14,6 +15,9 @@ public interface Dao {
 
     // -------------added functions---------------
     boolean checkIfTeamExists(String teamName);
+    Game findGame(int gameID);
+    Player findPlayer(int playerID);
+    boolean hasTeam(String teamOwnerUsername, String teamName);
     // -------------added functions---------------
 
 

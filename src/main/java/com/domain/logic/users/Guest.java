@@ -32,7 +32,7 @@ public class Guest {
         }
         else {
             Logger.getInstance().saveLog("the guest: " + this.firstName + " failed to login as the member: " + userName);
-            throw new Exception();
+            throw new Exception("failed to login");
         }
         AssociationSystem.getInstance().connectUser(member);
         return member;

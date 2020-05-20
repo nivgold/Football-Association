@@ -119,7 +119,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
             if (memberRole.getClass().equals(role.getClass()))
                 return memberRole;
         }
-        throw new ClassNotFoundException();
+        throw new ClassNotFoundException("this member has no "+role.getClass());
     }
 
     @Override
