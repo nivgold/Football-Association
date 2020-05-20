@@ -29,12 +29,12 @@ CREATE TABLE member(
     email varchar (255),
     -- FOREIGN KEYS
     addressID int NOT NULL,
-    coachID int,
-    teamOwnerID int,
-    teamManagerID int,
-    playerID int,
-    refereeID int,
-    associationAgentID int,
+    coachID int DEFAULT NULL,
+    teamOwnerID int DEFAULT NULL,
+    teamManagerID int DEFAULT NULL,
+    playerID int DEFAULT NULL,
+    refereeID int DEFAULT NULL ,
+    associationAgentID int DEFAULT NULL,
     -- CONSTRAINTS
     CONSTRAINT `fk_address` FOREIGN KEY (`addressID`)
     REFERENCES `address` (`addressID`)
@@ -104,8 +104,8 @@ CREATE TABLE team_manager(
 CREATE TABLE team_owner(
     teamOwnerID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     -- FOREIGN KEYS
-    teamID int,
-    appointerID int,
+    teamID int DEFAULT NULL ,
+    appointerID int DEFAULT NULL,
     memberID int NOT NULL,
     -- CONSTRAINTS
     CONSTRAINT `fk_appointer_team_owner` FOREIGN KEY (`appointerID`)
@@ -333,3 +333,17 @@ CREATE TABLE teamsInSIL(
     -- PRIMARY KEY
     PRIMARY KEY (`leagueID`, `seasonYear`, teamID)
 );
+
+CREATE TABLE log(
+  logID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  data varchar(255)
+);
+
+INSERT INTO `address` (`city`,`country`,`postalCode`, `state`)
+    VALUES ('Netanya','Israel','472948239','NONE');
+
+INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`)
+    VALUES ('teamOwner_Koren','1bf7f59785cdfaf3a348b449cdfd8b837b3fa89f','Koren Ishlach', 'korenish@post.bgu.ac.il', 1);
+
+INSERT INTO `team_owner` (`memberID`)
+    VALUES (1);
