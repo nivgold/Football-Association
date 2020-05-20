@@ -1,11 +1,7 @@
 package com.service;
 
 import com.domain.domaincontroller.DomainController;
-import com.domain.logic.football.League;
-import com.domain.logic.policies.GameSettingPolicy;
-import com.service.request_data_holders.GameSettingPolicyRequest;
-import com.service.request_data_holders.LeagueRequest;
-import com.service.request_data_holders.TeamRequest;
+import com.service.request_data_holders.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +28,24 @@ public class ApplicationController {
 
 
 
+    // ------------------------1.Login-------------------z
+
+    /**
+     * api/v1/login/
+     * @param userName
+     * @return
+     */
+    @PostMapping("/login")
+    @ResponseBody
+    public String login(@RequestBody LoginRequest userName) {
+        if (domainController.login(userName.getUserName(),userName.getPassword()))
+            return "";
+        else
+            return "";
+    }
+
+
+
     // ------------------------2.Create Team---------------------
     @PostMapping("/addTeam")
     public void createTeam(@RequestBody TeamRequest teamRequest) {
@@ -40,13 +54,20 @@ public class ApplicationController {
 
 
 
-    //-------------------------3.Manage Game---------------------
+    //-------------------------3.Manage Game:---------------------
 
     // ------------------------3.1.Define GameSetting Policy-------
     @PostMapping("/setGameSettingPolicy")
     public void defineGameSettingPolicy(@RequestBody GameSettingPolicyRequest gameSettingPolicyRequest) {
-        domainController.defineGameSettingPolicy();
+        domainController.defineGameSettingPolicy(gameSettingPolicyRequest.getAssociationAgentUsername(),gameSettingPolicyRequest.getLeagueName(),gameSettingPolicyRequest.getSeasonYear(),gameSettingPolicyRequest.getGameSettingPolicy());
     }
+
+    // ------------------------3.2.Define Game Ranking Policy-------
+    @PostMapping("/setRankingPolicy")
+    public void defineGameRankingPolicy(@RequestBody RankingPolicyRequest rankingPolicyRequest) {
+        domainController.defineGameRankingPolicy(rankingPolicyRequest.getAssociationAgentUsername(),rankingPolicyRequest.getLeagueName(),rankingPolicyRequest.getSeasonYear(),rankingPolicyRequest.getWin(),rankingPolicyRequest.getGoal(),rankingPolicyRequest.getDraw(),rankingPolicyRequest.getYellowCards(),rankingPolicyRequest.getRedCards());
+    }
+
 
 
 
