@@ -2,6 +2,7 @@ package com.service;
 
 import com.domain.domaincontroller.DomainController;
 import com.domain.logic.football.League;
+import com.service.request_data_holders.LeagueRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,19 +20,11 @@ public class ApplicationController {
 
 
     /**
-     * just a test - as stav wants
+     * just a test - pass json
      */
     @PostMapping("/addLeague")
-    public void addLeagueByName (@RequestBody String leagueName){
-        domainController.addLeagueByName(leagueName);
-    }
-
-    /**
-     * just a test - pass json - not as stav wants - very bad solution (needs changing code)
-     */
-    @PostMapping
-    public void addLeagueByObj(@RequestBody League league){
-        domainController.addLeagueByObject(league);
+    public void addLeagueByObj(@RequestBody LeagueRequest leagueReq){
+        System.out.println(leagueReq.getLeagueName());
     }
 
 
