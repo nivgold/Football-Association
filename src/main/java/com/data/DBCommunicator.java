@@ -1,12 +1,8 @@
 package com.data;
 
 
-import com.domain.logic.AssociationSystem;
 import com.domain.logic.data_types.Address;
-import com.domain.logic.football.Game;
-import com.domain.logic.football.League;
-import com.domain.logic.football.Season;
-import com.domain.logic.football.Team;
+import com.domain.logic.football.*;
 import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
@@ -153,6 +149,36 @@ public class DBCommunicator implements Dao {
         }
     }
 
+    @Override
+    public void addTeam(String teamName, Address field, TeamOwner teamOwner) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT teamOwnerID FROM member INNER JOIN" +
+                " WHERE username = ?";
+        try {
+            //first create new team
+            Member member = teamOwner.getMember();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, member.getName());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+
+                //TODO create team
+                String sql2 = "INSERT INTO team (teamName) VALUES (?)";
+                PreparedStatement preparedStatement1 = connection.prepareStatement(sql2);
+                preparedStatement1.setString(1, teamName);
+
+                int teamOwnerID = resultSet.getInt("teamOwnerID");
+            }
+            connection.close();
+        } catch (SQLException e) {
+            connection.close();
+            throw new Exception(e.getMessage());
+        }
+    }
+
+
+
+    //LIAR LIAR PANTS ON FIRE:
     @Override
     public Member findMember(Member member) {
         return null;

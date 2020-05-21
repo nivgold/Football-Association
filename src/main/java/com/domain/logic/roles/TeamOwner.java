@@ -31,7 +31,7 @@ public class TeamOwner implements IRole, ITeamObserver {
     public void createTeam(String teamName, Field field) throws Exception {
         Dao dao = DBCommunicator.getInstance();
         if (!dao.checkIfTeamExists(teamName)){
-            // TODO - call dao to add new team to the DB
+            dao.addTeam(teamName, field.getLocation(), this);
         }
         else{
             throw new Exception("team name already exists in the DB");

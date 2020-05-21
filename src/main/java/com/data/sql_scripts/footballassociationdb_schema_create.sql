@@ -183,7 +183,7 @@ CREATE TABLE player_in_team(
 CREATE TABLE field(
     fieldID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     -- FOREIGN KEYS
-    teamID int,
+    teamID int UNIQUE,
     addressID int NOT NULL,
     -- CONSTRAINTS
     CONSTRAINT `fk_team_field` FOREIGN KEY (`teamID`)
@@ -206,7 +206,7 @@ CREATE TABLE seasonInLeague(
     -- FOREIGN KEYS
     seasonYear int NOT NULL,
     leagueID int NOT NULL,
-    PolicyID int,
+    PolicyID int NOT NULL,
     -- CONSTRAINT
     CONSTRAINT `fk_league_seasonInLeague` FOREIGN KEY (`leagueID`)
     REFERENCES `league` (`leagueID`),
@@ -286,11 +286,11 @@ CREATE TABLE rankingPolicy(
 
 CREATE TABLE policy(
     policyID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    gameSettingPolicy tinyint NOT NULL,
+    gameSettingPolicy tinyint,
     -- FOREIGN KEYS
-    rankingPolicyID int NOT NULL,
-    seasonYear int NOT NULL,
-    leagueID int NOT NULL,
+    rankingPolicyID int,
+    seasonYear int,
+    leagueID int,
     -- CONSTRAINTS
     CONSTRAINT `fk_rankingPolicy_policy` FOREIGN KEY (`rankingPolicyID`)
     REFERENCES `rankingPolicy` (`rankingPolicyID`),
@@ -411,8 +411,15 @@ INSERT INTO league (league_name)
 INSERT INTO season (seasonYear)
     values (2020);
 
-INSERT INTO seasonInLeague (seasonYear, leagueID)
-    VALUES (2020, 1);
+INSERT INTO policy (policyID)
+    VALUES (1);
+
+INSERT INTO seasonInLeague (seasonYear, leagueID, PolicyID)
+    VALUES (2020, 1, 1);
+
+UPDATE policy
+    SET seasonYear = 2020 AND leagueID = 1
+    WHERE policyID = 1;
 
 INSERT INTO `address` (`city`,`country`,`postalCode`, `state`)
     VALUES ('Holon','Israel','384765534','NONE');
