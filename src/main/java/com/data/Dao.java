@@ -8,6 +8,7 @@ import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface Dao {
@@ -18,6 +19,7 @@ public interface Dao {
     Game findGame(int gameID);
     Player findPlayer(int playerID);
     boolean hasTeam(String teamOwnerUsername, String teamName);
+    void addLog(String data) throws SQLException;
     // -------------added functions---------------
 
 
@@ -66,7 +68,7 @@ public interface Dao {
      * @param hashPassword
      * @return the member using those properties
      */
-    public Member findMember(String userName, String hashPassword);
+    public Member findMember(String userName, String hashPassword) throws Exception;
 
     /**
      * finding the given member in the DB

@@ -2,6 +2,7 @@ package com.data;
 
 
 import com.domain.logic.AssociationSystem;
+import com.domain.logic.data_types.Address;
 import com.domain.logic.football.Game;
 import com.domain.logic.football.League;
 import com.domain.logic.football.Season;
@@ -12,6 +13,10 @@ import com.domain.logic.users.SystemManagerMember;
 import org.springframework.stereotype.Repository;
 
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Repository("DBCommunicator")
@@ -47,6 +52,22 @@ public class DBCommunicator implements Dao {
     public boolean hasTeam(String teamOwnerUsername, String teamName){
         return false;
     }
+    @Override
+    public void addLog(String data) throws SQLException {
+        Connection connection = DBConnector.getConnection();
+        String sql ="INSERT INTO log (data) " +
+                "VALUES (?)";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, data);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            connection.close();
+        }
+    }
     // -------------added functions---------------
 
     @Override
@@ -81,8 +102,55 @@ public class DBCommunicator implements Dao {
     }
 
     @Override
-    public Member findMember(String userName, String hashPassword) {
-        return null;
+    public Member findMember(String userName, String hashPassword) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT * FROM member INNER JOIN" +
+                " address ON address.addressID=member.addressID " +
+                " WHERE username = ? and passwordHash = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, userName);
+            preparedStatement.setString(2, hashPassword);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Member member = null;
+            while (resultSet.next()){
+                String username = resultSet.getString("username");
+                String passwordHash = resultSet.getString("passwordHash");
+                String email = resultSet.getString("email");
+                String country = resultSet.getString("country");
+                String state = resultSet.getString("state");
+                String city = resultSet.getString("city");
+                String postalCode = resultSet.getString("postalCode");
+                Address address = new Address(country, state, city, postalCode);
+                String name = resultSet.getString("name");
+                // has member
+                member = new Member(username, passwordHash, email, address, name);
+
+                // check for coach
+                int coachID = resultSet.getInt("couchID");
+                if (coachID != 0) new Coach(member);
+                // check for team owner
+                int teamOwnerID = resultSet.getInt("teamOwnerID");
+                if (teamOwnerID !=0 ) new TeamOwner(member);
+                // check for team manager
+                int teamManagerID = resultSet.getInt("teamManagerID");
+                if (teamManagerID !=0 ) new TeamManager(member);
+                // check for player
+                int playerID = resultSet.getInt("playerID");
+                if (playerID !=0 ) new Player(member);
+                // check for referee
+                int refereeID = resultSet.getInt("refereeID");
+                if (refereeID !=0 ) new Referee(member);
+                // check for association agent
+                int associationAgentID = resultSet.getInt("associationAgentID");
+                if (associationAgentID !=0 ) new AssociationAgent(member);
+            }
+            connection.close();
+            return member;
+        } catch (SQLException e) {
+            connection.close();
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Override

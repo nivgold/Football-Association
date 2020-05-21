@@ -11,6 +11,11 @@ public class TeamManager implements IRole, ITeamObserver {
     private TeamOwner appointer;
     private Member member;
 
+    public TeamManager(Member member) throws Exception {
+        this.member = member;
+        member.addTeamManager(this);
+    }
+
     public TeamManager(Team team, Member member, TeamOwner appointer) throws Exception {
         this.team = team;
         this.member = member;

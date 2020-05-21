@@ -1151,3 +1151,100 @@ INFO    2020-05-13 17:42:32 - The team status is closed, you can't do any operat
 INFO    2020-05-13 17:42:32 - The new team owner has been added successfully
 INFO    2020-05-13 17:42:32 - The team owner has been removed successfully
 INFO    2020-05-13 17:42:32 - The player has been removed successfully
+INFO    2020-05-21 10:52:40 - The team manager has been added successfully
+INFO    2020-05-21 10:52:40 - The team manager has been removed successfully
+INFO    2020-05-21 10:52:40 - The team manager has been added successfully
+INFO    2020-05-21 10:52:40 - The team manager has been removed successfully
+INFO    2020-05-21 10:52:40 - new complaint was added to the system -> 0
+INFO    2020-05-21 10:52:40 - the member -> korenISH sent new complaint to the system, compID:0
+INFO    2020-05-21 10:52:40 - the member -> korenISH was notify that his complaint with comId: 0 has been answered
+INFO    2020-05-21 10:52:40 - the member -> korenISH read the answer for his complaint, compId: 0
+INFO    2020-05-21 10:52:40 - new complaint was added to the system -> 1
+INFO    2020-05-21 10:52:40 - the member -> korenISH sent new complaint to the system, compID:1
+INFO    2020-05-21 10:52:40 - new complaint was added to the system -> 2
+INFO    2020-05-21 10:52:40 - the member -> korenISH sent new complaint to the system, compID:2
+INFO    2020-05-21 10:52:40 - complaint was removed from the system -> 0
+INFO    2020-05-21 10:52:40 - complaint was removed from the system -> 1
+INFO    2020-05-21 10:52:40 - new complaint was added to the system -> 3
+INFO    2020-05-21 10:52:40 - new complaint was added to the system -> 3
+INFO    2020-05-21 10:52:40 - the member -> korenISH was notify that his complaint with comId: 3 has been answered
+INFO    2020-05-21 10:52:42 - the guest: Koren register as the member: korenISH
+INFO    2020-05-21 10:52:42 - the guest: Koren failed to login as the member: bim
+INFO    2020-05-21 10:52:42 - the member -> korenISH changed his password
+INFO    2020-05-21 10:52:42 - new complaint was added to the system -> 4
+INFO    2020-05-21 10:52:42 - the member -> korenISH was notify that his complaint with comId: 4 has been answered
+INFO    2020-05-21 10:52:42 - new complaint was added to the system -> 5
+INFO    2020-05-21 10:52:42 - complaint was removed from the system -> 5
+INFO    2020-05-21 10:52:42 - the member -> korenISH read the answer for his complaint, compId: 5
+INFO    2020-05-21 10:52:42 - new complaint was added to the system -> 6
+INFO    2020-05-21 10:52:42 - the member -> korenISH sent new complaint to the system, compID:6
+INFO    2020-05-21 10:52:42 - new complaint was added to the system -> 7
+INFO    2020-05-21 10:52:42 - the member -> korenISH sent new complaint to the system, compID:7
+INFO    2020-05-21 10:52:42 - the member -> Koren Ishlach changed his userName to -> bla
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The coach has been added successfully
+INFO    2020-05-21 10:52:42 - The coach has been added successfully
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The coach has been removed successfully
+INFO    2020-05-21 10:52:42 - The team manager has been added successfully
+INFO    2020-05-21 10:52:42 - The new team owner has been added successfully
+INFO    2020-05-21 10:52:42 - You don't have the authority to remove this team manager
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The team manager has been removed successfully
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The team manager has been added successfully
+INFO    2020-05-21 10:52:42 - This member is already owner/manager of this team
+INFO    2020-05-21 10:52:42 - This player is not part of the team's player
+INFO    2020-05-21 10:52:42 - The player has been added successfully
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The player has been removed successfully
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The new team owner has been added successfully
+INFO    2020-05-21 10:52:42 - the member is already a team owner
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The player has been added successfully
+INFO    2020-05-21 10:52:42 - This player is already part of the team
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The new team owner has been added successfully
+INFO    2020-05-21 10:52:42 - The team owner has been removed successfully
+INFO    2020-05-21 10:52:42 - The new team owner has been added successfully
+INFO    2020-05-21 10:52:42 - You don't have the authority to remove this team owner
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The team owner has been removed successfully
+INFO    2020-05-21 10:52:42 - the system manager: sysMen built new recommender system
+INFO    2020-05-21 10:52:42 - new system manager was added to the system -> korenISH by -> sysMen
+INFO    2020-05-21 10:52:42 - new complaint was added to the system -> 8
+INFO    2020-05-21 10:52:42 - new complaint was added to the system -> 8
+INFO    2020-05-21 10:52:42 - the member -> korenISH was notify that his complaint with comId: 8 has been answered
+INFO    2020-05-21 10:52:42 - The coach has been removed successfully
+INFO    2020-05-21 10:52:42 - This player is not part of the team's player
+INFO    2020-05-21 10:52:42 - The player has been added successfully
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The player has been removed successfully
+INFO    2020-05-21 10:52:42 - The coach has been added successfully
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The coach has been removed successfully
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The player has been added successfully
+INFO    2020-05-21 10:52:42 - This player is already part of the team
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The team manager has been added successfully
+INFO    2020-05-21 10:52:42 - This member is already owner/manager of this team
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The new team owner has been added successfully
+INFO    2020-05-21 10:52:42 - the member is already a team owner
+INFO    2020-05-21 10:52:42 - The team manager has been added successfully
+INFO    2020-05-21 10:52:42 - The new team owner has been added successfully
+INFO    2020-05-21 10:52:42 - You don't have the authority to remove this team manager
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The team manager has been removed successfully
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The coach has been added successfully
+INFO    2020-05-21 10:52:42 - The new team owner has been added successfully
+INFO    2020-05-21 10:52:42 - You don't have the authority to remove this team owner
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The team owner has been removed successfully
+INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operations
+INFO    2020-05-21 10:52:42 - The new team owner has been added successfully
+INFO    2020-05-21 10:52:42 - The team owner has been removed successfully
+INFO    2020-05-21 10:52:42 - The player has been removed successfully
