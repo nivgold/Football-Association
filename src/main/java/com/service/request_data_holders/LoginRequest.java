@@ -6,10 +6,20 @@ public class LoginRequest {
 
     String userName;
     String password;
+    String firstName;
+    String lastName;
 
-    public LoginRequest(@JsonProperty String userName, @JsonProperty String password) {
+    public LoginRequest(@JsonProperty("userName") String userName, @JsonProperty("password") String password, @JsonProperty("firstNames") String firstName, @JsonProperty("lastName") String lastName) {
         this.userName = userName;
         this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getUserName() {

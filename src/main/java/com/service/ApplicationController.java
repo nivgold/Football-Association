@@ -2,6 +2,7 @@ package com.service;
 
 import com.domain.domaincontroller.DomainController;
 import com.service.request_data_holders.*;
+import com.service.responses.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,16 +33,13 @@ public class ApplicationController {
 
     /**
      * api/v1/login/
-     * @param userName
      * @return
      */
     @PostMapping("/login")
-    @ResponseBody
-    public String login(@RequestBody LoginRequest userName) {
-        if (domainController.login(userName.getUserName(),userName.getPassword()))
-            return "";
-        else
-            return "";
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+        if (domainController.login(loginRequest.getUserName(),loginRequest.getPassword(), loginRequest.getFirstName(), loginRequest.getLastName()))
+            return new LoginResponse(loginRequest.getUserName(),"true");
+        return new LoginResponse(loginRequest.getUserName(), "false");
     }
 
 
@@ -54,7 +52,7 @@ public class ApplicationController {
 
 
 
-    //-------------------------3.Manage Game:---------------------
+    //-------------------------***3.Manage Game:***---------------------
 
     // ------------------------3.1.Define GameSetting Policy-------
     @PostMapping("/setGameSettingPolicy")
