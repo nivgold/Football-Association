@@ -140,10 +140,9 @@ public class AssociationAgent implements IRole {
         if (current != rp) {
             l.setRankingPolicy(s, rp);
             System.out.println("The ranking policy changed successfully");
-            // TODO - update dao
         }
         else {
-            throw new Exception("The current ranking policy is the same as the ranking policy you have entered");
+            throw new Exception("cannot perform the operation");
         }
     }
 
@@ -158,10 +157,9 @@ public class AssociationAgent implements IRole {
         if (current== null || current.getSettingStrategy().getClass() != gsp.getSettingStrategy().getClass()) {
             l.setGameSettingPolicy(s, gsp);
             System.out.println("The ranking policy changed successfully");
-            // TODO - update dao
         }
         else {
-            throw new Exception("cannot update the game setting policy");
+            throw new Exception("cannot perform the operation");
         }
     }
 

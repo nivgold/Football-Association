@@ -19,7 +19,7 @@ public class SeasonInLeague {
         this.teams = new ArrayList<>();
         this.referees = new ArrayList<>();
         this.games = new ArrayList<>();
-
+        this.policy = new Policy(this);
         league.addSeasonInLeague(this);
         season.addSeasonInLeague(this);
     }
