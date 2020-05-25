@@ -13,7 +13,7 @@ public class RankingPolicyRequest {
     private int yellowCards;
     private int redCards;
 
-    public RankingPolicyRequest(@JsonProperty("") String associationAgentUsername, String leagueName, int seasonYear, int win, int goal, int draw, int yellowCards, int redCards) {
+    public RankingPolicyRequest(@JsonProperty("associationAgentUsername") String associationAgentUsername,@JsonProperty("leagueName") String leagueName, @JsonProperty("seasonYear")int seasonYear, @JsonProperty("win")int win, @JsonProperty("goal") int goal, @JsonProperty("draw")int draw, @JsonProperty("yellowCards")int yellowCards, @JsonProperty("redCards")int redCards) {
         this.associationAgentUsername = associationAgentUsername;
         this.leagueName = leagueName;
         this.seasonYear = seasonYear;

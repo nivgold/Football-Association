@@ -12,6 +12,7 @@ import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.managers.ManageSeasons;
 import com.domain.logic.managers.ManageTeams;
 import com.domain.logic.policies.GameSettingPolicy;
+import com.domain.logic.policies.Policy;
 import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.policies.game_setting_policies.IGameSettingPolicyStrategy;
 import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
@@ -112,15 +113,16 @@ public class DomainController {
     }
 
     // ------------------------4.1.Referee Adds Events To Game------
-    public boolean addGameEvent(String refereeUsername, int gameID, Date date, int gameMinute, String description, EventType type, String playerUsername){
+    public boolean addGameEvent(String refereeUsername, int gameID, Date date, int gameMinute, String description, String type, String playerUsername){
         try{
             Member memberReferee = AssociationSystem.getInstance().findConnectedUser(refereeUsername);
             Referee referee = (Referee) memberReferee.getSpecificRole(Referee.class);
             Member memberPlayer = dao.findMember(playerUsername);
             Player player = (Player) memberPlayer.getSpecificRole(Player.class);
             Game game = dao.findGame(gameID);
+            EventType eventType = EventType.strToEventType(type);
             // create the game event
-            return  referee.createGameEvent(gameMinute, description, type, date, game, player);
+            return  referee.createGameEvent(gameMinute, description, eventType, date, game, player);
             // TODO - send OK message to service layer
         } catch (Exception e) {
             System.out.println(e.getMessage());

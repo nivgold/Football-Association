@@ -9,10 +9,7 @@ import com.domain.logic.users.SystemManagerMember;
 import org.springframework.stereotype.Repository;
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 @Repository("DBCommunicator")
@@ -199,6 +196,22 @@ public class DBCommunicator implements Dao {
             throw new Exception("cannot perform operation");
         }
     }
+    @Override
+    public Game getRefereeActiveGame(String refereeUsername) throws Exception {
+        return null;
+    }
+
+//    @Override
+//    public Game getRefereeActiveGame(String refereeUsername) throws Exception {
+//        Connection connection = DBConnector.getConnection();
+//        String sql = "";
+//        try{
+//            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+//
+//        } catch (SQLException e) {
+//            throw new Exception("SQL exception");
+//        }
+//    }
     // -------------added functions---------------
 
     @Override
@@ -239,8 +252,20 @@ public class DBCommunicator implements Dao {
     }
 
     @Override
-    public ArrayList<League> getAllLeagues() {
-        return null;
+    public ArrayList<String> getAllLeaguesNames() throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql ="SELECT league_name FROM league";
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            ArrayList<String> leagues = new ArrayList<>();
+            while (resultSet.next()){
+                leagues.add(resultSet.getString("league_name"));
+            }
+            return leagues;
+        } catch (SQLException e) {
+            throw new Exception("cannot perform operation");
+        }
     }
 
     @Override
