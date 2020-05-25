@@ -42,4 +42,20 @@ public class Address {
                 ", postalCode='" + postalCode + '\'' +
                 '}';
     }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
 }

@@ -1248,3 +1248,16 @@ INFO    2020-05-21 10:52:42 - The team status is closed, you can't do any operat
 INFO    2020-05-21 10:52:42 - The new team owner has been added successfully
 INFO    2020-05-21 10:52:42 - The team owner has been removed successfully
 INFO    2020-05-21 10:52:42 - The player has been removed successfully
+INFO    2020-05-25 14:30:02 - the guest: tal failed to login as the member: tal1
+INFO    2020-05-25 14:42:10 - the guest: tal login as the member: teamOwner_Tal
+INFO    2020-05-25 14:43:19 - the guest: tal login as the member: teamOwner_Tal
+INFO    2020-05-25 14:45:27 - the guest: tal login as the member: teamOwner_Tal
+INFO    2020-05-25 14:46:43 - the guest: tal login as the member: teamOwner_Tal
+INFO    2020-05-25 14:47:53 - the guest: tal login as the member: teamOwner_Tal
+INFO    2020-05-25 14:51:12 - the guest: tal login as the member: teamOwner_Tal
+INFO    2020-05-25 14:51:58 - the guest: tal login as the member: teamOwner_Tal
+INFO    2020-05-25 14:52:23 - the guest: tal login as the member: teamOwner_Tal
+INFO    2020-05-25 14:54:14 - the guest: tal login as the member: teamOwner_Tal
+INFO    2020-05-25 15:15:31 - the guest: tal login as the member: teamOwner_Tal
+INFO    2020-05-25 15:20:14 - the guest: Koren failed to login as the member: bim
+INFO    2020-05-25 15:20:14 - the guest: Koren failed to login as the member: korenISH

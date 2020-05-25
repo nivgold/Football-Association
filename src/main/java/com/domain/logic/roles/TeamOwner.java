@@ -9,6 +9,7 @@ import com.domain.logic.football.Field;
 import com.domain.logic.football.PlayerRoleInTeam;
 import com.domain.logic.football.Team;
 import com.domain.logic.users.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.logger.Logger;
 
 import java.util.ArrayList;
@@ -342,7 +343,7 @@ public class TeamOwner implements IRole, ITeamObserver {
         this.appointer = appointer;
     }
 
-
+    @JsonIgnore
     public Member getMember() {
         return member;
     }

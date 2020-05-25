@@ -252,7 +252,7 @@ public class DBCommunicator implements Dao {
                 member = new Member(username, passwordHash, email, address, name);
 
                 // check for coach
-                int coachID = resultSet.getInt("couchID");
+                int coachID = resultSet.getInt("coachID");
                 if (coachID != 0) new Coach(member);
                 // check for team owner
                 int teamOwnerID = resultSet.getInt("teamOwnerID");
@@ -274,7 +274,7 @@ public class DBCommunicator implements Dao {
             return member;
         } catch (SQLException e) {
             connection.close();
-            throw new Exception("cannot create prepared statement");
+            throw new Exception("SQL exception");
         }
     }
 
