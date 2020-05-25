@@ -19,9 +19,7 @@ public class SystemAcceptanceTest {
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
-
             // tests
-
             ArrayList<SystemManagerMember> systemManagerMembers = serviceLayerManager.findAllSystemManagers();
             if (systemManagerMembers.size()!=1){
                 System.err.println("The System Reset UC was NOT successfully performed");

@@ -6,9 +6,14 @@ import com.domain.logic.football.*;
 import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
+import org.apache.ibatis.jdbc.ScriptRunner;
 import org.springframework.stereotype.Repository;
 
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -453,6 +458,24 @@ public class DBCommunicator implements Dao {
         }
     }
 
+    @Override
+    public void resetSystem() {
+        Connection connection = DBConnector.getConnection();
+        ScriptRunner runner=new ScriptRunner(connection);
+        InputStreamReader reader = null;
+        try {
+            reader = new InputStreamReader(new FileInputStream("sql_scripts\\footballassociationdb.sql"));
+            runner.runScript(reader);
+            reader.close();
+            connection.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     //LIAR LIAR PANTS ON FIRE:

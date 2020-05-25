@@ -174,7 +174,7 @@ public class DomainController {
      * "Reset System" UC
      */
     public void performResetSystem() throws Exception {
-        AssociationSystem.getInstance().resetSystem();
+        dao.resetSystem();
     }
 
     // System Manager Member UC's

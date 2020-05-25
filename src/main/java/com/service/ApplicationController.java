@@ -88,9 +88,9 @@ public class ApplicationController {
     // ------------------------4.1.Referee Adds Events To Game------
     @PostMapping("/addEventToGame")
     public StatusResponse addEventToGame(@RequestBody AddEventToGameRequest addEventToGameRequest) {
-        if (domainController.addGameEvent(addEventToGameRequest.getRefereeUsername(),addEventToGameRequest.getGameID(),new Date(),addEventToGameRequest.getGameMinute(),addEventToGameRequest.getDescription(),addEventToGameRequest.getType(),addEventToGameRequest.getPlayerID())) {
-            return StatusResponse.getTrueStatusObj();
-        }
+//        if (domainController.addGameEvent(addEventToGameRequest.getRefereeUsername(),addEventToGameRequest.getGameID(),new Date(),addEventToGameRequest.getGameMinute(),addEventToGameRequest.getDescription(),addEventToGameRequest.getType(),addEventToGameRequest.getPlayerID())) {
+//            return StatusResponse.getTrueStatusObj();
+//        }
         return StatusResponse.getFalseStatusObj();
     }
 
