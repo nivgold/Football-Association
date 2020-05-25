@@ -12,11 +12,8 @@ import com.domain.logic.users.Guest;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 import com.domain.logic.utils.SHA1Function;
-
 import java.util.ArrayList;
 import java.util.Date;
-
-import static com.oracle.jrockit.jfr.ContentType.Address;
 
 public class CoverageAcceptance {
 

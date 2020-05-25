@@ -6,8 +6,6 @@ import com.domain.logic.roles.TeamOwner;
 import com.domain.logic.users.Member;
 import com.domain.logic.utils.SHA1Function;
 
-import static com.oracle.jrockit.jfr.ContentType.Address;
-
 public class TeamOwnerAcceptanceTest {
     public TeamOwnerAcceptanceTest() {
     }

@@ -11,7 +11,6 @@ import com.domain.logic.roles.AssociationAgent;
 import com.domain.logic.roles.IRole;
 import com.domain.logic.roles.Referee;
 import com.domain.logic.users.Member;
-
 public class AssociationAgentAcceptanceTest {
 
     public AssociationAgentAcceptanceTest() {

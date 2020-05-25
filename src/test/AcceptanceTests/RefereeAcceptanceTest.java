@@ -6,7 +6,6 @@ import com.domain.logic.football.*;
 import com.domain.logic.roles.Referee;
 import com.domain.logic.roles.TeamOwner;
 import com.domain.logic.users.Member;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
