@@ -152,6 +152,15 @@ public class DomainController {
 
     }
 
+    // ------------------------Additions----------------------------
+    public ArrayList<String> allLeagues(){
+        try {
+            return dao.getAllLeaguesNames();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 
     /**
      * just a test - not as stav wants
