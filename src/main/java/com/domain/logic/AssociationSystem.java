@@ -30,7 +30,7 @@ import java.util.HashSet;
 public class AssociationSystem {
     private static AssociationSystem system;
 
-    private static HashSet<Member> connectedUsers;
+    private static HashSet<Member> connectedUsers = new HashSet<>();
 
     private ManageLeagues manageLeagues;
     private ManageMembers manageMembers;

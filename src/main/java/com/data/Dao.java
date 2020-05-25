@@ -13,14 +13,15 @@ public interface Dao {
 
 
     // -------------added functions---------------
-    boolean checkIfTeamExists(String teamName);
+    boolean checkIfTeamExists(String teamName) throws Exception;
     Game findGame(int gameID);
-    Player findPlayer(int playerID);
-    boolean hasTeam(String teamOwnerUsername, String teamName);
+    Member findMember(String username) throws Exception;
+    boolean hasTeam(String teamOwnerUsername) throws Exception;
     void addLog(String data) throws SQLException;
     SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception;
     void setGameSettingPolicy(int seasonYear, String leagueName, boolean gameSettingPolicyField) throws Exception;
     void setGameRankingPolicy(int seasonYear, String leagueName, int win, int goals, int draw, int yellowCards, int redCards) throws Exception;
+    Game getRefereeActiveGame(String refereeUsername) throws Exception;
     // -------------added functions---------------
 
 
@@ -56,7 +57,7 @@ public interface Dao {
     /**
      * @return arrayList of all leagues in the system
      */
-    public ArrayList<League> getAllLeagues();
+    public ArrayList<String> getAllLeaguesNames() throws Exception;
 
     /**
      * removing all the leagues in the system

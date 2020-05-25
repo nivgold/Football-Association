@@ -30,6 +30,7 @@ public class Guest {
         if(member != null) {
             Logger.getInstance().saveLog("the guest: " + this.firstName + " login as the member: " + userName);
             // TODO upload all dependencies
+            System.out.println("successful login");
         }
         else {
             Logger.getInstance().saveLog("the guest: " + this.firstName + " failed to login as the member: " + userName);

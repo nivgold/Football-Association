@@ -33,6 +33,16 @@ public class Address {
         this.postalCode = postalCode;
     }
 
+    @Override
+    public String toString() {
+        return "Business.data_types.Address{" +
+                "country='" + country + '\'' +
+                ", state='" + state + '\'' +
+                ", city='" + city + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                '}';
+    }
+
     public String getCountry() {
         return country;
     }
@@ -47,15 +57,5 @@ public class Address {
 
     public String getPostalCode() {
         return postalCode;
-    }
-
-    @Override
-    public String toString() {
-        return "Business.data_types.Address{" +
-                "country='" + country + '\'' +
-                ", state='" + state + '\'' +
-                ", city='" + city + '\'' +
-                ", postalCode='" + postalCode + '\'' +
-                '}';
     }
 }

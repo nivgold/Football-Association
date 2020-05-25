@@ -14,7 +14,7 @@ public class DBConnector {
         Connection connection;
         try {
             connection = DriverManager.getConnection(URL, USER, PASS);
-            System.out.println("Database connected!");
+            System.out.println("created new Database connection");
         } catch (SQLException e) {
             throw new IllegalStateException("Cannot connect the database!", e);
         }

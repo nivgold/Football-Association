@@ -4,8 +4,8 @@ import com.domain.logic.users.Member;
 
 public class LoginResponse {
 
-    Member member;
-    String status;
+    private Member member;
+    private String status;
 
     public LoginResponse(Member member, String status) {
         this.status = status;
