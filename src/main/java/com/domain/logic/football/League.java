@@ -1,5 +1,7 @@
 package com.domain.logic.football;
 
+import com.data.DBCommunicator;
+import com.data.Dao;
 import com.domain.logic.policies.GameSettingPolicy;
 import com.domain.logic.policies.Policy;
 import com.domain.logic.policies.RankingPolicy;
@@ -162,15 +164,17 @@ public class League {
 
     }
 
-    public void setRankingPolicy(Season season, RankingPolicy rPolicy){
+    public void setRankingPolicy(Season season, RankingPolicy rPolicy) throws Exception {
         SeasonInLeague seasonInLeague = findSeasonInLeague(season);
         if (seasonInLeague == null)
             return;
+
         Policy policy = seasonInLeague.getPolicy();
         policy.setRankingPolicy(rPolicy);
 
         //TODO call DAO to add RankingPolicy to the policy in the DB
-
+        Dao dao = DBCommunicator.getInstance();
+        dao.setGameRankingPolicy(season.getYear(), this.leagueName, rPolicy.getWin(), rPolicy.getGoals(), rPolicy.getDraw(), rPolicy.getYellowCards(), rPolicy.getRedCards());
         //com.logger
         Logger logger = Logger.getInstance();
         logger.saveLog("Ranking Business.policies.Policy assigned to season " + season.getYear() + " in league " + leagueName);
@@ -208,7 +212,7 @@ public class League {
         logger.saveLog("Business.football.Game Setting policy assigned to season " + season.getYear() + " in league " + leagueName);
     }
 
-    public void setGameSettingPolicy(Season season, GameSettingPolicy settingPolicy) {
+    public void setGameSettingPolicy(Season season, GameSettingPolicy settingPolicy) throws Exception {
         SeasonInLeague seasonInLeague = findSeasonInLeague(season);
         if (seasonInLeague == null)
             return;
@@ -217,6 +221,9 @@ public class League {
         policy.setGameSettingPolicy(settingPolicy);
 
         //TODO call DAO to add GameSettingPolicy to policy in the DB
+        boolean gameSettingPolicyField = settingPolicy.getSettingStrategy() instanceof OneMatchEachPairSettingPolicy ? true : false;
+        Dao dao = DBCommunicator.getInstance();
+        dao.setGameSettingPolicy(season.getYear(), this.leagueName, gameSettingPolicyField);
 
         Logger logger = Logger.getInstance();
         logger.saveLog("Business.football.Game Setting policy assigned to season " + season.getYear() + " in league " + leagueName);

@@ -312,7 +312,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
 
     public boolean removePlayer(Player player) throws Exception {
         if(!this.roles.remove(player)){
-            String excepData = "the member: " + this.getUserName() + " is not the player: " + player.getPlayerID();
+            String excepData = "the member: " + this.getUserName() + " is not the player";
             throw new Exception(excepData);
         }
         return true;

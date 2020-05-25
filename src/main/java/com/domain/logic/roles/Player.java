@@ -12,20 +12,25 @@ import java.util.Date;
 
 public class Player implements IRole, IPersonalPageable {
 
-    private static int countIDs = 0;
-    private int playerID;
     private ArrayList<PlayerRoleInTeam> roleInTeams;
     private PersonalPage personalPage;
     private ArrayList<Event> events;
     private Member member;
     private Date birthDate;
 
+    public Player(Member member) throws Exception {
+        this.roleInTeams = new ArrayList<>();
+        this.personalPage = new PersonalPage(this);
+        this.events = new ArrayList<>();
+        this.member = member;
+        this.birthDate = null;
+        member.addPlayer(this);
+    }
+
     /**
      * player constructor
      */
     public Player(Member member, Date birthDate) throws Exception {
-        this.playerID = countIDs;
-        countIDs++;
         this.roleInTeams = new ArrayList<>();
         this.personalPage = new PersonalPage(this);
         this.events = new ArrayList<>();
@@ -63,15 +68,10 @@ public class Player implements IRole, IPersonalPageable {
 
     @Override
     public String toString() {
-        return "Business.roles.Player{" +
-                "playerID=" + playerID +
+        return "Player{" +
                 " roles=" + roleInTeams +
                 " events=" + events +
                 '}';
-    }
-
-    public int getPlayerID() {
-        return playerID;
     }
 
     public PersonalPage getPersonalPage() {

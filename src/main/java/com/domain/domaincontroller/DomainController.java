@@ -41,7 +41,15 @@ public class DomainController {
 
     // ------------------------1.Login---------------------------
     public Member login(String username, String password, String firstName, String lastName){
-        return null;
+        try {
+            Guest guest = new Guest(firstName, lastName);
+            return guest.login(username, password);
+            // TODO - send OK to the service layer
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // TODO - send FAIL to the service layer
+            return null;
+        }
     }
 
     // ------------------------2.Create Team---------------------
@@ -69,15 +77,13 @@ public class DomainController {
         try{
             Member member = AssociationSystem.getInstance().findConnectedUser(associationAgentUsername);
             AssociationAgent associationAgent = (AssociationAgent) member.getSpecificRole(AssociationAgent.class);
-            Season season = dao.findSeason(seasonYear);
-            League league = dao.findLeague(leagueName);
-            Policy policy = league.getSeasonLeaguePolicy().get(season);
+            SeasonInLeague seasonInLeague = dao.findSeasonInLeague(seasonYear, leagueName);
             // creating the appropriate game setting policy
             if (gameSettingPolicy.equals("one")){
-                associationAgent.setGameSettingPolicy(league, season, new GameSettingPolicy(policy, new OneMatchEachPairSettingPolicy()));
+                associationAgent.setGameSettingPolicy(seasonInLeague.getLeague(), seasonInLeague.getSeason(), new GameSettingPolicy(seasonInLeague.getPolicy(), new OneMatchEachPairSettingPolicy()));
             }
             else if(gameSettingPolicy.equals("two")){
-                associationAgent.setGameSettingPolicy(league, season, new GameSettingPolicy(policy, new TwoMatchEachPairSettingPolicy()));
+                associationAgent.setGameSettingPolicy(seasonInLeague.getLeague(), seasonInLeague.getSeason(), new GameSettingPolicy(seasonInLeague.getPolicy(), new TwoMatchEachPairSettingPolicy()));
             }
             // TODO - send OK message to service layer
             return true;
@@ -93,11 +99,9 @@ public class DomainController {
         try{
             Member member = AssociationSystem.getInstance().findConnectedUser(associationAgentUsername);
             AssociationAgent associationAgent = (AssociationAgent) member.getSpecificRole(AssociationAgent.class);
-            Season season = dao.findSeason(seasonYear);
-            League league = dao.findLeague(leagueName);
-            Policy policy = league.getSeasonLeaguePolicy().get(season);
+            SeasonInLeague seasonInLeague = dao.findSeasonInLeague(seasonYear, leagueName);
             // creating the appropriate game ranking policy
-            associationAgent.setRankingPolicy(league, season, new RankingPolicy(policy, win, goals, draw, yellowCards, redCards));
+            associationAgent.setRankingPolicy(seasonInLeague.getLeague(), seasonInLeague.getSeason(), new RankingPolicy(seasonInLeague.getPolicy(), win, goals, draw, yellowCards, redCards));
             // TODO - send OK message to service layer
             return true;
         } catch (Exception e) {

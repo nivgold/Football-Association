@@ -1,13 +1,12 @@
 package com.data;
 
-import com.domain.logic.football.Game;
-import com.domain.logic.football.League;
-import com.domain.logic.football.Season;
-import com.domain.logic.football.Team;
+import com.domain.logic.data_types.Address;
+import com.domain.logic.football.*;
 import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface Dao {
@@ -18,6 +17,10 @@ public interface Dao {
     Game findGame(int gameID);
     Player findPlayer(int playerID);
     boolean hasTeam(String teamOwnerUsername, String teamName);
+    void addLog(String data) throws SQLException;
+    SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception;
+    void setGameSettingPolicy(int seasonYear, String leagueName, boolean gameSettingPolicyField) throws Exception;
+    void setGameRankingPolicy(int seasonYear, String leagueName, int win, int goals, int draw, int yellowCards, int redCards) throws Exception;
     // -------------added functions---------------
 
 
@@ -27,7 +30,7 @@ public interface Dao {
      * @param leagueName
      * @return the league with that name
      */
-    public League findLeague(String leagueName);
+    public League findLeague(String leagueName) throws Exception;
 
     /**
      * removes league from data
@@ -66,7 +69,7 @@ public interface Dao {
      * @param hashPassword
      * @return the member using those properties
      */
-    public Member findMember(String userName, String hashPassword);
+    public Member findMember(String userName, String hashPassword) throws Exception;
 
     /**
      * finding the given member in the DB
@@ -149,7 +152,7 @@ public interface Dao {
      * @param seasonYear
      * @return the season in that year
      */
-    public Season findSeason(Integer seasonYear);
+    public Season findSeason(Integer seasonYear) throws Exception;
 
     /**
      * removes season from data
@@ -215,4 +218,6 @@ public interface Dao {
      * removing all the teams in the DB
      */
     public void removeAllTeams();
+
+    void addTeam(String teamName, String country, String state, String city, String postalCode, TeamOwner teamOwner) throws Exception;
 }
