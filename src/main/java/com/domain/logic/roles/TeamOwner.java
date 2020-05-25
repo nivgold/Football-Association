@@ -2,6 +2,7 @@ package com.domain.logic.roles;
 
 import com.data.DBCommunicator;
 import com.data.Dao;
+import com.domain.logic.data_types.Address;
 import com.domain.logic.enums.PlayerRole;
 import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.football.CoachInTeam;
@@ -25,13 +26,13 @@ public class TeamOwner implements IRole, ITeamObserver {
         this.appointments = new ArrayList<>();
         this.team = new Team(teamName, teamStatus, this, field);
         member.addTeamOwner(this);
-        //TODO call the DAO to add new team owner to the DB
     }
 
     public void createTeam(String teamName, Field field) throws Exception {
         Dao dao = DBCommunicator.getInstance();
         if (!dao.checkIfTeamExists(teamName)){
-            dao.addTeam(teamName, field.getLocation(), this);
+            Address fieldAddress = field.getLocation();
+            dao.addTeam(teamName, fieldAddress.getCountry(), fieldAddress.getState(), fieldAddress.getCity(), fieldAddress.getPostalCode(), this);
         }
         else{
             throw new Exception("team name already exists in the DB");
