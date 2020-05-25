@@ -171,6 +171,14 @@ public class DomainController {
             return null;
         }
     }
+    public ArrayList<String> getAllTeamPlayers(String teamName){
+        try{
+            return dao.getAllTeamPlayers(teamName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 
 
     /**

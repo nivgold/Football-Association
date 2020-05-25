@@ -219,21 +219,30 @@ public class DBCommunicator implements Dao {
             }
             return gameIdentifier;
         } catch (SQLException e) {
-            throw new Exception("cannot perform operation");
+            throw new Exception("SQL exception");
         }
     }
 
-//    @Override
-//    public Game getRefereeActiveGame(String refereeUsername) throws Exception {
-//        Connection connection = DBConnector.getConnection();
-//        String sql = "";
-//        try{
-//            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-//
-//        } catch (SQLException e) {
-//            throw new Exception("SQL exception");
-//        }
-//    }
+    @Override
+    public ArrayList<String> getAllTeamPlayers(String teamName) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT member.username FROM member INNER JOIN player ON player.memberID=member.memberID " +
+                "INNER JOIN player_in_team pit on player.playerID = pit.playerID " +
+                "INNER JOIN team t on pit.teamID = t.teamID " +
+                "WHERE t.teamName LIKE ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, teamName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ArrayList<String> teamPlayersNames = new ArrayList<>();
+            while (resultSet.next()){
+                teamPlayersNames.add(resultSet.getString(1));
+            }
+            return teamPlayersNames;
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
     // -------------added functions---------------
 
     @Override
