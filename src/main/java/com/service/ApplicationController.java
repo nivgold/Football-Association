@@ -49,8 +49,11 @@ public class ApplicationController {
 
     // ------------------------2.Create Team---------------------
     @PostMapping("/addTeam")
-    public void createTeam(@RequestBody TeamRequest teamRequest) {
-        domainController.createTeam(teamRequest.getOwnerUserName(),teamRequest.getTeamName(), teamRequest.getFieldCountry(), teamRequest.getFieldState(),teamRequest.getFieldCity(),teamRequest.getFieldPostalCode());
+    public StatusResponse createTeam(@RequestBody TeamRequest teamRequest) {
+         if(domainController.createTeam(teamRequest.getOwnerUserName(),teamRequest.getTeamName(), teamRequest.getFieldCountry(), teamRequest.getFieldState(),teamRequest.getFieldCity(),teamRequest.getFieldPostalCode())) {
+             return StatusResponse.getTrueStatusObj();
+         }
+         return StatusResponse.getFalseStatusObj();
     }
 
 
@@ -59,15 +62,20 @@ public class ApplicationController {
 
     // ------------------------3.1.Define GameSetting Policy-------
     @PostMapping("/setGameSettingPolicy")
-    public void defineGameSettingPolicy(@RequestBody GameSettingPolicyRequest gameSettingPolicyRequest) {
-        domainController.defineGameSettingPolicy(gameSettingPolicyRequest.getAssociationAgentUsername(),gameSettingPolicyRequest.getLeagueName(),gameSettingPolicyRequest.getSeasonYear(),gameSettingPolicyRequest.getGameSettingPolicy());
+    public StatusResponse defineGameSettingPolicy(@RequestBody GameSettingPolicyRequest gameSettingPolicyRequest) {
+        if (domainController.defineGameSettingPolicy(gameSettingPolicyRequest.getAssociationAgentUsername(),gameSettingPolicyRequest.getLeagueName(),gameSettingPolicyRequest.getSeasonYear(),gameSettingPolicyRequest.getGameSettingPolicy())) {
+            return StatusResponse.getTrueStatusObj();
+        }
+         return StatusResponse.getFalseStatusObj();
     }
 
     // ------------------------3.2.Define Game Ranking Policy-------
     @PostMapping("/setRankingPolicy")
-    public void defineGameRankingPolicy(@RequestBody RankingPolicyRequest rankingPolicyRequest) {
+    public StatusResponse defineGameRankingPolicy(@RequestBody RankingPolicyRequest rankingPolicyRequest) {
         domainController.defineGameRankingPolicy(rankingPolicyRequest.getAssociationAgentUsername(),rankingPolicyRequest.getLeagueName(),rankingPolicyRequest.getSeasonYear(),rankingPolicyRequest.getWin(),rankingPolicyRequest.getGoal(),rankingPolicyRequest.getDraw(),rankingPolicyRequest.getYellowCards(),rankingPolicyRequest.getRedCards());
+        return null;
     }
+
 
 
     // ------------------------4.1.Referee Adds Events To Game------
