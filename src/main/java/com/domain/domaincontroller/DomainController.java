@@ -40,17 +40,8 @@ public class DomainController {
     }
 
     // ------------------------1.Login---------------------------
-    public boolean login(String username, String password, String firstName, String lastName){
-        try {
-            Guest guest = new Guest(firstName, lastName);
-            Member member = guest.login(username, password);
-            // TODO - send OK to the service layer
-            return true;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            // TODO - send FAIL to the service layer
-            return false;
-        }
+    public Member login(String username, String password, String firstName, String lastName){
+        return null;
     }
 
     // ------------------------2.Create Team---------------------

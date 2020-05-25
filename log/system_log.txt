@@ -1153,3 +1153,6 @@ INFO    2020-05-13 17:42:32 - The team owner has been removed successfully
 INFO    2020-05-13 17:42:32 - The player has been removed successfully
 INFO    2020-05-21 10:56:32 - the guest: null failed to login as the member: testUN
 INFO    2020-05-21 10:58:54 - the guest: null failed to login as the member: testUN
+INFO    2020-05-21 11:52:42 - the guest: null failed to login as the member: koren
+INFO    2020-05-21 11:53:27 - the guest: null failed to login as the member: koren
+INFO    2020-05-21 11:53:32 - the guest: null failed to login as the member: tal
