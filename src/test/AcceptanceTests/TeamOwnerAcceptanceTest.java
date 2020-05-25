@@ -1,12 +1,14 @@
 import com.data.DBCommunicator;
 import com.domain.domaincontroller.DomainController;
-import com.domain.logic.data_types.Address;
 import com.domain.logic.roles.TeamManager;
 import com.domain.logic.roles.TeamOwner;
+import com.domain.logic.users.Guest;
 import com.domain.logic.users.Member;
-import com.domain.logic.utils.SHA1Function;
+
+import java.util.ArrayList;
 
 public class TeamOwnerAcceptanceTest {
+    private static String nivTeamName = "NIV Team";
     public TeamOwnerAcceptanceTest() {
     }
 
@@ -19,50 +21,31 @@ public class TeamOwnerAcceptanceTest {
         }
 
         switch (UC_NAME){
-            case "4.1":
+            case "4.1"://create team
             {
-                TeamOwner teamOwner = serviceLayerManager.findAllTeamOwner().get(0);
-                System.out.println("owner1 is the main team owner of the team \"team1\"");
-                // appoint new team owner
-                Member member = new Member("owner2", SHA1Function.hash("owner2"), "owner2@gmail.com", new Address("Israel" , "Israel", "Tel Aviv", "8109054"), "shimon");
-                System.out.println("owner1 wish to appoint owner2 to be also team owner in team \"team1\"");
+                Guest guest = new Guest("teamOwner", "Koren");
+                Member koren;
                 try {
-                    serviceLayerManager.performAppointTeamOwner(teamOwner, member);
+                    koren = serviceLayerManager.login("teamOwner_Koren", "korenpass", "koren", "");
+                    serviceLayerManager.createTeam(koren.getUserName(), "KOREN Team", "Israel", "None", "Tel Aviv", "7346574236");
+
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
-                if (member.getRoles().size()==0){
-                    System.err.println("The Appoint New Team Owner UC was NOT performed successfully");
-                    return;
-                }
-                if (member.getRoles().get(0).getClass() != TeamOwner.class){
-                    System.err.println("The Appoint New Team Owner UC was NOT performed successfully");
-                    return;
-                }
-                TeamOwner owner2 = (TeamOwner) member.getRoles().get(0);
-                if (owner2.getTeam()!=teamOwner.getTeam()){
-                    System.err.println("The Appoint New Team Owner UC was NOT performed successfully");
-                    return;
-                }
-                if (owner2.getAppointer() != teamOwner){
-                    System.err.println("The Appoint New Team Owner UC was NOT performed successfully");
-                    return;
-                }
-                System.out.println("owner2 is now a team owner in team \"team1\"");
                 break;
             }
             case "4.2":
             {
-                TeamOwner teamOwner = serviceLayerManager.findAllTeamOwner().get(0);
-                Member member = new Member("owner2", SHA1Function.hash("owner2"), "owner2@gmail.com", new Address("Israel" , "Israel", "Tel Aviv", "8109054"), "shimon");
+                TeamOwner teamOwner = serviceLayerManager.findAllTeamOwner(nivTeamName).get(0);
+                Guest guestTemp = new Guest("new", "ownerToNiv");
+                Member member = guestTemp.registerAsMember("new ownerToNiv", "ownerToNivpass", "owner2@gmail.com","Israel" , "Israel", "Tel Aviv", "8109054");
                 System.out.println("owner1 is the main team owner of the team \"team1\"");
                 try {
                     serviceLayerManager.performAppointTeamOwner(teamOwner, member);
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
-                System.out.println("owner2 is a team owner in team \"team2\" by owner1");
-
+                System.out.println("owner2 is a team owner in team \"Niv Team\" by owner1");
                 // remove the team owner
                 System.out.println("owner1 wish to remove owner2 from being team owner in team \"team1\"");
                 try {
@@ -70,57 +53,63 @@ public class TeamOwnerAcceptanceTest {
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
-                if (teamOwner.getTeam().getTeam_owners().size()!=1){
-                    System.err.println("The Remove Team Owner UC was NOT performed successfully");
-                    return;
+                serviceLayerManager.logout();
+                try {
+                    member = serviceLayerManager.login("new ownerToNiv", "ownerToNivpass", "", "");
+                    ArrayList<TeamOwner> allTeamOwners = serviceLayerManager.findAllTeamOwner(nivTeamName);
+                    if (allTeamOwners.size() != 1){
+                        System.err.println("The Remove Team Owner UC was NOT performed successfully");
+                        return;
+                    }
+                    try {
+                        if (member.getSpecificRole(TeamOwner.class) != null){
+                            System.err.println("The Remove Team Owner UC was NOT performed successfully");
+                            return;
+                        }
+                    } catch (ClassNotFoundException e) {
+                        System.out.println("owner2 was successfully removed from being team owner in team \"team1\"");
+                    }
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
                 }
-                if (member.getRoles().size()!=0){
-                    System.err.println("The Remove Team Owner UC was NOT performed successfully");
-                    return;
-                }
-                if (teamOwner.getAppointments().size()!=0){
-                    System.err.println("The Remove Team Owner UC was NOT performed successfully");
-                    return;
-                }
-                System.out.println("owner2 was successfully removed from being team owner in team \"team1\"");
                 break;
             }
             case "4.3":
             {
-                TeamOwner teamOwner = serviceLayerManager.findAllTeamOwner().get(0);
+                TeamOwner teamOwner = serviceLayerManager.findAllTeamOwner(nivTeamName).get(0);
                 System.out.println("owner1 is the main team owner of the team \"team1\"");
                 // appoint new team owner
-                Member member = new Member("owner2", SHA1Function.hash("owner2"), "owner2@gmail.com", new Address("Israel" , "Israel", "Tel Aviv", "8109054"), "shimon");
+                Guest guestTemp = new Guest("new", "ownerToNiv");
+                Member member = guestTemp.registerAsMember("new ownerToNiv", "ownerToNivpass", "owner2@gmail.com","Israel" , "Israel", "Tel Aviv", "8109054");
                 System.out.println("owner1 wish to appoint owner2 to be a team manager in team \"team1\"");
                 try {
                     serviceLayerManager.performAppointTeamManager(teamOwner, member);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 }
-                if (member.getRoles().size()==0){
-                    System.err.println("The Appoint New Team Owner UC was NOT performed successfully");
-                    return;
+                serviceLayerManager.logout();
+                try {
+                    member = serviceLayerManager.login("new ownerToNiv", "ownerToNivpass", "", "");
+                    ArrayList<TeamManager> allTeamManagers= serviceLayerManager.findAllTeamManager(nivTeamName);
+                    if (allTeamManagers.size() == 0){
+                        System.err.println("The Appoint New Team Owner UC was NOT performed successfully");
+                        return;
+                    }
+                    if (member.getSpecificRole(TeamManager.class) == null) {
+                        System.err.println("The Appoint New Team Owner UC was NOT performed successfully");
+                        return;
+                    }
+                    System.out.println("owner2 is now a team manager in team \"NIV Team\"");
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
                 }
-                if (member.getRoles().get(0).getClass() != TeamManager.class){
-                    System.err.println("The Appoint New Team Owner UC was NOT performed successfully");
-                    return;
-                }
-                TeamManager owner2 = (TeamManager) member.getRoles().get(0);
-                if (owner2.getTeam()!=teamOwner.getTeam()){
-                    System.err.println("The Appoint New Team Owner UC was NOT performed successfully");
-                    return;
-                }
-                if (owner2.getAppointer() != teamOwner){
-                    System.err.println("The Appoint New Team Owner UC was NOT performed successfully");
-                    return;
-                }
-                System.out.println("owner2 is now a team manager in team \"team1\"");
                 break;
             }
             case "4.4":
             {
-                TeamOwner teamOwner = serviceLayerManager.findAllTeamOwner().get(0);
-                Member member = new Member("owner2", SHA1Function.hash("owner2"), "owner2@gmail.com", new Address("Israel" , "Israel", "Tel Aviv", "8109054"), "shimon");
+                TeamOwner teamOwner = serviceLayerManager.findAllTeamOwner(nivTeamName).get(0);
+                Guest guestTemp = new Guest("new", "ownerToNiv");
+                Member member = guestTemp.registerAsMember("new ownerToNiv", "ownerToNivpass", "owner2@gmail.com","Israel" , "Israel", "Tel Aviv", "8109054");
                 System.out.println("owner1 is the main team owner of the team \"team1\"");
                 try {
                     serviceLayerManager.performAppointTeamManager(teamOwner, member);
@@ -128,7 +117,6 @@ public class TeamOwnerAcceptanceTest {
                     System.err.println(e.getMessage());
                 }
                 System.out.println("owner2 is a team manager in team \"team2\" by owner1");
-
                 // remove the team owner
                 System.out.println("owner1 wish to remove owner2 from being team owner in team \"team1\"");
                 try {
@@ -136,20 +124,26 @@ public class TeamOwnerAcceptanceTest {
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
-                if (teamOwner.getTeam().getTeam_owners().size()!=1){
-                    System.err.println("The Remove Team Owner UC was NOT performed successfully");
-                    return;
+                try {
+                    serviceLayerManager.logout();
+                    member = serviceLayerManager.login("new ownerToNiv", "ownerToNivpass", "", "");
+                    ArrayList<TeamOwner> allTeamOwners = serviceLayerManager.findAllTeamOwner(nivTeamName);
+                    if (allTeamOwners.size() != 1){
+                        System.err.println("The Remove Team Owner UC was NOT performed successfully");
+                        return;
+                    }
+                    try {
+                        if (member.getSpecificRole(TeamOwner.class) != null){
+                            System.err.println("The Remove Team Owner UC was NOT performed successfully");
+                            return;
+                        }
+                    } catch (ClassNotFoundException e) {
+                        System.out.println("owner2 was successfully removed from being team owner in team \"NIV Team\"");
+                    }
+                    break;
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
                 }
-                if (member.getRoles().size()!=0){
-                    System.err.println("The Remove Team Owner UC was NOT performed successfully");
-                    return;
-                }
-                if (teamOwner.getAppointments().size()!=0){
-                    System.err.println("The Remove Team Owner UC was NOT performed successfully");
-                    return;
-                }
-                System.out.println("owner2 was successfully removed from being team owner in team \"team1\"");
-                break;
             }
             case "4.5":
             {

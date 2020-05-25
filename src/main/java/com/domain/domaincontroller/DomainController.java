@@ -12,7 +12,6 @@ import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.managers.ManageSeasons;
 import com.domain.logic.managers.ManageTeams;
 import com.domain.logic.policies.GameSettingPolicy;
-import com.domain.logic.policies.Policy;
 import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.policies.game_setting_policies.IGameSettingPolicyStrategy;
 import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
@@ -500,8 +499,22 @@ public class DomainController {
         return null;
     }
 
-    public List<TeamOwner> findAllTeamOwner() {
+
+    /**
+     * @return all team owners of a specific team
+     * @param teamName
+     */
+    public ArrayList<TeamOwner> findAllTeamOwner(String teamName) {
         //TODO
         return null;
+    }
+
+    public ArrayList<TeamManager> findAllTeamManager(String teamName) {
+        //TODO
+        return null;
+    }
+
+    public void logout() {
+        //TODO
     }
 }
