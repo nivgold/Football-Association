@@ -116,7 +116,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
 
     public IRole getSpecificRole(Class<? extends IRole> role) throws ClassNotFoundException {
         for (IRole memberRole : this.roles){
-            if (memberRole.getClass().equals(role.getClass()))
+            if (memberRole.getClass().getName().equals(role.getName()))
                 return memberRole;
         }
         throw new ClassNotFoundException("this member has no "+role.getClass());

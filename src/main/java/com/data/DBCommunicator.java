@@ -11,10 +11,7 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 import org.springframework.stereotype.Repository;
 
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -58,16 +55,17 @@ public class DBCommunicator implements Dao {
     @Override
     public boolean hasTeam(String teamOwnerUsername) throws Exception {
         Connection connection = DBConnector.getConnection();
-        String sql = "SELECT teamID FROM member INNER JOIN team_owner ON " +
+        String sql = "SELECT team_owner.* FROM member INNER JOIN team_owner ON " +
                 "team_owner.memberID=member.memberID " +
-                "WHERE member.username LIKE ?";
+                "WHERE member.username = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, teamOwnerUsername);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
+            if (resultSet.next()){
                 if (resultSet.getInt("teamID")!=0)
                     return true;
+            }
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -421,25 +419,25 @@ public class DBCommunicator implements Dao {
             //first create new team
             Member member = teamOwner.getMember();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, member.getName());
+            preparedStatement.setString(1, member.getUserName());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 int teamOwnerID = resultSet.getInt(1);
                 //create team
                 String queryInsertTeam = "INSERT INTO team (teamName) VALUES (?)";
-                PreparedStatement statementInsertTeam = connection.prepareStatement(queryInsertTeam);
+                PreparedStatement statementInsertTeam = connection.prepareStatement(queryInsertTeam, Statement.RETURN_GENERATED_KEYS);
                 statementInsertTeam.setString(1, teamName);
                 statementInsertTeam.executeUpdate();
                 int teamID;
                 ResultSet rs = statementInsertTeam.getGeneratedKeys();
                 if (rs.next()){
-                    teamID = rs.getInt("teamID");
+                    teamID = rs.getInt(1);
                 }
                 else
                     throw new Exception("new team wan't added properly");
                 //create address
                 String queryInsertAddress = "INSERT INTO address (country, state, city, postalCode) VALUES (?,?,?,?)";
-                PreparedStatement statementInsertAddress = connection.prepareStatement(queryInsertAddress);
+                PreparedStatement statementInsertAddress = connection.prepareStatement(queryInsertAddress, Statement.RETURN_GENERATED_KEYS);
                 statementInsertAddress.setString(1, country);
                 statementInsertAddress.setString(2, state);
                 statementInsertAddress.setString(3, city);
@@ -448,20 +446,20 @@ public class DBCommunicator implements Dao {
                 int fieldAddressID;
                 rs = statementInsertAddress.getGeneratedKeys();
                 if (rs.next()){
-                    fieldAddressID = rs.getInt("addressID");
+                    fieldAddressID = rs.getInt(1);
                 }
                 else
                     throw new Exception("new address for the team's field wan't added properly");
                 //create field
                 String queryInsertField = "INSERT INTO field (teamID, addressID) VALUES (?,?)";
-                PreparedStatement statementInsertField = connection.prepareStatement(queryInsertField);
+                PreparedStatement statementInsertField = connection.prepareStatement(queryInsertField, Statement.RETURN_GENERATED_KEYS);
                 statementInsertField.setInt(1, teamID);
                 statementInsertField.setInt(2, fieldAddressID);
                 statementInsertField.executeUpdate();
                 int fieldID;
                 rs = statementInsertField.getGeneratedKeys();
                 if (rs.next()){
-                    fieldID = rs.getInt("fieldID");
+                    fieldID = rs.getInt(1);
                 }
                 else
                     throw new Exception("new field for the team wan't added properly");
@@ -495,7 +493,7 @@ public class DBCommunicator implements Dao {
         ScriptRunner runner=new ScriptRunner(connection);
         InputStreamReader reader = null;
         try {
-            reader = new InputStreamReader(new FileInputStream("sql_scripts\\footballassociationdb.sql"));
+            reader = new InputStreamReader(new FileInputStream(new File("src\\main\\java\\com\\data\\sql_scripts\\footballassociationdb_schema_create.sql")));
             runner.runScript(reader);
             reader.close();
             connection.close();

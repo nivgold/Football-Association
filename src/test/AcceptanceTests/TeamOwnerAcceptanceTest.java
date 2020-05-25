@@ -27,7 +27,8 @@ public class TeamOwnerAcceptanceTest {
                 Member koren;
                 try {
                     koren = serviceLayerManager.login("teamOwner_Koren", "korenpass", "koren", "");
-                    serviceLayerManager.createTeam(koren.getUserName(), "KOREN Team", "Israel", "None", "Tel Aviv", "7346574236");
+                    if(serviceLayerManager.createTeam(koren.getUserName(), "KOREN Team", "Israel", "None", "Tel Aviv", "7346574236"))
+                        System.out.println("successfully created new team in the system");
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }

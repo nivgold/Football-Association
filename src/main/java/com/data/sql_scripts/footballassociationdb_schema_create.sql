@@ -168,7 +168,7 @@ CREATE TABLE team(
     teamName varchar (255) UNIQUE NOT NULL,
     teamStatus BOOLEAN DEFAULT TRUE,
     -- FOREIGN KEYS
-    fieldID int
+    fieldID int UNIQUE
 );
 
 -- adding TeamOwner team foreign key
@@ -419,6 +419,14 @@ INSERT INTO team (teamName, fieldID)
 
 INSERT INTO `team_owner` (`memberID`, teamID)
     VALUES (3, 2);
+
+UPDATE field
+    SET field.teamID = 1
+    WHERE fieldID = 1;
+
+UPDATE field
+SET field.teamID = 2
+WHERE fieldID = 2;
 
 UPDATE member
     SET teamOwnerID = 3

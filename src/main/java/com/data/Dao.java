@@ -1,6 +1,5 @@
 package com.data;
 
-import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.GameIdentifier;
 import com.domain.logic.football.*;
 import com.domain.logic.roles.*;

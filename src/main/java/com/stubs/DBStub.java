@@ -1,7 +1,7 @@
 package com.stubs;
 
-import com.data.DBCommunicator;
 import com.data.Dao;
+import com.domain.logic.data_types.GameIdentifier;
 import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.football.*;
 import com.domain.logic.policies.GameSettingPolicy;
@@ -110,7 +110,12 @@ public class DBStub implements Dao {
     }
 
     @Override
-    public Game getRefereeActiveGame(String refereeUsername) throws Exception {
+    public GameIdentifier getRefereeActiveGame(String refereeUsername) throws Exception {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getAllTeamPlayers(String teamName) throws Exception {
         return null;
     }
 
