@@ -1,6 +1,8 @@
 package com.service;
 
 import com.domain.domaincontroller.DomainController;
+import com.domain.logic.data_types.Address;
+import com.domain.logic.users.Member;
 import com.service.request_data_holders.*;
 import com.service.responses.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +37,12 @@ public class ApplicationController {
      * api/v1/login/
      * @return
      */
-    @PostMapping("/login")
+    @PostMapping("/login") //TODO no need for response annotation?
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
-        if (domainController.login(loginRequest.getUserName(),loginRequest.getPassword(), loginRequest.getFirstName(), loginRequest.getLastName()))
-            return new LoginResponse(loginRequest.getUserName(),"true");
-        return new LoginResponse(loginRequest.getUserName(), "false");
+        Member member = domainController.login(loginRequest.getUserName(),loginRequest.getPassword(), loginRequest.getFirstName(), loginRequest.getLastName());
+        if (member==null)
+            return new LoginResponse(null,"false");
+        return new LoginResponse(member,"true");
     }
 
 
@@ -65,6 +68,10 @@ public class ApplicationController {
     public void defineGameRankingPolicy(@RequestBody RankingPolicyRequest rankingPolicyRequest) {
         domainController.defineGameRankingPolicy(rankingPolicyRequest.getAssociationAgentUsername(),rankingPolicyRequest.getLeagueName(),rankingPolicyRequest.getSeasonYear(),rankingPolicyRequest.getWin(),rankingPolicyRequest.getGoal(),rankingPolicyRequest.getDraw(),rankingPolicyRequest.getYellowCards(),rankingPolicyRequest.getRedCards());
     }
+
+
+    // ------------------------4.1.Referee Adds Events To Game------
+
 
 
 

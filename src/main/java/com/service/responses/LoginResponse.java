@@ -1,20 +1,22 @@
 package com.service.responses;
 
+import com.domain.logic.users.Member;
+
 public class LoginResponse {
 
-    String userName;
+    Member member;
     String status;
 
-    public LoginResponse(String userName, String succeeded) {
-        this.userName = userName;
-        this.status = succeeded;
+    public LoginResponse(Member member, String status) {
+        this.status = status;
+        this.member = member;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getSucceeded() {
+    public String getStatus() {
         return status;
+    }
+
+    public Member getMember() {
+        return member;
     }
 }
