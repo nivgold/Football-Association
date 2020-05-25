@@ -15,6 +15,8 @@ public class Policy {
 
     public Policy(SeasonInLeague seasonInLeague){
         this.seasonInLeague = seasonInLeague;
+        this.gameSettingPolicy = null;
+        this.rankingPolicy = null;
     }
 
     public Policy(SeasonInLeague seasonInLeague, GameSettingPolicy gameSettingPolicy, RankingPolicy rankingPolicy){

@@ -18,6 +18,9 @@ public interface Dao {
     Player findPlayer(int playerID);
     boolean hasTeam(String teamOwnerUsername, String teamName);
     void addLog(String data) throws SQLException;
+    SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception;
+    void setGameSettingPolicy(int seasonYear, String leagueName, boolean gameSettingPolicyField) throws Exception;
+    void setGameRankingPolicy(int seasonYear, String leagueName, int win, int goals, int draw, int yellowCards, int redCards) throws Exception;
     // -------------added functions---------------
 
 
@@ -27,7 +30,7 @@ public interface Dao {
      * @param leagueName
      * @return the league with that name
      */
-    public League findLeague(String leagueName);
+    public League findLeague(String leagueName) throws Exception;
 
     /**
      * removes league from data
@@ -149,7 +152,7 @@ public interface Dao {
      * @param seasonYear
      * @return the season in that year
      */
-    public Season findSeason(Integer seasonYear);
+    public Season findSeason(Integer seasonYear) throws Exception;
 
     /**
      * removes season from data
