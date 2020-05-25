@@ -57,7 +57,7 @@ public class DomainController {
         try {
             Member member = AssociationSystem.getInstance().findConnectedUser(teamOwnerUsername);
             TeamOwner teamOwner = (TeamOwner) member.getSpecificRole(TeamOwner.class);
-            if (dao.hasTeam(teamOwnerUsername, teamName)) throw new Exception("team owner has team already");
+            if (dao.hasTeam(teamOwnerUsername)) throw new Exception("team owner has team already");
             teamOwner.createTeam(teamName, new Field(fieldCountry, fieldState, fieldCity, fieldPostalCode));
             // TODO - send OK to the service layer
             return true;
@@ -112,12 +112,13 @@ public class DomainController {
     }
 
     // ------------------------4.1.Referee Adds Events To Game------
-    public boolean addGameEvent(String refereeUsername, int gameID, Date date, int gameMinute, String description, EventType type, int playerID){
+    public boolean addGameEvent(String refereeUsername, int gameID, Date date, int gameMinute, String description, EventType type, String playerUsername){
         try{
-            Member member = AssociationSystem.getInstance().findConnectedUser(refereeUsername);
-            Referee referee = (Referee) member.getSpecificRole(Referee.class);
+            Member memberReferee = AssociationSystem.getInstance().findConnectedUser(refereeUsername);
+            Referee referee = (Referee) memberReferee.getSpecificRole(Referee.class);
+            Member memberPlayer = dao.findMember(playerUsername);
+            Player player = (Player) memberPlayer.getSpecificRole(Player.class);
             Game game = dao.findGame(gameID);
-            Player player = dao.findPlayer(playerID);
             // create the game event
             return  referee.createGameEvent(gameMinute, description, type, date, game, player);
             // TODO - send OK message to service layer

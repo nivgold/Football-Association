@@ -5,7 +5,9 @@ import com.domain.logic.AssociationSystem;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.football.League;
 import com.domain.logic.football.Season;
+import com.domain.logic.football.SeasonInLeague;
 import com.domain.logic.policies.GameSettingPolicy;
+import com.domain.logic.policies.Policy;
 import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
 import com.domain.logic.roles.AssociationAgent;
@@ -115,36 +117,40 @@ public class AssociationAgentTest {
 
     @Test
     public void setRankingPolicy() {
-        League league = this.system.getManageLeagues().findLeague("league1");
-        Season season = league.getSeasons().get(0);
-        RankingPolicy rankingPolicy = new RankingPolicy(league.getSeasonLeaguePolicy().get(season), 5, 1, 0, 0, 0);
-
-        // setting Ranking Policy successfully
+        League league = new LeagueStub("league");
+        SeasonInLeague seasonInLeague = ((LeagueStub)league).seasonInLeagues.get(0);
+        Season season=  seasonInLeague.getSeason();
+        Policy policy = seasonInLeague.getPolicy();
+        // setting successfully
+        RankingPolicy rankingPolicy = new RankingPolicy(policy, 1, 2, 3, 4, 5);
         try {
             this.associationAgent.setRankingPolicy(league, season, rankingPolicy);
         } catch (Exception e) {
-            e.printStackTrace();
         }
         assertEquals(rankingPolicy, league.getSeasonLeaguePolicy().get(season).getRankingPolicy());
+
     }
 
     @Test
     public void setGameSettingPolicy() {
-        League league = this.system.getManageLeagues().findLeague("league1");
-        Season season = league.getSeasons().get(0);
-        GameSettingPolicy gameSettingPolicy = new GameSettingPolicy(league.getSeasonLeaguePolicy().get(season), new OneMatchEachPairSettingPolicy());
+        League league = new LeagueStub("league");
+        SeasonInLeague seasonInLeague = ((LeagueStub)league).seasonInLeagues.get(0);
+        Season season=  seasonInLeague.getSeason();
+        Policy policy = seasonInLeague.getPolicy();
+        // setting successfully
         try {
-            // setting Game Setting Policy successfully
-            this.associationAgent.setGameSettingPolicy(league, season, gameSettingPolicy);
-            assertEquals(gameSettingPolicy, league.getSeasonLeaguePolicy().get(season).getGameSettingPolicy());
-
-            // same Game Setting Policy already defined
-            this.associationAgent.setGameSettingPolicy(league, season, new GameSettingPolicy(league.getSeasonLeaguePolicy().get(season), new OneMatchEachPairSettingPolicy()));
-            assertEquals(gameSettingPolicy, league.getSeasonLeaguePolicy().get(season).getGameSettingPolicy());
+            this.associationAgent.setGameSettingPolicy(league, season, new GameSettingPolicy(policy, new OneMatchEachPairSettingPolicy()));
         } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+        }
+        assertEquals(OneMatchEachPairSettingPolicy.class, seasonInLeague.getPolicy().getGameSettingPolicy().getSettingStrategy().getClass());
+
+        // game setting policy already defined
+        try {
+            this.associationAgent.setGameSettingPolicy(league, season, new GameSettingPolicy(policy, new OneMatchEachPairSettingPolicy()));
+        } catch (Exception e) {
+        }
+        assertEquals(OneMatchEachPairSettingPolicy.class, seasonInLeague.getPolicy().getGameSettingPolicy().getSettingStrategy().getClass());
     }
 
     @Test

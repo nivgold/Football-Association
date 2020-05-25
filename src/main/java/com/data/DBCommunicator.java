@@ -33,20 +33,43 @@ public class DBCommunicator implements Dao {
 
     // -------------added functions---------------
     @Override
-    public boolean checkIfTeamExists(String teamName){
-        return false;
+    public boolean checkIfTeamExists(String teamName) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT * FROM team WHERE teamName LIKE ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, teamName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                return true;
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("SQL exception");
+        }
     }
     @Override
     public Game findGame(int gameID){
         return null;
     }
     @Override
-    public Player findPlayer(int playerID){
-        return null;
-    }
-    @Override
-    public boolean hasTeam(String teamOwnerUsername, String teamName){
-        return false;
+    public boolean hasTeam(String teamOwnerUsername) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT teamID FROM member INNER JOIN team_owner ON " +
+                "team_owner.memberID=member.memberID " +
+                "WHERE member.username LIKE ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, teamOwnerUsername);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                if (resultSet.getInt("teamID")!=0)
+                    return true;
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("SQL exception");
+        }
     }
     @Override
     public void addLog(String data) throws SQLException {
@@ -223,6 +246,57 @@ public class DBCommunicator implements Dao {
     @Override
     public void removeAllLeagues() {
 
+    }
+
+    @Override
+    public Member findMember(String username) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT * FROM member INNER JOIN" +
+                " address ON address.addressID=member.addressID " +
+                " WHERE username LIKE ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Member member = null;
+            while (resultSet.next()){
+                String userName = resultSet.getString("username");
+                String passwordHash = resultSet.getString("passwordHash");
+                String email = resultSet.getString("email");
+                String country = resultSet.getString("country");
+                String state = resultSet.getString("state");
+                String city = resultSet.getString("city");
+                String postalCode = resultSet.getString("postalCode");
+                Address address = new Address(country, state, city, postalCode);
+                String name = resultSet.getString("name");
+                // has member
+                member = new Member(userName, passwordHash, email, address, name);
+
+                // check for coach
+                int coachID = resultSet.getInt("coachID");
+                if (coachID != 0) new Coach(member);
+                // check for team owner
+                int teamOwnerID = resultSet.getInt("teamOwnerID");
+                if (teamOwnerID !=0 ) new TeamOwner(member);
+                // check for team manager
+                int teamManagerID = resultSet.getInt("teamManagerID");
+                if (teamManagerID !=0 ) new TeamManager(member);
+                // check for player
+                int playerID = resultSet.getInt("playerID");
+                if (playerID !=0 ) new Player(member);
+                // check for referee
+                int refereeID = resultSet.getInt("refereeID");
+                if (refereeID !=0 ) new Referee(member);
+                // check for association agent
+                int associationAgentID = resultSet.getInt("associationAgentID");
+                if (associationAgentID !=0 ) new AssociationAgent(member);
+            }
+            connection.close();
+            return member;
+        } catch (SQLException e) {
+            connection.close();
+            throw new Exception("SQL exception");
+        }
     }
 
     @Override

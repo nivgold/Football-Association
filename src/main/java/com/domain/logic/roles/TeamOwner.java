@@ -30,6 +30,8 @@ public class TeamOwner implements IRole, ITeamObserver {
     }
 
     public void createTeam(String teamName, Field field) throws Exception {
+        if (team!=null)
+            throw new Exception("team owner already has team");
         Dao dao = DBCommunicator.getInstance();
         if (!dao.checkIfTeamExists(teamName)){
             Address fieldAddress = field.getLocation();

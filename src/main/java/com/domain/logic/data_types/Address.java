@@ -33,22 +33,6 @@ public class Address {
         this.postalCode = postalCode;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
     @Override
     public String toString() {
         return "Business.data_types.Address{" +

@@ -13,10 +13,10 @@ public interface Dao {
 
 
     // -------------added functions---------------
-    boolean checkIfTeamExists(String teamName);
+    boolean checkIfTeamExists(String teamName) throws Exception;
     Game findGame(int gameID);
-    Player findPlayer(int playerID);
-    boolean hasTeam(String teamOwnerUsername, String teamName);
+    Member findMember(String username) throws Exception;
+    boolean hasTeam(String teamOwnerUsername) throws Exception;
     void addLog(String data) throws SQLException;
     SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception;
     void setGameSettingPolicy(int seasonYear, String leagueName, boolean gameSettingPolicyField) throws Exception;

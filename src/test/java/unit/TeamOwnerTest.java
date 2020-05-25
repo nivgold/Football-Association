@@ -12,6 +12,8 @@ import com.domain.logic.roles.TeamManager;
 import com.domain.logic.roles.TeamOwner;
 import com.domain.logic.users.Member;
 import com.domain.logic.utils.SHA1Function;
+import com.stubs.DBStub;
+import com.stubs.TeamOwnerStub;
 import com.stubs.TeamStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,11 +31,45 @@ public class TeamOwnerTest {
     public void beforeTestMethod() throws Exception {
         AssociationSystem.getInstance().clearSystem();
         Member member = new Member("owner", SHA1Function.hash("owner"), "owner@gmail.com", new Address("Israel", "Israel", "Haifa", "3189240"), "moshe");
-        this.teamOwner = new TeamOwner(member);
+        this.teamOwner = new TeamOwnerStub(member);
         // creating a team for the team owner
         this.teamStub = new TeamStub("Hapoel Beer Sheva", TeamStatus.Open, this.teamOwner, new Field("Israel", "Israel", "Haifa", "2018756"));
         this.teamStub.teamOwners.add(this.teamOwner);
         this.teamOwner.setTeam(this.teamStub);
+        DBStub.members.add(member);
+        DBStub.teams.add(teamStub);
+    }
+
+    @Test
+    public void createTeam() {
+        // failed to create team because already has
+        try {
+            this.teamOwner.createTeam("Blabla", new Field("123", "123", "123","123"));
+        } catch (Exception e) {
+        }
+        assertEquals(1, DBStub.teams.size());
+
+        Member member = new Member("owner2", SHA1Function.hash("123"), "123", new Address("123", "123", "!23", "123"), "name");
+        TeamOwner teamOwner2 = null;
+        try {
+            teamOwner2 = new TeamOwnerStub(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        DBStub.members.add(member);
+        // team already exists
+        try {
+            teamOwner2.createTeam("Hapoel Beer Sheva", new Field("Israel", "Israel", "Haifa", "2018756"));
+        } catch (Exception e) {
+        }
+        assertEquals(1, DBStub.teams.size());
+
+        try {
+            teamOwner2.createTeam("Blaa", new Field("Israel", "Israel", "Haifa", "2018756"));
+        } catch (Exception e) {
+        }
+        assertEquals(2, DBStub.teams.size());
+
     }
 
     @Test
