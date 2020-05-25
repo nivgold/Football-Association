@@ -3,22 +3,24 @@ package com.service.request_data_holders;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Date;
+
 public class AddEventToGameRequest {
 
-    private String refereeUsername;
-    private int gameID;
+    String refereeUsername;
+    int gameID;
     int gameMinute;
     String description;
     String type;
-    int playerID;
+    String playerUsername;
 
-    public AddEventToGameRequest(@JsonProperty("refereeUsername")String refereeUsername, @JsonProperty("gameID")int gameID, @JsonProperty("gameMinute")int gameMinute, @JsonProperty("description")String description, @JsonProperty("type")String type, @JsonProperty("playerID")int playerID) {
+    public AddEventToGameRequest(@JsonProperty("refereeUsername")String refereeUsername, @JsonProperty("gameID")int gameID, @JsonProperty("gameMinute")int gameMinute, @JsonProperty("description")String description, @JsonProperty("type")String type, @JsonProperty("PlayerUsername")String playerUsername) {
         this.refereeUsername = refereeUsername;
         this.gameID = gameID;
         this.gameMinute = gameMinute;
         this.description = description;
         this.type = type;
-        this.playerID = playerID;
+        this.playerUsername = playerUsername;
     }
 
     public String getRefereeUsername() {
@@ -41,7 +43,7 @@ public class AddEventToGameRequest {
         return type;
     }
 
-    public int getPlayerID() {
-        return playerID;
+    public String getPlayerUsername() {
+        return playerUsername;
     }
 }
