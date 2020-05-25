@@ -2,6 +2,7 @@ package com.data;
 
 
 import com.domain.logic.data_types.Address;
+import com.domain.logic.data_types.GameIdentifier;
 import com.domain.logic.football.*;
 import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
@@ -197,8 +198,29 @@ public class DBCommunicator implements Dao {
         }
     }
     @Override
-    public Game getRefereeActiveGame(String refereeUsername) throws Exception {
-        return null;
+    public GameIdentifier getRefereeActiveGame(String refereeUsername) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT game.gameID, t.teamName as guestName, t2.teamName as hostName FROM referee INNER JOIN member ON " +
+                "referee.memberID = member.memberID INNER JOIN side_referee_in_game ON " +
+                "side_referee_in_game.side_referee_id = referee.refereeID INNER JOIN game ON " +
+                "game.gameID = side_referee_in_game.gameID INNER JOIN team t ON game.guest_teamID = t.teamID " +
+                "INNER JOIN team t2 ON t2.teamID = game.host_teamID " +
+                "WHERE member.username LIKE ? AND NOW() BETWEEN game.date AND DATE_ADD(game.date, INTERVAL 100 MINUTE)";
+        try{
+            GameIdentifier gameIdentifier = null;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, refereeUsername);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                int gameID = resultSet.getInt("gameID");
+                String guestName = resultSet.getString("guestName");
+                String hostName = resultSet.getString("hostName");
+                gameIdentifier = new GameIdentifier(gameID, hostName, guestName);
+            }
+            return gameIdentifier;
+        } catch (SQLException e) {
+            throw new Exception("cannot perform operation");
+        }
     }
 
 //    @Override

@@ -1,6 +1,7 @@
 package com.data;
 
 import com.domain.logic.data_types.Address;
+import com.domain.logic.data_types.GameIdentifier;
 import com.domain.logic.football.*;
 import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
@@ -21,7 +22,7 @@ public interface Dao {
     SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception;
     void setGameSettingPolicy(int seasonYear, String leagueName, boolean gameSettingPolicyField) throws Exception;
     void setGameRankingPolicy(int seasonYear, String leagueName, int win, int goals, int draw, int yellowCards, int redCards) throws Exception;
-    Game getRefereeActiveGame(String refereeUsername) throws Exception;
+    GameIdentifier getRefereeActiveGame(String refereeUsername) throws Exception;
     // -------------added functions---------------
 
 
