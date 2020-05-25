@@ -1,7 +1,10 @@
 package com.domain.logic.enums;
 
+import org.apache.catalina.valves.rewrite.Substitution;
+
 public enum EventType {
-    Goal,
+    HostGoal,
+    GuestGoal,
     Offside,
     Foul,
     YellowCard,
@@ -11,8 +14,10 @@ public enum EventType {
 
     public static EventType strToEventType(String type) {
         switch(type) {
-            case "Goal":
-                return  Goal;
+            case "HostGoal":
+                return  HostGoal;
+            case "GuestGoal":
+                return GuestGoal;
             case "Offside":
                 return Offside;
             case  "Foul" :

@@ -45,6 +45,12 @@ public class Referee implements IRole, IGameObserver {
         boolean isAuthorized = main.contains(game) || side.contains(game);
         if (isAuthorized) {
             Event e = new Event(gameMinute, description, type, dateTime, game, player);
+            if (type==EventType.GuestGoal){
+                game.setGuestTeamScore(game.getGuestTeamScore()+1);
+            }
+            else if (type==EventType.HostGoal){
+                game.setHostTeamScore(game.getHostTeamScore()+1);
+            }
             game.getEvents().add(e);
             //TODO call DAO to add new event to game
             return true;

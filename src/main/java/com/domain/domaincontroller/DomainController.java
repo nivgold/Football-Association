@@ -4,6 +4,7 @@ package com.domain.domaincontroller;
 import com.data.Dao;
 import com.domain.logic.AssociationSystem;
 import com.domain.logic.RecommenderSystem;
+import com.domain.logic.data_types.GameIdentifier;
 import com.domain.logic.enums.EventType;
 import com.domain.logic.enums.PlayerRole;
 import com.domain.logic.football.*;
@@ -151,6 +152,32 @@ public class DomainController {
     // ------------------------4.3.Game Notifications To Users------
     public void sendNotification(String username){
 
+    }
+
+    // ------------------------Additions-----------------------------
+    public ArrayList<String> getAllLeaguesNames(){
+        try {
+            return dao.getAllLeaguesNames();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    public GameIdentifier getRefereeActiveGame(String refereeUsername){
+        try{
+            return dao.getRefereeActiveGame(refereeUsername);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    public ArrayList<String> getAllTeamPlayers(String teamName){
+        try{
+            return dao.getAllTeamPlayers(teamName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
 
