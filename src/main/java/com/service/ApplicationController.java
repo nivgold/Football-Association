@@ -8,6 +8,9 @@ import com.service.responses.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 @RequestMapping("api/v1")
 @RestController
 public class ApplicationController {
@@ -72,14 +75,42 @@ public class ApplicationController {
     // ------------------------3.2.Define Game Ranking Policy-------
     @PostMapping("/setRankingPolicy")
     public StatusResponse defineGameRankingPolicy(@RequestBody RankingPolicyRequest rankingPolicyRequest) {
-        domainController.defineGameRankingPolicy(rankingPolicyRequest.getAssociationAgentUsername(),rankingPolicyRequest.getLeagueName(),rankingPolicyRequest.getSeasonYear(),rankingPolicyRequest.getWin(),rankingPolicyRequest.getGoal(),rankingPolicyRequest.getDraw(),rankingPolicyRequest.getYellowCards(),rankingPolicyRequest.getRedCards());
-        return null;
+        if (domainController.defineGameRankingPolicy(rankingPolicyRequest.getAssociationAgentUsername(),rankingPolicyRequest.getLeagueName(),rankingPolicyRequest.getSeasonYear(),rankingPolicyRequest.getWin(),rankingPolicyRequest.getGoal(),rankingPolicyRequest.getDraw(),rankingPolicyRequest.getYellowCards(),rankingPolicyRequest.getRedCards())) {
+            return StatusResponse.getTrueStatusObj();
+        }
+        return StatusResponse.getFalseStatusObj();
     }
 
 
+    // ------------------------***4:***------------------------------
 
     // ------------------------4.1.Referee Adds Events To Game------
+    @PostMapping("/addEventToGame")
+    public StatusResponse addEventToGame(@RequestBody AddEventToGameRequest addEventToGameRequest) {
+        if (domainController.addGameEvent(addEventToGameRequest.getRefereeUsername(),addEventToGameRequest.getGameID(),new Date(),addEventToGameRequest.getGameMinute(),addEventToGameRequest.getDescription(),addEventToGameRequest.getType(),addEventToGameRequest.getPlayerID())) {
+            return StatusResponse.getTrueStatusObj();
+        }
+        return StatusResponse.getFalseStatusObj();
+    }
 
+    // ------------------------4.2.Referee Create Game Report-------
+    @PostMapping("/createGameReport")
+    public StatusResponse createGameReport(@RequestBody CreateReportRequest createReportRequest) {
+        if (domainController.createGameReport(createReportRequest.getRefereeUsername(),createReportRequest.getGameID())) {
+            return StatusResponse.getTrueStatusObj();
+        }
+        return StatusResponse.getFalseStatusObj();
+    }
+
+
+    // ------------------------required info-------
+
+    // ------------------------leagues-------
+    @GetMapping("/getLeagueNames")
+    public ArrayList<String> getLeagueNames() {
+        return null;
+
+    }
 
 
 

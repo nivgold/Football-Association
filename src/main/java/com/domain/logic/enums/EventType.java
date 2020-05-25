@@ -7,5 +7,26 @@ public enum EventType {
     YellowCard,
     RedCard,
     Injury,
-    Substitution
+    Substitution;
+
+    public static EventType strToEventType(String type) {
+        switch(type) {
+            case "Goal":
+                return  Goal;
+            case "Offside":
+                return Offside;
+            case  "Foul" :
+                return Foul;
+            case "YellowCard":
+                return YellowCard;
+            case "RedCard":
+                return RedCard;
+            case "Injury":
+                return Injury;
+            case "Substitution":
+                return Substitution;
+            default:
+                return null;
+        }
+    }
 }
