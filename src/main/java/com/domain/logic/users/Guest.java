@@ -52,6 +52,7 @@ public class Guest {
         }
         if (newMember == null){
             Address memberAdd = new Address(country, state, city, postalCode);
+            //TODO add new member to dao
             newMember = new Member(userName, hashPassword, email, memberAdd, this.firstName + " " + this.lastName);
             Logger.getInstance().saveLog("the guest: " + this.firstName + " register as the member: " + userName);
             return newMember;
