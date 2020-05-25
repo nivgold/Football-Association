@@ -27,8 +27,14 @@ public class TeamOwnerAcceptanceTest {
                 Member koren;
                 try {
                     koren = serviceLayerManager.login("teamOwner_Koren", "korenpass", "koren", "");
-                    if(serviceLayerManager.createTeam(koren.getUserName(), "KOREN Team", "Israel", "None", "Tel Aviv", "7346574236"))
+                    if(serviceLayerManager.createTeam(koren.getUserName(), "Koren Team", "Israel", "None", "Tel Aviv", "7346574236"))
                         System.out.println("successfully created new team in the system");
+                    else
+                        System.err.println("didn't successfully created new team in the system");
+                    if(!serviceLayerManager.createTeam(koren.getUserName(), "Koren Team", "Israel", "None", "Tel Aviv", "7346574236"))
+                        System.out.println("successfully didn't create another new team to same team owner in the system");
+                    else
+                        System.err.println("created another new team to a team owner with team in the system, ERROR!");
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
