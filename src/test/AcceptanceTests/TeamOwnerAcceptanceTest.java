@@ -8,7 +8,7 @@ import com.domain.logic.users.Member;
 import java.util.ArrayList;
 
 public class TeamOwnerAcceptanceTest {
-    private static String nivTeamName = "NIV Team";
+    private static String nivTeamName = "Niv Team";
     public TeamOwnerAcceptanceTest() {
     }
 

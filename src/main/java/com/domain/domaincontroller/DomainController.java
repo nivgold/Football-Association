@@ -59,7 +59,6 @@ public class DomainController {
         try {
             Member member = AssociationSystem.getInstance().findConnectedUser(teamOwnerUsername);
             TeamOwner teamOwner = (TeamOwner) member.getSpecificRole(TeamOwner.class);
-            if (dao.hasTeam(teamOwnerUsername)) throw new Exception("team owner has team already");
             teamOwner.createTeam(teamName, new Field(fieldCountry, fieldState, fieldCity, fieldPostalCode));
             // TODO - send OK to the service layer
             return true;
