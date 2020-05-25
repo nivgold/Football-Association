@@ -10,6 +10,11 @@ public class GuestAcceptanceTest {
 
     public static void activate(String UC_NAME){
         DomainController serviceLayerManager = new DomainController(DBCommunicator.getInstance());
+        try {
+            serviceLayerManager.performResetSystem();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         Guest guest = new Guest("unknown","unknown");
 
         switch (UC_NAME) {

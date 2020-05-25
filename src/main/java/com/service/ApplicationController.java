@@ -2,8 +2,10 @@ package com.service;
 
 import com.domain.domaincontroller.DomainController;
 import com.domain.logic.data_types.Address;
+import com.domain.logic.data_types.GameIdentifier;
 import com.domain.logic.users.Member;
 import com.service.request_data_holders.*;
+import com.service.responses.GameIdentifierResponse;
 import com.service.responses.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -104,14 +106,28 @@ public class ApplicationController {
     }
 
 
-    // ------------------------required info-------
+    // ------------------------others-------
 
-    // ------------------------leagues-------
+    // ------------------------get all leagues-------
     @GetMapping("/getLeagueNames")
     public ArrayList<String> getLeagueNames() {
-        return null;
-
+        return domainController.getAllLeaguesNames();
     }
+
+    //------------------------getRefereeActiveGame-----
+    @GetMapping("/getRefereeActiveGame")
+    public GameIdentifierResponse getRefereeActiveGame(@RequestParam("refereeUsername") String refereeUsername){
+        GameIdentifier gameIdentifier = domainController.getRefereeActiveGame(refereeUsername);
+        return new GameIdentifierResponse(gameIdentifier.getGameID(),gameIdentifier.getHostTeamName(),gameIdentifier.getGuestTeamName());
+    }
+
+    //------------------------getAllTeamPlayers-----
+    @GetMapping("/getTeamPlayerNames")
+    public ArrayList<String> getAllTeamPlayers(@RequestParam String teamName){
+        return domainController.getAllTeamPlayers(teamName);
+    }
+
+
 
 
 

@@ -110,6 +110,11 @@ public class DBStub implements Dao {
     }
 
     @Override
+    public Game getRefereeActiveGame(String refereeUsername) throws Exception {
+        return null;
+    }
+
+    @Override
     public League findLeague(String leagueName) throws Exception {
         for (League league : this.leagues){
             if (league.getLeagueName().equals(leagueName))
@@ -134,7 +139,7 @@ public class DBStub implements Dao {
     }
 
     @Override
-    public ArrayList<League> getAllLeagues() {
+    public ArrayList<String> getAllLeaguesNames() throws Exception {
         return null;
     }
 
@@ -278,5 +283,10 @@ public class DBStub implements Dao {
                 return;
         }
         this.teams.add(new Team(teamName, TeamStatus.Open, teamOwner, new Field(country, state, city, postalCode)));
+    }
+
+    @Override
+    public void resetSystem() {
+
     }
 }

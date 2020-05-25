@@ -17,6 +17,11 @@ public class RefereeAcceptanceTest {
 
     public static void activate(String UC_NAME){
         DomainController serviceLayerManager = new DomainController(DBCommunicator.getInstance());
+        try {
+            serviceLayerManager.performResetSystem();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         Referee referee = null;
         try {
             referee = new Referee(new Member("","","",null,""));

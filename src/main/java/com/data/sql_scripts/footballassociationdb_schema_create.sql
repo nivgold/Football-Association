@@ -1,5 +1,33 @@
 use footballassociationdb;
 
+-- drop all tables if exists
+SET FOREIGN_KEY_CHECKS = 0;
+drop table if exists address;
+drop table if exists association_agent;
+drop table if exists coach;
+drop table if exists coach_in_team;
+drop table if exists complaint;
+drop table if exists event;
+drop table if exists field;
+drop table if exists game;
+drop table if exists league;
+drop table if exists log;
+drop table if exists member;
+drop table if exists player;
+drop table if exists player_in_team;
+drop table if exists policy;
+drop table if exists rankingPolicy;
+drop table if exists referee;
+drop table if exists refereesInSIL;
+drop table if exists season;
+drop table if exists seasonInLeague;
+drop table if exists side_referee_in_game;
+drop table if exists team;
+drop table if exists team_manager;
+drop table if exists team_owner;
+drop table if exists teamsInSIL;
+SET FOREIGN_KEY_CHECKS = 1;
+
 -- create Complaint table
 CREATE TABLE complaint(
     complaintID int NOT NULL AUTO_INCREMENT,

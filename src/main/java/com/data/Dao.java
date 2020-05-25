@@ -223,4 +223,6 @@ public interface Dao {
     public void removeAllTeams();
 
     void addTeam(String teamName, String country, String state, String city, String postalCode, TeamOwner teamOwner) throws Exception;
+
+    void resetSystem();
 }

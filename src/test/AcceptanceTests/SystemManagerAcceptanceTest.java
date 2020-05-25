@@ -16,7 +16,7 @@ public class SystemManagerAcceptanceTest {
     public static void activate(String UC_NAME) {
         DomainController serviceLayerManager = new DomainController(DBCommunicator.getInstance());
         try {
-            AssociationSystem.getInstance().resetSystem();
+            serviceLayerManager.performResetSystem();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

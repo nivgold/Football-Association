@@ -18,6 +18,11 @@ public class AssociationAgentAcceptanceTest {
 
     public static void activate(String UC_NAME){
         DomainController serviceLayerManager = new DomainController(DBCommunicator.getInstance());
+        try {
+            serviceLayerManager.performResetSystem();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         AssociationAgent associationAgent = null;
         try {
             associationAgent = new AssociationAgent(new Member("","","",null,"name"));
