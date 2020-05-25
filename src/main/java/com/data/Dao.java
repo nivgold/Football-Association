@@ -1,5 +1,6 @@
 package com.data;
 
+import com.domain.logic.data_types.Address;
 import com.domain.logic.football.*;
 import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
@@ -217,4 +218,6 @@ public interface Dao {
      * removing all the teams in the DB
      */
     public void removeAllTeams();
+
+    void addTeam(String teamName, String country, String state, String city, String postalCode, TeamOwner teamOwner) throws Exception;
 }

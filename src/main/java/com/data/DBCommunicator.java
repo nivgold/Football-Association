@@ -1,7 +1,6 @@
 package com.data;
 
 
-import com.domain.logic.AssociationSystem;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.football.*;
 import com.domain.logic.roles.*;
@@ -278,6 +277,86 @@ public class DBCommunicator implements Dao {
         }
     }
 
+    @Override
+    public void addTeam(String teamName, String country, String state, String city, String postalCode, TeamOwner teamOwner) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT teamOwnerID FROM member" +
+                " WHERE username = ?";
+        try {
+            //first create new team
+            Member member = teamOwner.getMember();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, member.getName());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                int teamOwnerID = resultSet.getInt(1);
+                //create team
+                String queryInsertTeam = "INSERT INTO team (teamName) VALUES (?)";
+                PreparedStatement statementInsertTeam = connection.prepareStatement(queryInsertTeam);
+                statementInsertTeam.setString(1, teamName);
+                statementInsertTeam.executeUpdate();
+                int teamID;
+                ResultSet rs = statementInsertTeam.getGeneratedKeys();
+                if (rs.next()){
+                    teamID = rs.getInt("teamID");
+                }
+                else
+                    throw new Exception("new team wan't added properly");
+                //create address
+                String queryInsertAddress = "INSERT INTO address (country, state, city, postalCode) VALUES (?,?,?,?)";
+                PreparedStatement statementInsertAddress = connection.prepareStatement(queryInsertAddress);
+                statementInsertAddress.setString(1, country);
+                statementInsertAddress.setString(2, state);
+                statementInsertAddress.setString(3, city);
+                statementInsertAddress.setString(4, postalCode);
+                statementInsertAddress.executeUpdate();
+                int fieldAddressID;
+                rs = statementInsertAddress.getGeneratedKeys();
+                if (rs.next()){
+                    fieldAddressID = rs.getInt("addressID");
+                }
+                else
+                    throw new Exception("new address for the team's field wan't added properly");
+                //create field
+                String queryInsertField = "INSERT INTO field (teamID, addressID) VALUES (?,?)";
+                PreparedStatement statementInsertField = connection.prepareStatement(queryInsertField);
+                statementInsertField.setInt(1, teamID);
+                statementInsertField.setInt(2, fieldAddressID);
+                statementInsertField.executeUpdate();
+                int fieldID;
+                rs = statementInsertField.getGeneratedKeys();
+                if (rs.next()){
+                    fieldID = rs.getInt("fieldID");
+                }
+                else
+                    throw new Exception("new field for the team wan't added properly");
+                //update team
+                String queryUpdateTeam = "UPDATE team " +
+                        "SET team.fieldID = ? " +
+                        "WHERE teamID = ?";
+                PreparedStatement statementUpdateTeam = connection.prepareStatement(queryUpdateTeam);
+                statementUpdateTeam.setInt(1, fieldID);
+                statementUpdateTeam.setInt(2, teamID);
+                statementUpdateTeam.executeUpdate();
+                //update teamOwner
+                String queryUpdateTeamOwner = "UPDATE team_owner " +
+                        "SET teamID = ? " +
+                        "WHERE teamOwnerID = ?";
+                PreparedStatement statementUpdateTeamOwner = connection.prepareStatement(queryUpdateTeamOwner);
+                statementUpdateTeamOwner.setInt(1, teamID);
+                statementUpdateTeamOwner.setInt(2, teamOwnerID);
+                statementUpdateTeamOwner.executeUpdate();
+            }
+            connection.close();
+        } catch (SQLException e) {
+            connection.close();
+            throw new Exception(e.getMessage());
+        }
+    }
+
+
+
+    //LIAR LIAR PANTS ON FIRE:
     @Override
     public Member findMember(Member member) {
         return null;
