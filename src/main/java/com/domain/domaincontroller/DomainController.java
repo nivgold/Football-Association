@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class DomainController {
@@ -492,5 +493,15 @@ public class DomainController {
     public ArrayList<Team> getALLTeams(){
         //TODO call DAO to get all Teams
         return ManageTeams.getInstance().getAllTeams();
+    }
+
+    public ArrayList<SystemManagerMember> findAllSystemManagers() {
+        //TODO call DAO
+        return null;
+    }
+
+    public List<TeamOwner> findAllTeamOwner() {
+        //TODO
+        return null;
     }
 }
