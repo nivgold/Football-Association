@@ -9,9 +9,11 @@ public class LoginRequest {
     String firstName;
     String lastName;
 
-    public LoginRequest(@JsonProperty("userName") String userName, @JsonProperty("password") String password, @JsonProperty("firstNames") String firstName, @JsonProperty("lastName") String lastName) {
+    public LoginRequest(@JsonProperty("userName") String userName, @JsonProperty("password") String password, @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName) {
         this.userName = userName;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public String getFirstName() {
