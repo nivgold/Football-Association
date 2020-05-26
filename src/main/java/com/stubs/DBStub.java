@@ -29,7 +29,8 @@ public class DBStub implements Dao {
     public static ArrayList<GameSettingPolicy> gameSettingPolicies = new ArrayList<>();
     public static ArrayList<Member> members = new ArrayList<>();
     public static ArrayList<Team> teams = new ArrayList<>();
-    public static ArrayList<Event> events = new ArrayList<>();
+    public static ArrayList<Referee> referees = new ArrayList<>();
+    public static ArrayList<Player> players=  new ArrayList<>();
 
     private DBStub(){
     }

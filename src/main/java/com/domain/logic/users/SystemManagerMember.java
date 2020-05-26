@@ -9,7 +9,7 @@ import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.Complaint;
 import com.domain.logic.football.Team;
 import com.domain.logic.utils.SHA1Function;
-import com.logger.Logger;
+import com.logger.EventLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class SystemManagerMember extends Member{
     private static int managerCount = 0;
-    private static Logger logger = Logger.getInstance();
+    private static EventLogger eventLogger = EventLogger.getInstance();
     private RecommenderSystem recommenderSystem;
     private String userName;
     private String passwordHash;
@@ -48,7 +48,7 @@ public class SystemManagerMember extends Member{
      * @param complaint
      */
     public static void addComplaint(Complaint complaint) {
-        Logger.getInstance().saveLog("new complaint was added to the system -> " + complaint.getCompID());
+        EventLogger.getInstance().saveLog("new complaint was added to the system -> " + complaint.getCompID());
         unResolvedComplaints.put(complaint.getCompID(), complaint);
     }
 
@@ -59,7 +59,7 @@ public class SystemManagerMember extends Member{
      * @return
      */
     public static boolean removeComplaint(Complaint complaint) {
-        Logger.getInstance().saveLog("complaint was removed from the system -> " + complaint.getCompID());
+        EventLogger.getInstance().saveLog("complaint was removed from the system -> " + complaint.getCompID());
         Complaint comp = unResolvedComplaints.remove(complaint.getCompID());
         if(comp != null)
             return true;
@@ -73,7 +73,7 @@ public class SystemManagerMember extends Member{
      * @return
      */
     public static boolean removeComplaint(int complaintId) {
-        Logger.getInstance().saveLog("complaint was removed from the system -> " + complaintId);
+        EventLogger.getInstance().saveLog("complaint was removed from the system -> " + complaintId);
         Complaint comp = unResolvedComplaints.remove(complaintId);
         if(comp != null)
             return true;
@@ -121,7 +121,7 @@ public class SystemManagerMember extends Member{
         //TODO call DAO to remove Member from DB
         if(ManageMembers.getInstance().removeMember(member.getUserName(), member.getPasswordHash())) {
             SystemManagerMember appoint = new SystemManagerMember(member);
-            Logger.getInstance().saveLog("new system manager was added to the system -> " + member.getUserName() + " by -> " + this.userName);
+            EventLogger.getInstance().saveLog("new system manager was added to the system -> " + member.getUserName() + " by -> " + this.userName);
             return appoint;
         }
         else
@@ -132,7 +132,7 @@ public class SystemManagerMember extends Member{
         if(member instanceof  SystemManagerMember) {
             if(managerCount > 1){
                 if(member.removeYourself()) {
-                    Logger.getInstance().saveLog("the system manager: " + this.userName + " removed the member: " + member.getUserName());
+                    EventLogger.getInstance().saveLog("the system manager: " + this.userName + " removed the member: " + member.getUserName());
                     managerCount--;
                     return true;
                 }
@@ -140,22 +140,22 @@ public class SystemManagerMember extends Member{
             return false;
         }
         else {
-            Logger.getInstance().saveLog("the system manager: " + this.userName + " tried to remove the member: " + member.getUserName());
+            EventLogger.getInstance().saveLog("the system manager: " + this.userName + " tried to remove the member: " + member.getUserName());
             return member.removeYourself();
         }
     }
 
     public boolean closeTeamPermanently(Team team) throws Exception {
-        Logger.getInstance().saveLog("the system manager: " + this.userName + " tried to remove the team: " + team.getTeamName());
+        EventLogger.getInstance().saveLog("the system manager: " + this.userName + " tried to remove the team: " + team.getTeamName());
         return team.removeTeamPermanently();
     }
 
     public void watchSystemLogger(){
-        System.out.println(logger.watchLogFile());
+        System.out.println(eventLogger.watchLogFile());
     }
 
     public boolean activateRecommenderSystem(IRecommenderSystemStrategy recommenderSystemStrategy){
-        Logger.getInstance().saveLog("the system manager: " + this.userName + " built new recommender system");
+        EventLogger.getInstance().saveLog("the system manager: " + this.userName + " built new recommender system");
         recommenderSystem = RecommenderSystem.getInstance();
         recommenderSystem.BuildRecommenderSystem(recommenderSystemStrategy);
         return true;

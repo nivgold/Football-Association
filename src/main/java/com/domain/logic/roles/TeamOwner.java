@@ -11,7 +11,7 @@ import com.domain.logic.football.PlayerRoleInTeam;
 import com.domain.logic.football.Team;
 import com.domain.logic.users.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.logger.Logger;
+import com.logger.EventLogger;
 
 import java.util.ArrayList;
 
@@ -78,12 +78,12 @@ public class TeamOwner implements IRole, ITeamObserver {
                 to.setAppointer(this);
                 this.appointments.add(to);
                 team.getTeam_owners().add(to);
-                Logger.getInstance().saveLog("The new team owner has been added successfully");
+                EventLogger.getInstance().saveLog("The new team owner has been added successfully");
             } else {
-                Logger.getInstance().saveLog("the member is already a team owner");
+                EventLogger.getInstance().saveLog("the member is already a team owner");
             }
         } else {
-            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+            EventLogger.getInstance().saveLog("The team status is closed, you can't do any operations");
         }
 
     }
@@ -104,10 +104,10 @@ public class TeamOwner implements IRole, ITeamObserver {
                 appointments.remove(to);
                 to.removeYourself();
             } else {
-                Logger.getInstance().saveLog("You don't have the authority to remove this team owner");
+                EventLogger.getInstance().saveLog("You don't have the authority to remove this team owner");
             }
         } else {
-            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+            EventLogger.getInstance().saveLog("The team status is closed, you can't do any operations");
         }
     }
 
@@ -142,12 +142,12 @@ public class TeamOwner implements IRole, ITeamObserver {
                 TeamManager tm = new TeamManager(team, m, this);
                 team.getTeam_managers().add(tm);
                 appointments.add(tm);
-                Logger.getInstance().saveLog("The team manager has been added successfully");
+                EventLogger.getInstance().saveLog("The team manager has been added successfully");
             } else {
-                Logger.getInstance().saveLog("This member is already owner/manager of this team");
+                EventLogger.getInstance().saveLog("This member is already owner/manager of this team");
             }
         } else {
-            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+            EventLogger.getInstance().saveLog("The team status is closed, you can't do any operations");
         }
     }
 
@@ -161,10 +161,10 @@ public class TeamOwner implements IRole, ITeamObserver {
             if (tm.getAppointer() == this) {
                 tm.removeYourself();
             } else {
-                Logger.getInstance().saveLog("You don't have the authority to remove this team manager");
+                EventLogger.getInstance().saveLog("You don't have the authority to remove this team manager");
             }
         } else {
-            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+            EventLogger.getInstance().saveLog("The team status is closed, you can't do any operations");
         }
     }
 
@@ -174,7 +174,7 @@ public class TeamOwner implements IRole, ITeamObserver {
      */
     public void closeTeam() {
         team.setStatus(TeamStatus.Closed);
-        Logger.getInstance().saveLog("The team status changed to 'Closed'");
+        EventLogger.getInstance().saveLog("The team status changed to 'Closed'");
     }
 
     /**
@@ -182,7 +182,7 @@ public class TeamOwner implements IRole, ITeamObserver {
      */
     public void openTeam() {
         team.setStatus(TeamStatus.Open);
-        Logger.getInstance().saveLog("The team status changed to 'Open'");
+        EventLogger.getInstance().saveLog("The team status changed to 'Open'");
     }
 
     /**
@@ -203,9 +203,9 @@ public class TeamOwner implements IRole, ITeamObserver {
             CoachInTeam cit = new CoachInTeam("New coach", c, this.team);
             c.addCoachInTeam(cit);
             team.addCoachInTeam(cit);
-            Logger.getInstance().saveLog("The coach has been added successfully");
+            EventLogger.getInstance().saveLog("The coach has been added successfully");
         } else {
-            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+            EventLogger.getInstance().saveLog("The team status is closed, you can't do any operations");
         }
     }
 
@@ -225,12 +225,12 @@ public class TeamOwner implements IRole, ITeamObserver {
                 if (c.getTeams().size() == 0) {
                     c.getMember().removeCoach(c);
                 }
-                Logger.getInstance().saveLog("The coach has been removed successfully");
+                EventLogger.getInstance().saveLog("The coach has been removed successfully");
             } else {
-                Logger.getInstance().saveLog("This coach is not part of the team's coaches");
+                EventLogger.getInstance().saveLog("This coach is not part of the team's coaches");
             }
         } else {
-            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+            EventLogger.getInstance().saveLog("The team status is closed, you can't do any operations");
         }
     }
 
@@ -244,7 +244,7 @@ public class TeamOwner implements IRole, ITeamObserver {
             boolean exists = false;
             for (PlayerRoleInTeam prit : p.getRoleInTeams()) {
                 if (prit.getTeam() == team) {
-                    Logger.getInstance().saveLog("This player is already part of the team");
+                    EventLogger.getInstance().saveLog("This player is already part of the team");
                     exists = true;
                     break;
                 }
@@ -253,10 +253,10 @@ public class TeamOwner implements IRole, ITeamObserver {
                 PlayerRoleInTeam newPrit = new PlayerRoleInTeam(p, this.team, pr);
                 team.addPlayerRoleInTeam(newPrit);
                 p.addPlayerRoleInTeam(newPrit);
-                Logger.getInstance().saveLog("The player has been added successfully");
+                EventLogger.getInstance().saveLog("The player has been added successfully");
             }
         } else {
-            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+            EventLogger.getInstance().saveLog("The team status is closed, you can't do any operations");
         }
     }
 
@@ -275,16 +275,16 @@ public class TeamOwner implements IRole, ITeamObserver {
                     if (p.getRoleInTeams().size() == 0) {
                         p.getMember().removePlayer(p);
                     }
-                    Logger.getInstance().saveLog("The player has been removed successfully");
+                    EventLogger.getInstance().saveLog("The player has been removed successfully");
                     exists = true;
                     break;
                 }
             }
             if (!exists) {
-                Logger.getInstance().saveLog("This player is not part of the team's player");
+                EventLogger.getInstance().saveLog("This player is not part of the team's player");
             }
         } else {
-            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+            EventLogger.getInstance().saveLog("The team status is closed, you can't do any operations");
         }
     }
 
@@ -296,9 +296,9 @@ public class TeamOwner implements IRole, ITeamObserver {
     public void setNewField(Field f) {
         if (team.getStatus().equals(TeamStatus.Open)) {
             team.setField(f);
-            Logger.getInstance().saveLog("The field has been added successfully");
+            EventLogger.getInstance().saveLog("The field has been added successfully");
         } else {
-            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+            EventLogger.getInstance().saveLog("The team status is closed, you can't do any operations");
         }
     }
 
@@ -323,11 +323,11 @@ public class TeamOwner implements IRole, ITeamObserver {
                 this.team = null;
                 this.appointer = null;
                 this.member.removeTeamOwner(this);
-                Logger.getInstance().saveLog("The team owner has been removed successfully");
+                EventLogger.getInstance().saveLog("The team owner has been removed successfully");
                 return true;
             }
         } else {
-            Logger.getInstance().saveLog("The team status is closed, you can't do any operations");
+            EventLogger.getInstance().saveLog("The team status is closed, you can't do any operations");
         }
         return false;
     }
@@ -367,7 +367,7 @@ public class TeamOwner implements IRole, ITeamObserver {
 
     @Override
     public void teamUpdate(TeamStatus ts) {
-        Logger.getInstance().saveLog("The team status has been changed to " + ts.toString());
+        EventLogger.getInstance().saveLog("The team status has been changed to " + ts.toString());
     }
 
     public void registerToTeamStatus() {
