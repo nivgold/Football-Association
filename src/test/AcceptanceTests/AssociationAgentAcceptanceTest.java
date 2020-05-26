@@ -6,7 +6,6 @@ import com.domain.logic.football.SeasonInLeague;
 import com.domain.logic.managers.ManageLeagues;
 import com.domain.logic.policies.GameSettingPolicy;
 import com.domain.logic.policies.Policy;
-import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
 import com.domain.logic.policies.game_setting_policies.TwoMatchEachPairSettingPolicy;
 import com.domain.logic.roles.AssociationAgent;
@@ -106,7 +105,7 @@ public class AssociationAgentAcceptanceTest {
                 break;
             }
 
-            case ("5.6") : {
+            case ("5.6") : {//checks setting game policy
                 SeasonInLeague seasonInLeague = serviceLayerManager.findSeasonInLeague(2020, "Base League");
                 try {
                     serviceLayerManager.defineGameSettingPolicy(assosName, seasonInLeague.getLeague().getLeagueName(), seasonInLeague.getSeason().getYear(), "two");
@@ -141,18 +140,38 @@ public class AssociationAgentAcceptanceTest {
                 break;
             }
 
-            case ("5.7") : {
-                SeasonInLeague seasonInLeague = new SeasonInLeague(league, season2020);
-                Policy policy = new Policy(seasonInLeague);
-                GameSettingPolicy chosenGS = new GameSettingPolicy(policy,null);
+            case ("5.7") : {//checks setting ranking game policy
+                SeasonInLeague seasonInLeague = serviceLayerManager.findSeasonInLeague(2020, "Base League");
                 try {
-                    league.setPolicyToSeason(season2020,policy);
+                    serviceLayerManager.defineGameRankingPolicy(assosName, seasonInLeague.getLeague().getLeagueName(), seasonInLeague.getSeason().getYear(), 1, 1, 1, 1, 1);
+                    seasonInLeague = serviceLayerManager.findSeasonInLeague(2020, "Base League");
+                    if(seasonInLeague.getPolicy().getRankingPolicy().getWin() == 1){
+                        System.out.println("setting the ranking game setting policy was successful");
+                    }
+                    else{
+                        System.err.println("failed to setting the ranking game setting policy");
+                    }
+                    //again two
+                    serviceLayerManager.defineGameRankingPolicy(assosName, seasonInLeague.getLeague().getLeagueName(), seasonInLeague.getSeason().getYear(), 1, 1, 1, 1, 1);
+                    seasonInLeague = serviceLayerManager.findSeasonInLeague(2020, "Base League");
+                    if(seasonInLeague.getPolicy().getRankingPolicy().getWin() == 1){
+                        System.out.println("setting the ranking game setting policy was successful");
+                    }
+                    else{
+                        System.err.println("failed to setting the ranking game setting policy");
+                    }
+                    //change to one
+                    serviceLayerManager.defineGameRankingPolicy(assosName, seasonInLeague.getLeague().getLeagueName(), seasonInLeague.getSeason().getYear(), 2, 2, 2,  2, 2);
+                    seasonInLeague = serviceLayerManager.findSeasonInLeague(2020, "Base League");
+                    if(seasonInLeague.getPolicy().getRankingPolicy().getWin() == 2){
+                        System.out.println("setting the ranking game setting policy was successful");
+                    }
+                    else{
+                        System.err.println("failed to setting the ranking game setting policy");
+                    }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 }
-                serviceLayerManager.performSetGameSettingPolicy(associationAgent,league,season2020,null);
-                if (!(policy.getGameSettingPolicy()==chosenGS))
-                    System.err.println("setting game setting policy failed");
                 break;
             }
 
