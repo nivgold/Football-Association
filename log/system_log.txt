@@ -1323,3 +1323,9 @@ INFO    2020-05-26 17:39:30 - attempt to login with credentials: teamOwner_Tal ,
 INFO    2020-05-26 17:39:32 - the guest: Tal login as the member: teamOwner_Tal
 INFO    2020-05-26 17:40:32 - attempt to login with credentials: teamOwner_Tal , talpass
 INFO    2020-05-26 17:40:34 - the guest: Tal login as the member: teamOwner_Tal
+INFO    2020-05-26 17:49:20 - attempt to login with credentials: teamOwner_Tal , talpass
+INFO    2020-05-26 17:49:21 - the guest: Tal login as the member: teamOwner_Tal
+INFO    2020-05-26 17:50:55 - attempt to login with credentials: teamOwner_Tal , talpass
+INFO    2020-05-26 17:50:56 - the guest: Tal login as the member: teamOwner_Tal
+INFO    2020-05-26 17:53:09 - attempt to login with credentials: teamOwner_Tal , talpass
+INFO    2020-05-26 17:53:10 - the guest: Tal login as the member: teamOwner_Tal
