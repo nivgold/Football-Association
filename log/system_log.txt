@@ -1323,9 +1323,109 @@ INFO    2020-05-26 17:39:30 - attempt to login with credentials: teamOwner_Tal ,
 INFO    2020-05-26 17:39:32 - the guest: Tal login as the member: teamOwner_Tal
 INFO    2020-05-26 17:40:32 - attempt to login with credentials: teamOwner_Tal , talpass
 INFO    2020-05-26 17:40:34 - the guest: Tal login as the member: teamOwner_Tal
-INFO    2020-05-26 17:49:20 - attempt to login with credentials: teamOwner_Tal , talpass
-INFO    2020-05-26 17:49:21 - the guest: Tal login as the member: teamOwner_Tal
-INFO    2020-05-26 17:50:55 - attempt to login with credentials: teamOwner_Tal , talpass
-INFO    2020-05-26 17:50:56 - the guest: Tal login as the member: teamOwner_Tal
-INFO    2020-05-26 17:53:09 - attempt to login with credentials: teamOwner_Tal , talpass
-INFO    2020-05-26 17:53:10 - the guest: Tal login as the member: teamOwner_Tal
+INFO    2020-05-26 17:46:35 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 17:46:37 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 17:47:54 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 17:47:56 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 17:49:30 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 17:49:33 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 17:51:05 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 17:51:07 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 17:51:16 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 17:51:16 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 17:52:01 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 17:52:03 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 17:52:11 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 17:52:11 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 17:53:44 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 17:53:46 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 17:54:15 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 17:54:29 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 17:54:31 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 17:55:19 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 17:55:27 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 17:55:43 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 17:55:45 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 17:56:01 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 17:58:37 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:01:36 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:01:38 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:01:49 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:01:49 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:02:17 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:02:20 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:02:27 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:02:27 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:15:09 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:15:11 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:15:34 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:15:34 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:15:53 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:15:56 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:16:19 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:16:19 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:29:12 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:29:15 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:29:25 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:29:25 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:30:33 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:30:36 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:30:46 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:30:46 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:33:59 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:34:01 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:34:10 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:34:11 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:35:46 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:35:48 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:35:58 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:35:58 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:36:10 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:36:13 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:36:22 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:36:23 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:38:08 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:38:10 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:38:20 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:38:20 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:42:38 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:42:41 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:42:49 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:42:49 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:43:30 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:43:33 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:43:43 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:43:44 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:43:55 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:44:13 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:44:15 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:44:23 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:44:23 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:45:41 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:45:44 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:45:53 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:45:53 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:46:04 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:46:06 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:46:15 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:46:15 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:49:09 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:49:11 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:49:20 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:49:20 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 18:50:24 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 18:50:27 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 18:50:35 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 18:50:35 - the guest:  login as the member: main Referee asaf
+INFO    2020-05-26 19:15:25 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 19:15:27 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 19:15:37 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 19:15:37 - the guest: 123 login as the member: main Referee asaf
+INFO    2020-05-26 19:15:58 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 19:16:00 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 19:16:09 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 19:16:09 - the guest: 123 login as the member: main Referee asaf
+INFO    2020-05-26 19:17:50 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 19:17:53 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 19:18:06 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 19:18:06 - the guest: 123 login as the member: main Referee asaf

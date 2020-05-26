@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 public class Game implements IGameObservable {
 
+
     private int gameID;
     private Team host;
     private Team guest;

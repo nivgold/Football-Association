@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @RequestMapping("api/v1")
-@RestController
+@RestController @CrossOrigin
 public class ApplicationController {
 
 
@@ -90,7 +90,7 @@ public class ApplicationController {
     // ------------------------4.1.Referee Adds Events To Game------
     @PostMapping("/addEventToGame")
     public StatusResponse addEventToGame(@RequestBody AddEventToGameRequest addEventToGameRequest) {
-        if (domainController.addGameEvent(addEventToGameRequest.getRefereeUsername(),addEventToGameRequest.getGameID(),new Date(),addEventToGameRequest.getGameMinute(),addEventToGameRequest.getDescription(),addEventToGameRequest.getType(),addEventToGameRequest.getPlayerUsername())) {
+        if (domainController.addGameEvent(addEventToGameRequest.getRefereeUsername(),addEventToGameRequest.getGameID(),addEventToGameRequest.getGameMinute(),addEventToGameRequest.getDescription(),addEventToGameRequest.getType(),addEventToGameRequest.getPlayerUsername())) {
             return StatusResponse.getTrueStatusObj();
         }
         return StatusResponse.getFalseStatusObj();
@@ -107,6 +107,12 @@ public class ApplicationController {
 
 
     // ------------------------***others***-------
+
+    // ------------------------test getter-------
+    @GetMapping("/testGetter")
+    public StatusResponse getTrueStatus() {
+        return StatusResponse.getTrueStatusObj();
+    }
 
     // ------------------------get all leagues-------
     @GetMapping("/getLeagueNames")

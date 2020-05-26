@@ -29,7 +29,7 @@ public class DBStub implements Dao {
     public static ArrayList<GameSettingPolicy> gameSettingPolicies = new ArrayList<>();
     public static ArrayList<Member> members = new ArrayList<>();
     public static ArrayList<Team> teams = new ArrayList<>();
-    public static ArrayList<String> logs = new ArrayList<>();
+    public static ArrayList<Event> events = new ArrayList<>();
 
     private DBStub(){
     }
@@ -78,6 +78,26 @@ public class DBStub implements Dao {
     }
 
     @Override
+    public void setGameReport(int gameID, String report) throws Exception {
+
+    }
+
+    @Override
+    public void addGameEvent(int gameID, int gameMinute, String description, EventType type, String playerUsername, int changeScore) throws Exception {
+
+    }
+
+    @Override
+    public boolean isRefereeAuthorized(String refereeUsername, int gameID) throws Exception {
+        return false;
+    }
+
+    @Override
+    public boolean isReportAuthorized(String refereeUsername, int gameID) throws Exception {
+        return false;
+    }
+
+    @Override
     public SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception {
         for (SeasonInLeague seasonInLeague : this.seasonInLeagues){
             if (seasonInLeague.getSeason().getYear()==seasonYear && seasonInLeague.getLeague().getLeagueName().equals(leagueName))
@@ -114,16 +134,6 @@ public class DBStub implements Dao {
     @Override
     public ArrayList<String> getAllTeamPlayers(String teamName) throws Exception {
         return null;
-    }
-
-    @Override
-    public void setGameReport(int gameID, String report) throws Exception {
-
-    }
-
-    @Override
-    public void addGameEvent(int gameID, int gameMinute, String description, EventType type, Date dateTime, String playerUsername, int changeScore) throws Exception {
-
     }
 
     @Override

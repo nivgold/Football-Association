@@ -110,7 +110,7 @@ public class DomainController {
     }
 
     // ------------------------4.1.Referee Adds Events To Game------
-    public boolean addGameEvent(String refereeUsername, int gameID, Date date, int gameMinute, String description, String type, String playerUsername){
+    public boolean addGameEvent(String refereeUsername, int gameID, int gameMinute, String description, String type, String playerUsername){
         try{
             Member memberReferee = AssociationSystem.getInstance().findConnectedUser(refereeUsername);
             Referee referee = (Referee) memberReferee.getSpecificRole(Referee.class);
@@ -119,7 +119,7 @@ public class DomainController {
 //            Game game = dao.findGame(gameID);
             EventType eventType = EventType.strToEventType(type);
             // create the game event
-            referee.createGameEvent(gameMinute, description, eventType, date, gameID, playerUsername);
+            referee.createGameEvent(gameMinute, description, eventType, gameID, playerUsername);
             // TODO - send OK message to service layer
             return true;
         } catch (Exception e) {
