@@ -75,22 +75,6 @@ public class DBCommunicator implements Dao {
         }
     }
     @Override
-    public void addLog(String data) throws SQLException {
-        Connection connection = DBConnector.getConnection();
-        String sql ="INSERT INTO log (data) " +
-                "VALUES (?)";
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, data);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            connection.close();
-        }
-    }
-    @Override
     public SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception {
         Connection connection = DBConnector.getConnection();
         String sql = "SELECT seasonYear, league_name FROM seasoninleague" +
@@ -381,9 +365,14 @@ public class DBCommunicator implements Dao {
                 String postalCode = resultSet.getString("postalCode");
                 Address address = new Address(country, state, city, postalCode);
                 String name = resultSet.getString("name");
+                boolean sysManager = resultSet.getBoolean("systemManager");
                 // has member
-                member = new Member(userName, passwordHash, email, address, name);
-
+                if(sysManager){
+                    member = new SystemManagerMember(username, passwordHash, email, address, name);
+                }
+                else{
+                    member = new Member(username, passwordHash, email, address, name);
+                }
                 // check for coach
                 int coachID = resultSet.getInt("coachID");
                 if (coachID != 0) new Coach(member);
@@ -433,8 +422,14 @@ public class DBCommunicator implements Dao {
                 String postalCode = resultSet.getString("postalCode");
                 Address address = new Address(country, state, city, postalCode);
                 String name = resultSet.getString("name");
+                boolean sysManager = resultSet.getBoolean("systemManager");
                 // has member
-                member = new Member(username, passwordHash, email, address, name);
+                if(sysManager){
+                    member = new SystemManagerMember(username, passwordHash, email, address, name);
+                }
+                else{
+                    member = new Member(username, passwordHash, email, address, name);
+                }
 
                 // check for coach
                 int coachID = resultSet.getInt("coachID");

@@ -19,7 +19,6 @@ public interface Dao {
     Game findGame(int gameID);
     Member findMember(String username) throws Exception;
     boolean hasTeam(String teamOwnerUsername) throws Exception;
-    void addLog(String data) throws SQLException;
     SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception;
     void setGameSettingPolicy(int seasonYear, String leagueName, boolean gameSettingPolicyField) throws Exception;
     void setGameRankingPolicy(int seasonYear, String leagueName, int win, int goals, int draw, int yellowCards, int redCards) throws Exception;
