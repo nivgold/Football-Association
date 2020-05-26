@@ -106,13 +106,10 @@ public class AssociationAgentAcceptanceTest {
             case ("5.6") : {
                 SeasonInLeague seasonInLeague = new SeasonInLeague(league, season2020);
                 try {
-                    serviceLayerManager.defineGameSettingPolicy(assosName, league.getLeagueName(), season2020.getYear(), "TWO");
+                    serviceLayerManager.defineGameSettingPolicy(assosName, league.getLeagueName(), season2020.getYear(), "two");
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 }
-                serviceLayerManager.performSetRankingPolicy(associationAgent,league,season2020,chosenRP);
-                if (!(policy.getRankingPolicy()==chosenRP))
-                    System.err.println("setting ranking policy failed");
                 break;
             }
 
