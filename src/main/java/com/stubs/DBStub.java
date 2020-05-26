@@ -16,7 +16,6 @@ import com.domain.logic.users.SystemManagerMember;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class DBStub implements Dao {
 
@@ -75,11 +74,6 @@ public class DBStub implements Dao {
             }
         }
         return false;
-    }
-
-
-    public void addLog(String data) throws SQLException {
-        this.logs.add(data);
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.domain.logic.managers.ManageLeagues;
 import com.domain.logic.policies.GameSettingPolicy;
 import com.domain.logic.policies.Policy;
 import com.domain.logic.policies.RankingPolicy;
+import com.domain.logic.policies.game_setting_policies.TwoMatchEachPairSettingPolicy;
 import com.domain.logic.roles.AssociationAgent;
 import com.domain.logic.roles.IRole;
 import com.domain.logic.roles.Referee;
@@ -104,9 +105,16 @@ public class AssociationAgentAcceptanceTest {
             }
 
             case ("5.6") : {
-                SeasonInLeague seasonInLeague = new SeasonInLeague(league, season2020);
+                SeasonInLeague seasonInLeague = serviceLayerManager.findSeasonInLeague(2020, "Base League");
                 try {
-                    serviceLayerManager.defineGameSettingPolicy(assosName, league.getLeagueName(), season2020.getYear(), "two");
+                    serviceLayerManager.defineGameSettingPolicy(assosName, seasonInLeague.getLeague().getLeagueName(), seasonInLeague.getSeason().getYear(), "two");
+                    seasonInLeague = serviceLayerManager.findSeasonInLeague(2020, "Base League");
+                    if(seasonInLeague.getPolicy().getGameSettingPolicy().getSettingStrategy() instanceof TwoMatchEachPairSettingPolicy){
+                        System.out.println("setting the game setting policy was successful");
+                    }
+                    else{
+                        System.err.println("failed to setting the game setting policy was successful");
+                    }
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }

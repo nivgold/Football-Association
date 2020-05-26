@@ -13,7 +13,6 @@ import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.managers.ManageSeasons;
 import com.domain.logic.managers.ManageTeams;
 import com.domain.logic.policies.GameSettingPolicy;
-import com.domain.logic.policies.Policy;
 import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.policies.game_setting_policies.IGameSettingPolicyStrategy;
 import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
@@ -25,11 +24,9 @@ import com.domain.logic.users.SystemManagerMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 
 @Service
 public class DomainController {
@@ -195,6 +192,33 @@ public class DomainController {
         }
     }
 
+    public SeasonInLeague findSeasonInLeague(int i, String leagueName) {
+        SeasonInLeague seasonInLeague = null;
+        try {
+            seasonInLeague = dao.findSeasonInLeague(i, leagueName);
+        } catch (Exception e) {
+            System.err.println();
+        }
+        return seasonInLeague;
+    }
+
+    /**
+     * @return all team owners of a specific team
+     * @param teamName
+     */
+    public ArrayList<TeamOwner> findAllTeamOwner(String teamName) {
+        //TODO
+        return null;
+    }
+
+    public ArrayList<TeamManager> findAllTeamManager(String teamName) {
+        //TODO
+        return null;
+    }
+
+    public void logout() {
+        //TODO
+    }
 
     /**
      * just a test - not as stav wants
@@ -534,24 +558,5 @@ public class DomainController {
     public ArrayList<SystemManagerMember> findAllSystemManagers() {
         //TODO call DAO
         return null;
-    }
-
-
-    /**
-     * @return all team owners of a specific team
-     * @param teamName
-     */
-    public ArrayList<TeamOwner> findAllTeamOwner(String teamName) {
-        //TODO
-        return null;
-    }
-
-    public ArrayList<TeamManager> findAllTeamManager(String teamName) {
-        //TODO
-        return null;
-    }
-
-    public void logout() {
-        //TODO
     }
 }
