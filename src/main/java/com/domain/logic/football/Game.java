@@ -34,10 +34,8 @@ public class Game implements IGameObservable {
 
     static final int numOfSideReferees = 2;
 
-    public String createReport(){
-        this.report = events.toString();
-        //TODO call dao to update game report
-        return this.report;
+    public void createReport(String report){
+        this.report = report;
     }
 
     public Game(Team host, Team guest, SeasonInLeague seasonInLeague, LocalDateTime date, Field field){

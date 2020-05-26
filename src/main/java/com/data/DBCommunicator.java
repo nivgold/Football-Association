@@ -3,6 +3,7 @@ package com.data;
 
 import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.GameIdentifier;
+import com.domain.logic.enums.EventType;
 import com.domain.logic.football.*;
 import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Repository("DBCommunicator")
 public class DBCommunicator implements Dao {
@@ -171,7 +173,7 @@ public class DBCommunicator implements Dao {
             else{
                 // need to add ranking policy ID
                 preparedStatement.executeUpdate("INSERT INTO rankingpolicy (win, goals, draw, yellowCards, redCards, policyID) " +
-                        "VALUE (?, ?, ?, ?, ?, policyID)");
+                        "VALUE (?, ?, ?, ?, ?, policyID)", Statement.RETURN_GENERATED_KEYS);
                 preparedStatement.setInt(1, win);
                 preparedStatement.setInt(2, goals);
                 preparedStatement.setInt(3, draw);
@@ -242,6 +244,57 @@ public class DBCommunicator implements Dao {
                 teamPlayersNames.add(resultSet.getString(1));
             }
             return teamPlayersNames;
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
+
+    @Override
+    public void addGameEvent(int gameID, int gameMinute, String description, EventType type, Date dateTime, String playerUsername, int changeScore) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        java.sql.Date sqlDate = java.sql.Date.valueOf(dateTime.toString());
+        String sql_create_event = "INSERT INTO event (date, game_minute, description, event_type, playerID, gameID) " +
+                "VALUES (?, ?, ?, ?, (SELECT playerID FROM player INNER JOIN member m on player.memberID = m.memberID WHERE m.username LIKE ?), ?)";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql_create_event);
+            preparedStatement.setDate(1, sqlDate);
+            preparedStatement.setInt(2, gameMinute);
+            preparedStatement.setString(3, description);
+            preparedStatement.setInt(4, type.ordinal());
+            preparedStatement.setString(5, playerUsername);
+            preparedStatement.setInt(6, gameID);
+            preparedStatement.executeUpdate();
+
+            if (changeScore != 0){
+                String sql_change_score;
+                if (changeScore == -1)
+                    sql_change_score = "UPDATE game " +
+                            "SET guest_team_score = guest_team_score + 1 " +
+                            "WHERE gameID = ?";
+                else
+                    sql_change_score = "UPDATE game " +
+                            "SET host_team_score = host_team_score + 1 " +
+                            "WHERE gameID = ?";
+                preparedStatement = connection.prepareStatement(sql_change_score);
+                preparedStatement.setInt(1, gameID);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
+
+    @Override
+    public void setGameReport(int gameID, String report) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "UPDATE game " +
+                "SET report = ? " +
+                "WHERE gameID = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, report);
+            preparedStatement.setInt(2, gameID);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new Exception("SQL exception");
         }
