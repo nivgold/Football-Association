@@ -406,6 +406,22 @@ public class DBCommunicator implements Dao {
             throw new Exception("SQL exception");
         }
     }
+
+    @Override
+    public ArrayList<String> getAllTeamNames() throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT teamName FROM team";
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            ArrayList<String> teamNames = new ArrayList<>();
+            while (resultSet.next())
+                teamNames.add(resultSet.getString("teamName"));
+            return teamNames;
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
     // -------------added functions---------------
 
     @Override
