@@ -33,4 +33,8 @@ public class LoginResponse {
     public Member getMember() {
         return member;
     }
+
+    public ArrayList<RoleIdentifierForResponses> getRoles() {
+        return roles;
+    }
 }

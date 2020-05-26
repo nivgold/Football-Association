@@ -13,7 +13,11 @@ public class RoleIdentifierForResponses {
     }
 
     private String findRoleName(IRole roleToFind) {
-        return roleToFind.getClass().getName();
+        String fullRole=roleToFind.getClass().getName();
+        String[] splittedClassName=fullRole.split(".");
+        if (splittedClassName.length<1)
+            return "role identification failed";
+        return splittedClassName[splittedClassName.length-1];
     }
 
     public String getRoleName() {
