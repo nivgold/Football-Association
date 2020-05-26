@@ -15,7 +15,8 @@ public class TeamOwnerAcceptanceTest {
     public static void activate(String UC_NAME){
         DomainController serviceLayerManager = new DomainController(DBCommunicator.getInstance());
         try {
-            serviceLayerManager.performResetSystem();
+            serviceLayerManager.login("123","123", "sysManager_admin", "admin");
+            serviceLayerManager.performResetSystem("sysManager_admin");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
