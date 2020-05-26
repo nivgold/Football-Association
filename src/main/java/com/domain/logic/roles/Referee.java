@@ -62,7 +62,7 @@ public class Referee implements IRole, IGameObserver {
         }
     }
 
-    public void createGameEvent(int gameMinute, String description, EventType type, Date dateTime, int gameID, String playerUsername) throws Exception {
+    public void createGameEvent(int gameMinute, String description, EventType type, int gameID, String playerUsername) throws Exception {
         if (isAuthorized(gameID)){
             // 0 - no score change
             // 1 - add goal to host team
@@ -75,18 +75,23 @@ public class Referee implements IRole, IGameObserver {
                 changeScore = -1;
             }
             Dao dao = DBCommunicator.getInstance();
-            dao.addGameEvent(gameID, gameMinute, description, type, dateTime, playerUsername, changeScore);
+            dao.addGameEvent(gameID, gameMinute, description, type, playerUsername, changeScore);
         }
     }
 
-    private boolean isAuthorized(int gameID){
-        // TODO - implement in the dao
-        return false;
+    private boolean isAuthorized(int gameID) throws Exception {
+        return DBCommunicator.getInstance().isRefereeAuthorized(this.member.getUserName(), gameID);
+    }
+
+    private boolean isReportAuthorized(int gameID) throws Exception {
+        return DBCommunicator.getInstance().isReportAuthorized(this.member.getUserName(), gameID);
     }
 
     public void createReport(int gameID, String report) throws Exception {
-        Dao dao = DBCommunicator.getInstance();
-        dao.setGameReport(gameID, report);
+        if (isReportAuthorized(gameID)){
+            Dao dao = DBCommunicator.getInstance();
+            dao.setGameReport(gameID, report);
+        }
     }
 
     /**

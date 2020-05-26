@@ -9,6 +9,7 @@ import com.domain.logic.football.Game;
 import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.roles.*;
 import com.domain.logic.utils.SHA1Function;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.logger.Logger;
 
 import javax.management.relation.Role;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 public class Member implements IGameObserver, IPersonalPageObserver {
     private Address address;
+    @JsonIgnore
     private ArrayList<IRole> roles;
     private ArrayList<Complaint> unresolvedComplaints;
     private ArrayList<Complaint> resolvedComplaints;

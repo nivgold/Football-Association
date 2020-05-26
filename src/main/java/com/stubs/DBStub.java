@@ -83,8 +83,18 @@ public class DBStub implements Dao {
     }
 
     @Override
-    public void addGameEvent(int gameID, int gameMinute, String description, EventType type, Date dateTime, String playerUsername, int changeScore) throws Exception {
+    public void addGameEvent(int gameID, int gameMinute, String description, EventType type, String playerUsername, int changeScore) throws Exception {
 
+    }
+
+    @Override
+    public boolean isRefereeAuthorized(String refereeUsername, int gameID) throws Exception {
+        return false;
+    }
+
+    @Override
+    public boolean isReportAuthorized(String refereeUsername, int gameID) throws Exception {
+        return false;
     }
 
     @Override

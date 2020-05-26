@@ -287,7 +287,7 @@ CREATE TABLE side_referee_in_game(
 );
 
 CREATE TABLE event(
-    `date` DATE NOT NULL ,
+    `date` DATETIME NOT NULL DEFAULT NOW(),
     game_minute INT NOT NULL ,
     description varchar(255) ,
     event_type INT NOT NULL ,
@@ -466,7 +466,7 @@ INSERT INTO refereesInSIL (seasonYear, leagueID, refereeID)
     VALUES (2020, 1, 1);
 
 INSERT INTO game (date, host_teamID, guest_teamID, main_refereeID, seasonYear, leagueID, fieldID)
-    VALUES ('2020-08-20', 1, 2, 1, 2020, 1, 1);
+    VALUES ('2020-05-26 17:00:00', 1, 2, 1, 2020, 1, 1);
 
 INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`, systemManager)
     VALUES ('side Referee asaf1','63ee39facef3e951eddbfad442b8624a811563e0','asaf1 zosman', 'asafzos1@post.bgu.ac.il', 7, 0);
@@ -508,3 +508,15 @@ INSERT INTO player_in_team (playerID, teamID)
 UPDATE member
     SET playerID = 1
     WHERE memberID = 2;
+
+UPDATE member
+    SET refereeID = 1
+    WHERE memberID = 5;
+
+UPDATE member
+    SET refereeID = 2
+    WHERE memberID = 6;
+
+UPDATE member
+    SET refereeID = 3
+    WHERE memberID = 7;

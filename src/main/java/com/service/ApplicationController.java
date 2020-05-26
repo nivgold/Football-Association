@@ -90,7 +90,7 @@ public class ApplicationController {
     // ------------------------4.1.Referee Adds Events To Game------
     @PostMapping("/addEventToGame")
     public StatusResponse addEventToGame(@RequestBody AddEventToGameRequest addEventToGameRequest) {
-        if (domainController.addGameEvent(addEventToGameRequest.getRefereeUsername(),addEventToGameRequest.getGameID(),new Date(),addEventToGameRequest.getGameMinute(),addEventToGameRequest.getDescription(),addEventToGameRequest.getType(),addEventToGameRequest.getPlayerUsername())) {
+        if (domainController.addGameEvent(addEventToGameRequest.getRefereeUsername(),addEventToGameRequest.getGameID(),addEventToGameRequest.getGameMinute(),addEventToGameRequest.getDescription(),addEventToGameRequest.getType(),addEventToGameRequest.getPlayerUsername())) {
             return StatusResponse.getTrueStatusObj();
         }
         return StatusResponse.getFalseStatusObj();
@@ -99,14 +99,14 @@ public class ApplicationController {
     // ------------------------4.2.Referee Create Game Report-------
     @PostMapping("/createGameReport")
     public StatusResponse createGameReport(@RequestBody CreateReportRequest createReportRequest) {
-        if (domainController.createGameReport(createReportRequest.getRefereeUsername(),createReportRequest.getGameID())) {
+        if (domainController.createGameReport(createReportRequest.getRefereeUsername(),createReportRequest.getGameID(),createReportRequest.getReport())) {
             return StatusResponse.getTrueStatusObj();
         }
         return StatusResponse.getFalseStatusObj();
     }
 
 
-    // ------------------------others-------
+    // ------------------------***others***-------
 
     // ------------------------get all leagues-------
     @GetMapping("/getLeagueNames")
@@ -118,6 +118,9 @@ public class ApplicationController {
     @GetMapping("/getRefereeActiveGame")
     public GameIdentifierResponse getRefereeActiveGame(@RequestParam("refereeUsername") String refereeUsername){
         GameIdentifier gameIdentifier = domainController.getRefereeActiveGame(refereeUsername);
+        if (gameIdentifier==null) {
+            return null;
+        }
         return new GameIdentifierResponse(gameIdentifier.getGameID(),gameIdentifier.getHostTeamName(),gameIdentifier.getGuestTeamName());
     }
 
@@ -126,6 +129,14 @@ public class ApplicationController {
     public ArrayList<String> getAllTeamPlayers(@RequestParam String teamName){
         return domainController.getAllTeamPlayers(teamName);
     }
+
+    // ------------------resetSystem (Dangerous!):----
+    @PostMapping("/resetSystem")
+    public void resetSystem(@RequestBody ResetSystemRequest resetSystemRequest) {
+        try { domainController.performResetSystem(resetSystemRequest.getSysManagerUserName()); }
+        catch (Exception e) {}
+    }
+
 
 
 

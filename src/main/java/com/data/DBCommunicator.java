@@ -234,19 +234,17 @@ public class DBCommunicator implements Dao {
     }
 
     @Override
-    public void addGameEvent(int gameID, int gameMinute, String description, EventType type, Date dateTime, String playerUsername, int changeScore) throws Exception {
+    public void addGameEvent(int gameID, int gameMinute, String description, EventType type, String playerUsername, int changeScore) throws Exception {
         Connection connection = DBConnector.getConnection();
-        java.sql.Date sqlDate = java.sql.Date.valueOf(dateTime.toString());
-        String sql_create_event = "INSERT INTO event (date, game_minute, description, event_type, playerID, gameID) " +
-                "VALUES (?, ?, ?, ?, (SELECT playerID FROM player INNER JOIN member m on player.memberID = m.memberID WHERE m.username LIKE ?), ?)";
+        String sql_create_event = "INSERT INTO event (game_minute, description, event_type, playerID, gameID) " +
+                "VALUES (?, ?, ?, (SELECT player.playerID FROM player INNER JOIN member m on player.memberID = m.memberID WHERE m.username LIKE ?), ?)";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql_create_event);
-            preparedStatement.setDate(1, sqlDate);
-            preparedStatement.setInt(2, gameMinute);
-            preparedStatement.setString(3, description);
-            preparedStatement.setInt(4, type.ordinal());
-            preparedStatement.setString(5, playerUsername);
-            preparedStatement.setInt(6, gameID);
+            preparedStatement.setInt(1, gameMinute);
+            preparedStatement.setString(2, description);
+            preparedStatement.setInt(3, type.ordinal());
+            preparedStatement.setString(4, playerUsername);
+            preparedStatement.setInt(5, gameID);
             preparedStatement.executeUpdate();
 
             if (changeScore != 0){
@@ -279,6 +277,57 @@ public class DBCommunicator implements Dao {
             preparedStatement.setString(1, report);
             preparedStatement.setInt(2, gameID);
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
+
+    @Override
+    public boolean isRefereeAuthorized(String refereeUsername, int gameID) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "(SELECT g.gameID FROM member INNER JOIN referee r on member.memberID = r.memberID\n" +
+                "    INNER JOIN game g on r.refereeID = g.main_refereeID\n" +
+                "    WHERE g.gameID = ? AND member.username LIKE ? \n" +
+                "    AND NOW() BETWEEN g.date AND DATE_ADD(g.date, INTERVAL 100 MINUTE ))\n" +
+                "UNION\n" +
+                "(SELECT g2.gameID FROM member INNER JOIN referee on referee.memberID = member.memberID\n" +
+                "    INNER JOIN side_referee_in_game srig on referee.refereeID = srig.side_referee_id\n" +
+                "    INNER JOIN game g2 on srig.gameID = g2.gameID\n" +
+                "    WHERE g2.gameID = ? AND member.username LIKE ? \n" +
+                "    AND NOW() BETWEEN g2.date AND DATE_ADD(g2.date, INTERVAL 100 MINUTE ))";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, gameID);
+            preparedStatement.setString(2, refereeUsername);
+            preparedStatement.setInt(3, gameID);
+            preparedStatement.setString(4, refereeUsername);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return true;
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
+
+    @Override
+    public boolean isReportAuthorized(String refereeUsername, int gameID) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT gameID FROM game " +
+                "INNER JOIN referee r on game.main_refereeID = r.refereeID " +
+                "INNER JOIN member m on r.memberID = m.memberID " +
+                "WHERE game.gameID = ? AND m.username LIKE ? " +
+                "AND NOW() BETWEEN DATE_ADD(game.date, INTERVAL 100 MINUTE ) AND DATE_ADD(game.date, INTERVAL 400 MINUTE )";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, gameID);
+            preparedStatement.setString(2, refereeUsername);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return true;
+            }
+            return false;
         } catch (SQLException e) {
             throw new Exception("SQL exception");
         }
