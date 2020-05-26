@@ -1,5 +1,6 @@
 package com.domain.logic.users;
 
+import com.data.Dao;
 import com.domain.logic.AssociationSystem;
 import com.domain.logic.RecommenderSystem;
 import com.domain.logic.managers.ManageMembers;
@@ -158,5 +159,9 @@ public class SystemManagerMember extends Member{
         recommenderSystem = RecommenderSystem.getInstance();
         recommenderSystem.BuildRecommenderSystem(recommenderSystemStrategy);
         return true;
+    }
+
+    public void resetSystem(Dao dao) {
+        dao.resetSystem();
     }
 }

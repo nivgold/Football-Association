@@ -1,6 +1,7 @@
 package com.data;
 
 import com.domain.logic.data_types.GameIdentifier;
+import com.domain.logic.enums.EventType;
 import com.domain.logic.football.*;
 import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
@@ -8,6 +9,7 @@ import com.domain.logic.users.SystemManagerMember;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public interface Dao {
 
@@ -17,12 +19,13 @@ public interface Dao {
     Game findGame(int gameID);
     Member findMember(String username) throws Exception;
     boolean hasTeam(String teamOwnerUsername) throws Exception;
-    void addLog(String data) throws SQLException;
     SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception;
     void setGameSettingPolicy(int seasonYear, String leagueName, boolean gameSettingPolicyField) throws Exception;
     void setGameRankingPolicy(int seasonYear, String leagueName, int win, int goals, int draw, int yellowCards, int redCards) throws Exception;
     GameIdentifier getRefereeActiveGame(String refereeUsername) throws Exception;
     ArrayList<String> getAllTeamPlayers(String teamName) throws Exception;
+    void setGameReport(int gameID, String report) throws Exception;
+    void addGameEvent(int gameID, int gameMinute, String description, EventType type, Date dateTime, String playerUsername, int changeScore) throws Exception;
     // -------------added functions---------------
 
 
@@ -224,4 +227,5 @@ public interface Dao {
     void addTeam(String teamName, String country, String state, String city, String postalCode, TeamOwner teamOwner) throws Exception;
 
     void resetSystem();
+
 }

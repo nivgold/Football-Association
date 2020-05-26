@@ -117,13 +117,14 @@ public class DomainController {
         try{
             Member memberReferee = AssociationSystem.getInstance().findConnectedUser(refereeUsername);
             Referee referee = (Referee) memberReferee.getSpecificRole(Referee.class);
-            Member memberPlayer = dao.findMember(playerUsername);
-            Player player = (Player) memberPlayer.getSpecificRole(Player.class);
-            Game game = dao.findGame(gameID);
+//            Member memberPlayer = dao.findMember(playerUsername);
+//            Player player = (Player) memberPlayer.getSpecificRole(Player.class);
+//            Game game = dao.findGame(gameID);
             EventType eventType = EventType.strToEventType(type);
             // create the game event
-            return  referee.createGameEvent(gameMinute, description, eventType, date, game, player);
+            referee.createGameEvent(gameMinute, description, eventType, date, gameID, playerUsername);
             // TODO - send OK message to service layer
+            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             // TODO - send FAIL message to service layer
@@ -132,13 +133,13 @@ public class DomainController {
     }
 
     // ------------------------4.2.Referee Create Game Report-------
-    public boolean createGameReport(String refereeUsername, int gameID){
+    public boolean createGameReport(String refereeUsername, int gameID, String report){
         try{
             Member member = AssociationSystem.getInstance().findConnectedUser(refereeUsername);
             Referee referee = (Referee) member.getSpecificRole(Referee.class);
-            Game game = dao.findGame(gameID);
+            //Game game = dao.findGame(gameID);
             // create game report
-            referee.createReport(game);
+            referee.createReport(gameID, report);
             // TODO - send OK message to service layer
             return true;
         } catch (Exception e) {
@@ -154,6 +155,21 @@ public class DomainController {
     }
 
     // ------------------------Additions-----------------------------
+    // System UC's
+    /**
+     * "Reset System" UC
+     */
+    public void performResetSystem(String sysManagerUserName) {
+        try {
+            Member member = AssociationSystem.getInstance().findConnectedUser(sysManagerUserName);
+            if(member instanceof SystemManagerMember){
+                SystemManagerMember systemManagerMember = (SystemManagerMember) member;
+                systemManagerMember.resetSystem(dao);
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
     public ArrayList<String> getAllLeaguesNames(){
         try {
             return dao.getAllLeaguesNames();
@@ -194,14 +210,6 @@ public class DomainController {
         dao.addLeague(new League(leagueName));
     }
 
-
-    // System UC's
-    /**
-     * "Reset System" UC
-     */
-    public void performResetSystem() throws Exception {
-        dao.resetSystem();
-    }
 
     // System Manager Member UC's
 

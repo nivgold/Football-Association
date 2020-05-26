@@ -1,5 +1,7 @@
 package com.domain.logic.roles;
 
+import com.data.DBCommunicator;
+import com.data.Dao;
 import com.domain.logic.enums.EventType;
 import com.domain.logic.football.Event;
 import com.domain.logic.football.Game;
@@ -60,8 +62,31 @@ public class Referee implements IRole, IGameObserver {
         }
     }
 
-    public String createReport(Game game) {
-        return game.createReport();
+    public void createGameEvent(int gameMinute, String description, EventType type, Date dateTime, int gameID, String playerUsername) throws Exception {
+        if (isAuthorized(gameID)){
+            // 0 - no score change
+            // 1 - add goal to host team
+            // -1 - add goal to guest team
+            int changeScore = 0;
+            if (type == EventType.HostGoal){
+                changeScore = 1;
+            }
+            else if (type == EventType.GuestGoal){
+                changeScore = -1;
+            }
+            Dao dao = DBCommunicator.getInstance();
+            dao.addGameEvent(gameID, gameMinute, description, type, dateTime, playerUsername, changeScore);
+        }
+    }
+
+    private boolean isAuthorized(int gameID){
+        // TODO - implement in the dao
+        return false;
+    }
+
+    public void createReport(int gameID, String report) throws Exception {
+        Dao dao = DBCommunicator.getInstance();
+        dao.setGameReport(gameID, report);
     }
 
     /**

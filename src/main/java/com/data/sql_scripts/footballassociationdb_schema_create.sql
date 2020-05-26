@@ -55,6 +55,7 @@ CREATE TABLE member(
     passwordHash varchar (255) NOT NULL,
     name varchar (255) NOT NULL,
     email varchar (255),
+    systemManager boolean NOT NULL,
     -- FOREIGN KEYS
     addressID int NOT NULL,
     coachID int DEFAULT NULL,
@@ -362,16 +363,11 @@ CREATE TABLE teamsInSIL(
     PRIMARY KEY (`leagueID`, `seasonYear`, teamID)
 );
 
-CREATE TABLE log(
-  logID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  data varchar(255)
-);
-
 INSERT INTO `address` (`city`,`country`,`postalCode`, `state`)
     VALUES ('Netanya','Israel','472948239','NONE');
 
-INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`)
-    VALUES ('teamOwner_Koren','833df42ad4b881262b26fe02df0f6cef26b27266','Koren Ishlach', 'korenish@post.bgu.ac.il', 1);
+INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`, systemManager)
+    VALUES ('teamOwner_Koren','833df42ad4b881262b26fe02df0f6cef26b27266','Koren Ishlach', 'korenish@post.bgu.ac.il', 1, 0);
 
 INSERT INTO `team_owner` (`memberID`)
     VALUES (1);
@@ -383,8 +379,8 @@ UPDATE member
 INSERT INTO `address` (`city`,`country`,`postalCode`, `state`)
     VALUES ('Nesher','Israel','472948676','NONE');
 
-INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`)
-    VALUES ('teamOwner_Niv','f213c58a5a9f87db49e3ab9ddfee3332075d4ced','Niv GoldShlager', 'nivgold@post.bgu.ac.il', 2);
+INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`, systemManager)
+    VALUES ('teamOwner_Niv','f213c58a5a9f87db49e3ab9ddfee3332075d4ced','Niv GoldShlager', 'nivgold@post.bgu.ac.il', 2, 0);
 
 INSERT INTO `address` (`city`,`country`,`postalCode`, `state`)
     VALUES ('Nesher','Israel','472940000','NONE');
@@ -405,8 +401,8 @@ UPDATE member
 INSERT INTO `address` (`city`,`country`,`postalCode`, `state`)
     VALUES ('Netanya','Israel','983457348','NONE');
 
-INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`)
-    VALUES ('teamOwner_Tal','a96c9ea7833b5a8698f9bfc042fbfab1ea90040a','Tal Frimerman', 'talfrim@post.bgu.ac.il', 4);
+INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`, systemManager)
+    VALUES ('teamOwner_Tal','a96c9ea7833b5a8698f9bfc042fbfab1ea90040a','Tal Frimerman', 'talfrim@post.bgu.ac.il', 4, 0);
 
 INSERT INTO `address` (`city`,`country`,`postalCode`, `state`)
     VALUES ('Netanya','Israel','983450000','NONE');
@@ -435,8 +431,8 @@ UPDATE member
 INSERT INTO `address` (`city`,`country`,`postalCode`, `state`)
     VALUES ('Heaven','Israel','983457348','NONE');
 
-INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`)
-    VALUES ('assocAgent yarin','c424197946a55fcc400a20811aeaeeda3d72d71d','Yarin Nahum', 'yarina@post.bgu.ac.il', 6);
+INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`, systemManager)
+    VALUES ('assocAgent yarin','c424197946a55fcc400a20811aeaeeda3d72d71d','Yarin Nahum', 'yarina@post.bgu.ac.il', 6, 0);
 
 INSERT INTO association_agent (memberID)
     VALUES (4);
@@ -460,8 +456,8 @@ UPDATE policy
 INSERT INTO `address` (`city`,`country`,`postalCode`, `state`)
     VALUES ('Holon','Israel','384765534','NONE');
 
-INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`)
-    VALUES ('main Referee asaf','1608f3ee993f91f37818451c218b393896f214dd','asaf zosman', 'asafzos@post.bgu.ac.il', 7);
+INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`, systemManager)
+    VALUES ('main Referee asaf','1608f3ee993f91f37818451c218b393896f214dd','asaf zosman', 'asafzos@post.bgu.ac.il', 7, 0);
 
 INSERT INTO referee (qualification, memberID)
     VALUES ('qualified main', 5);
@@ -472,11 +468,11 @@ INSERT INTO refereesInSIL (seasonYear, leagueID, refereeID)
 INSERT INTO game (date, host_teamID, guest_teamID, main_refereeID, seasonYear, leagueID, fieldID)
     VALUES ('2020-08-20', 1, 2, 1, 2020, 1, 1);
 
-INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`)
-    VALUES ('side Referee asaf1','63ee39facef3e951eddbfad442b8624a811563e0','asaf1 zosman', 'asafzos1@post.bgu.ac.il', 7);
+INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`, systemManager)
+    VALUES ('side Referee asaf1','63ee39facef3e951eddbfad442b8624a811563e0','asaf1 zosman', 'asafzos1@post.bgu.ac.il', 7, 0);
 
-INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`)
-    VALUES ('side Referee asaf2','5f18c71e0494f65f47f52d0984644110b85a7af2','asaf2 zosman', 'asafzos2@post.bgu.ac.il', 7);
+INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`, systemManager)
+    VALUES ('side Referee asaf2','5f18c71e0494f65f47f52d0984644110b85a7af2','asaf2 zosman', 'asafzos2@post.bgu.ac.il', 7, 0);
 
 INSERT INTO referee (qualification, memberID)
     VALUES ('qualified side1', 6);
@@ -495,3 +491,10 @@ INSERT INTO teamsInSIL (seasonYear, leagueID, teamID)
 
 INSERT INTO teamsInSIL (seasonYear, leagueID, teamID)
     VALUES (2020, 1, 2);
+
+UPDATE member
+    SET associationAgentID = 1
+    WHERE memberID = 4;
+
+INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`, systemManager)
+    VALUES ('sysManager_admin','d033e22ae348aeb5660fc2140aec35850c4da997','System Manager', 'sysManager@post.bgu.ac.il', 1, 1);
