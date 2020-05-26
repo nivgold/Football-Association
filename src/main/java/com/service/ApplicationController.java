@@ -99,7 +99,7 @@ public class ApplicationController {
     // ------------------------4.2.Referee Create Game Report-------
     @PostMapping("/createGameReport")
     public StatusResponse createGameReport(@RequestBody CreateReportRequest createReportRequest) {
-        if (domainController.createGameReport(createReportRequest.getRefereeUsername(),createReportRequest.getGameID())) {
+        if (domainController.createGameReport(createReportRequest.getRefereeUsername(),createReportRequest.getGameID(),createReportRequest.getReport())) {
             return StatusResponse.getTrueStatusObj();
         }
         return StatusResponse.getFalseStatusObj();
@@ -133,7 +133,7 @@ public class ApplicationController {
     // ------------------resetSystem (Dangerous!):----
     @PostMapping("/resetSystem")
     public void resetSystem(@RequestBody ResetSystemRequest resetSystemRequest) {
-        try { domainController.performResetSystem(); }
+        try { domainController.performResetSystem(resetSystemRequest.getSysManagerUserName()); }
         catch (Exception e) {}
     }
 

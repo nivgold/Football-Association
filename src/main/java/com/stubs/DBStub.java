@@ -2,6 +2,7 @@ package com.stubs;
 
 import com.data.Dao;
 import com.domain.logic.data_types.GameIdentifier;
+import com.domain.logic.enums.EventType;
 import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.football.*;
 import com.domain.logic.policies.GameSettingPolicy;
@@ -15,6 +16,7 @@ import com.domain.logic.users.SystemManagerMember;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DBStub implements Dao {
 
@@ -75,7 +77,7 @@ public class DBStub implements Dao {
         return false;
     }
 
-    @Override
+
     public void addLog(String data) throws SQLException {
         this.logs.add(data);
     }
@@ -117,6 +119,16 @@ public class DBStub implements Dao {
     @Override
     public ArrayList<String> getAllTeamPlayers(String teamName) throws Exception {
         return null;
+    }
+
+    @Override
+    public void setGameReport(int gameID, String report) throws Exception {
+
+    }
+
+    @Override
+    public void addGameEvent(int gameID, int gameMinute, String description, EventType type, Date dateTime, String playerUsername, int changeScore) throws Exception {
+
     }
 
     @Override
