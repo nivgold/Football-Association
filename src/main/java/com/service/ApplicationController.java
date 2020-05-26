@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @RequestMapping("api/v1")
-@RestController
+@RestController @CrossOrigin
 public class ApplicationController {
 
 
@@ -107,6 +107,12 @@ public class ApplicationController {
 
 
     // ------------------------***others***-------
+
+    // ------------------------test getter-------
+    @GetMapping("/testGetter")
+    public StatusResponse getTrueStatus() {
+        return StatusResponse.getTrueStatusObj();
+    }
 
     // ------------------------get all leagues-------
     @GetMapping("/getLeagueNames")
