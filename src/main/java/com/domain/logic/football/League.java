@@ -27,6 +27,7 @@ public class League {
      */
     public League(String leagueName) {
         this.leagueName = leagueName;
+        seasonInLeagues = new ArrayList<>();
         //TODO call DAO to add league
     }
 
@@ -221,7 +222,11 @@ public class League {
         policy.setGameSettingPolicy(settingPolicy);
 
         //TODO call DAO to add GameSettingPolicy to policy in the DB
-        boolean gameSettingPolicyField = settingPolicy.getSettingStrategy() instanceof OneMatchEachPairSettingPolicy ? true : false;
+        boolean gameSettingPolicyField;
+        if(settingPolicy.getSettingStrategy() instanceof OneMatchEachPairSettingPolicy)
+            gameSettingPolicyField = false;
+        else
+            gameSettingPolicyField = true;
         Dao dao = DBCommunicator.getInstance();
         dao.setGameSettingPolicy(season.getYear(), this.leagueName, gameSettingPolicyField);
 

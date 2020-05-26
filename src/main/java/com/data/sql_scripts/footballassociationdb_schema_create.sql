@@ -315,7 +315,7 @@ CREATE TABLE rankingPolicy(
 
 CREATE TABLE policy(
     policyID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    gameSettingPolicy tinyint,
+    gameSettingPolicy boolean DEFAULT false,
     -- FOREIGN KEYS
     rankingPolicyID int,
     seasonYear int,
@@ -520,3 +520,7 @@ UPDATE member
 UPDATE member
     SET refereeID = 3
     WHERE memberID = 7;
+
+UPDATE policy
+    SET seasonYear = 2020, leagueID = 1
+    WHERE policyID = 1;
