@@ -1,12 +1,10 @@
 import com.data.DBCommunicator;
 import com.domain.domaincontroller.DomainController;
-import com.domain.logic.AssociationSystem;
 import com.domain.logic.enums.EventType;
 import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.football.*;
 import com.domain.logic.roles.Referee;
 import com.domain.logic.roles.TeamOwner;
-import com.domain.logic.users.Guest;
 import com.domain.logic.users.Member;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,8 +17,8 @@ public class RefereeAcceptanceTest {
 
     public static void activate(String UC_NAME){
         DomainController serviceLayerManager = new DomainController(DBCommunicator.getInstance());
+        serviceLayerManager.login("sysManager_admin", "admin", "", "");
         try {
-            serviceLayerManager.login("123","123", "sysManager_admin", "admin");
             serviceLayerManager.performResetSystem("sysManager_admin");
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -64,18 +62,8 @@ public class RefereeAcceptanceTest {
             }
 
             case ("6.3"): {
-                // referee create game event
-                String refereeUsername = "main Referee asaf";
-                String refereePassword = "asafpass";
-                int gameID = 1;
-                Date date = new Date();
-                int gameMinute = 20;
-                String description = "a description";
-                String type = "YellowCard";
-                String playerUsername = "teamOwner_Niv";
-
-                serviceLayerManager.addGameEvent(refereeUsername, gameID, date, gameMinute, description, type, playerUsername);
-
+                if (!serviceLayerManager.performCreateGameEvent(referee,35,"amazing event", EventType.Foul, new Date(123),game1,null))
+                    System.err.println("FAILED adding event to game by referee");
                 break;
             }
 
