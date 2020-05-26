@@ -498,3 +498,13 @@ UPDATE member
 
 INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`, systemManager)
     VALUES ('sysManager_admin','d033e22ae348aeb5660fc2140aec35850c4da997','System Manager', 'sysManager@post.bgu.ac.il', 1, 1);
+
+INSERT INTO player (birth_date, memberID)
+    VALUES ('1999-07-14', 2);
+
+INSERT INTO player_in_team (playerID, teamID)
+    VALUES (1, 1);
+
+UPDATE member
+    SET playerID = 1
+    WHERE memberID = 2;
