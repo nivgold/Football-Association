@@ -1302,3 +1302,11 @@ INFO    2020-05-25 22:51:19 - the guest: koren login as the member: teamOwner_Ko
 INFO    2020-05-25 22:53:25 - the guest: koren login as the member: teamOwner_Koren
 INFO    2020-05-25 22:55:25 - the guest: koren login as the member: teamOwner_Koren
 INFO    2020-05-25 23:02:00 - the guest: koren login as the member: teamOwner_Koren
+INFO    2020-05-26 17:43:29 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 17:43:31 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 17:44:00 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 17:44:02 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 17:44:43 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 17:44:45 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 17:47:28 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 17:47:29 - the guest:  login as the member: sysManager_admin
