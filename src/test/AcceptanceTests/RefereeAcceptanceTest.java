@@ -62,20 +62,19 @@ public class RefereeAcceptanceTest {
             }
 
             case ("6.3"): {
-                if (!serviceLayerManager.performCreateGameEvent(referee,35,"amazing event", EventType.Foul, new Date(123),game1,null))
-                    System.err.println("FAILED adding event to game by referee");
-                break;
+                // referee create game event
+                String refereeUsername = "main Referee asaf";
+                int gameID = 1;
+                Date date = new Date();
+                int gameMinute = 20;
+                String description = "some description";
+                String type = "YellowCard";
+                String playerUsername = "teamOwner_Niv";
+
+                serviceLayerManager.addGameEvent(refereeUsername, gameID, date, gameMinute, description, type, playerUsername);
             }
 
             case ("6.4"): {
-                serviceLayerManager.performCreateGameEvent(referee,35,"amazing event", EventType.Foul, new Date(123),game1,null);
-                ArrayList<Event> eventsToEdit = game1.getEvents();
-                Event event = eventsToEdit.get(0);
-                Event newE = new Event (35,"amazing event", EventType.Foul, new Date(123),game1,null);
-                serviceLayerManager.performEditGameEvent(referee,game1,event,newE);
-                if (!game1.getEvents().contains(newE)) {
-                    System.err.println("Failed to edit event");
-                }
                 break;
             }
 
