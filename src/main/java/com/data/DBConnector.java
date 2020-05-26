@@ -1,6 +1,8 @@
 package com.data;
 
 
+import com.logger.EventLogger;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,7 +16,7 @@ public class DBConnector {
         Connection connection;
         try {
             connection = DriverManager.getConnection(URL, USER, PASS);
-            System.out.println("created new Database connection");
+            EventLogger.getInstance().saveLog("new database connection has been created");
         } catch (SQLException e) {
             throw new IllegalStateException("Cannot connect the database!", e);
         }

@@ -4,7 +4,7 @@ import com.domain.logic.data_types.PersonalPage;
 import com.domain.logic.football.CoachInTeam;
 import com.domain.logic.football.IPersonalPageable;
 import com.domain.logic.users.Member;
-import com.logger.Logger;
+import com.logger.EventLogger;
 
 import java.util.ArrayList;
 
@@ -75,7 +75,7 @@ public class Coach implements IPersonalPageable, IRole {
         }
         teams.clear();
         member.removeCoach(this);
-        Logger.getInstance().saveLog("The coach has been removed successfully");
+        EventLogger.getInstance().saveLog("The coach has been removed successfully");
         return true;
 
     }

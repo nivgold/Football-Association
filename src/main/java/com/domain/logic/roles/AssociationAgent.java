@@ -7,7 +7,7 @@ import com.domain.logic.football.Season;
 import com.domain.logic.policies.GameSettingPolicy;
 import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.users.Member;
-import com.logger.Logger;
+import com.logger.EventLogger;
 
 import java.util.ArrayList;
 
@@ -29,10 +29,10 @@ public class AssociationAgent implements IRole {
         //TODO call DAO to find the league
         if (system.getManageLeagues().findLeague(name) == null){
             League league = new League(name);
-            Logger.getInstance().saveLog("League: "+name+" was added to the system");
+            EventLogger.getInstance().saveLog("League: "+name+" was added to the system");
         }
         else{
-            Logger.getInstance().saveLog("the League:"+name+" already exists");
+            EventLogger.getInstance().saveLog("the League:"+name+" already exists");
         }
 
     }
@@ -63,11 +63,11 @@ public class AssociationAgent implements IRole {
                     s = new Season(year);
                 }
                 l.addSeason(s);
-                Logger.getInstance().saveLog("The season has been added successfully to the league");
+                EventLogger.getInstance().saveLog("The season has been added successfully to the league");
             }
         }
         else {
-            Logger.getInstance().saveLog("The league does not exists.");
+            EventLogger.getInstance().saveLog("The league does not exists.");
         }
     }
 
@@ -80,12 +80,12 @@ public class AssociationAgent implements IRole {
         // check if member already a referee in the system
         for (IRole role : member.getRoles()){
             if (role instanceof Referee) {
-                Logger.getInstance().saveLog("member already a Referee");
+                EventLogger.getInstance().saveLog("member already a Referee");
                 return;
             }
         }
         Referee referee = new Referee(member);
-        Logger.getInstance().saveLog("memeber -> "+member+" is Referee");
+        EventLogger.getInstance().saveLog("memeber -> "+member+" is Referee");
     }
 
     /**
@@ -94,7 +94,7 @@ public class AssociationAgent implements IRole {
      */
     public void removeReferee(Referee r) throws Exception {
         r.removeYourself();
-        Logger.getInstance().saveLog("The referee has been removed successfully");
+        EventLogger.getInstance().saveLog("The referee has been removed successfully");
     }
 
     /**
@@ -153,10 +153,10 @@ public class AssociationAgent implements IRole {
      * @param gsp
      */
     public void setGameSettingPolicy(League l, Season s, GameSettingPolicy gsp) throws Exception {
+
         GameSettingPolicy current = l.getSeasonLeaguePolicy().get(s).getGameSettingPolicy();
         if (current== null || current.getSettingStrategy().getClass() != gsp.getSettingStrategy().getClass()) {
             l.setGameSettingPolicy(s, gsp);
-            System.out.println("The ranking policy changed successfully");
         }
         else {
             throw new Exception("cannot perform the operation");

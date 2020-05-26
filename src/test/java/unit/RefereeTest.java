@@ -67,11 +67,10 @@ class RefereeTest {
 
     @Test
     void createGameEvent() {
-        r.createGameEvent(1, "e", EventType.Foul, d, g, p);
-        assertTrue(g.getEvents().size() == 0);
-        r.getMain().add(g);
-        r.createGameEvent(1, "e", EventType.Foul, d, g, p);
-        assertTrue(g.getEvents().size() == 1);
+        // need game
+        // need player
+        // need referee
+        // need event
     }
 
     @Test

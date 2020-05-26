@@ -7,6 +7,7 @@ import com.domain.logic.managers.ManageLeagues;
 import com.domain.logic.policies.GameSettingPolicy;
 import com.domain.logic.policies.Policy;
 import com.domain.logic.policies.RankingPolicy;
+import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
 import com.domain.logic.policies.game_setting_policies.TwoMatchEachPairSettingPolicy;
 import com.domain.logic.roles.AssociationAgent;
 import com.domain.logic.roles.IRole;
@@ -14,7 +15,7 @@ import com.domain.logic.roles.Referee;
 import com.domain.logic.users.Member;
 
 public class AssociationAgentAcceptanceTest {
-    private static String assosName = "";
+    private static String assosName = "assocAgent yarin";
 
     public AssociationAgentAcceptanceTest() {
     }
@@ -22,6 +23,7 @@ public class AssociationAgentAcceptanceTest {
     public static void activate(String UC_NAME){
         DomainController serviceLayerManager = new DomainController(DBCommunicator.getInstance());
         serviceLayerManager.login("sysManager_admin", "admin", "", "");
+        serviceLayerManager.login("assocAgent yarin", "yarinpass", "", "");
         try {
             serviceLayerManager.performResetSystem("sysManager_admin");
         } catch (Exception e) {
@@ -110,6 +112,24 @@ public class AssociationAgentAcceptanceTest {
                     serviceLayerManager.defineGameSettingPolicy(assosName, seasonInLeague.getLeague().getLeagueName(), seasonInLeague.getSeason().getYear(), "two");
                     seasonInLeague = serviceLayerManager.findSeasonInLeague(2020, "Base League");
                     if(seasonInLeague.getPolicy().getGameSettingPolicy().getSettingStrategy() instanceof TwoMatchEachPairSettingPolicy){
+                        System.out.println("setting the game setting policy was successful");
+                    }
+                    else{
+                        System.err.println("failed to setting the game setting policy was successful");
+                    }
+                    //again two
+                    serviceLayerManager.defineGameSettingPolicy(assosName, seasonInLeague.getLeague().getLeagueName(), seasonInLeague.getSeason().getYear(), "two");
+                    seasonInLeague = serviceLayerManager.findSeasonInLeague(2020, "Base League");
+                    if(seasonInLeague.getPolicy().getGameSettingPolicy().getSettingStrategy() instanceof TwoMatchEachPairSettingPolicy){
+                        System.out.println("setting the game setting policy was successful");
+                    }
+                    else{
+                        System.err.println("failed to setting the game setting policy was successful");
+                    }
+                    //change to one
+                    serviceLayerManager.defineGameSettingPolicy(assosName, seasonInLeague.getLeague().getLeagueName(), seasonInLeague.getSeason().getYear(), "one");
+                    seasonInLeague = serviceLayerManager.findSeasonInLeague(2020, "Base League");
+                    if(seasonInLeague.getPolicy().getGameSettingPolicy().getSettingStrategy() instanceof OneMatchEachPairSettingPolicy){
                         System.out.println("setting the game setting policy was successful");
                     }
                     else{

@@ -5,6 +5,9 @@ import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.GameIdentifier;
 import com.domain.logic.enums.EventType;
 import com.domain.logic.football.*;
+import com.domain.logic.policies.RankingPolicy;
+import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
+import com.domain.logic.policies.game_setting_policies.TwoMatchEachPairSettingPolicy;
 import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
@@ -77,7 +80,7 @@ public class DBCommunicator implements Dao {
     @Override
     public SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception {
         Connection connection = DBConnector.getConnection();
-        String sql = "SELECT seasonYear, league_name FROM seasoninleague" +
+        String sql = "SELECT seasonYear, league_name, PolicyID FROM seasoninleague" +
                 " INNER JOIN league ON  league.leagueID = seasoninleague.leagueID" +
                 " WHERE seasonYear = ? AND  league_name LIKE ?";
         try{
@@ -93,6 +96,42 @@ public class DBCommunicator implements Dao {
                 String league_name = resultSet.getString("league_name");
                 League league = new League(league_name);
                 seasonInLeague = new SeasonInLeague(league, season);
+                int policyID = resultSet.getInt("policyID");
+                String getPolicy = "SELECT * FROM policy" +
+                        " WHERE policyID = ?";
+                PreparedStatement getPolicyStatement = connection.prepareStatement(getPolicy);
+                getPolicyStatement.setInt(1, policyID);
+                resultSet = getPolicyStatement.executeQuery();
+                if(resultSet.next()){
+                    boolean gameSett = resultSet.getBoolean("gameSettingPolicy");
+                    if(gameSett){
+                        seasonInLeague.getPolicy().setGameSettingPolicy(new TwoMatchEachPairSettingPolicy());
+                    }
+                    else{
+                        seasonInLeague.getPolicy().setGameSettingPolicy(new OneMatchEachPairSettingPolicy());
+                    }
+                    int rankSett = resultSet.getInt("rankingPolicyID");
+                    if(rankSett != 0){
+                        String getRankingFields = "SELECT * FROM rankingpolicy" +
+                                " WHERE rankingPolicyID = ?";
+                        PreparedStatement getRankingStatement = connection.prepareStatement(getRankingFields);
+                        getRankingStatement.setInt(1, rankSett);
+                        resultSet = getRankingStatement.executeQuery();
+                        if(resultSet.next()){
+                        int win = resultSet.getInt("win");
+                        int goals = resultSet.getInt("goals");
+                        int draw = resultSet.getInt("draw");
+                        int yellowCards = resultSet.getInt("yellowCards");
+                        int redCards = resultSet.getInt("redCards");
+                        seasonInLeague.getPolicy().setRankingPolicy(win, goals, draw, yellowCards, redCards);
+                        }
+                    }
+                    else{
+                        //insert new value to ranking policy table
+                        insertRankingPolicy(connection, 3, 2, 1, 1, 3, policyID, seasonInLeague);
+                    }
+                }
+
             }
             connection.close();
             return seasonInLeague;
@@ -101,6 +140,41 @@ public class DBCommunicator implements Dao {
             throw new Exception("cannot perform operation");
         }
     }
+
+    /**
+     * insert new value to ranking policy table and update the policy table as well
+     */
+    private void insertRankingPolicy(Connection connection, int win, int goals, int draw, int yellowCards, int redCards, int policyID, SeasonInLeague seasonInLeague) {
+        String setDefRanking = "INSERT INTO rankingpolicy (win, goals, draw, yellowCards, redCards, policyID) " +
+                "   VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement setDefRankingStatement = connection.prepareStatement(setDefRanking, Statement.RETURN_GENERATED_KEYS);
+            setDefRankingStatement.setInt(1, win);
+            setDefRankingStatement.setInt(2, goals);
+            setDefRankingStatement.setInt(3, draw);
+            setDefRankingStatement.setInt(4, yellowCards);
+            setDefRankingStatement.setInt(5, redCards);
+            setDefRankingStatement.setInt(6, policyID);
+            setDefRankingStatement.execute();
+            ResultSet resultSet = setDefRankingStatement.getGeneratedKeys();
+            int rankingPolicyID;
+            if (resultSet.next()){
+                rankingPolicyID = resultSet.getInt(1);
+                //update policy
+                String updatePolicy = "UPDATE policy " +
+                        " SET rankingPolicyID = ? " +
+                        " WHERE policyID = ?";
+                PreparedStatement updatePolicyStatement = connection.prepareStatement(updatePolicy);
+                updatePolicyStatement.setInt(1, rankingPolicyID);
+                updatePolicyStatement.setInt(2, policyID);
+                updatePolicyStatement.executeUpdate();
+                seasonInLeague.getPolicy().setRankingPolicy(3, 1, 1, 1, 2);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void setGameSettingPolicy(int seasonYear, String leagueName, boolean gameSettingPolicyField) throws Exception {
         Connection connection = DBConnector.getConnection();

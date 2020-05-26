@@ -5,7 +5,7 @@ import com.domain.logic.football.Event;
 import com.domain.logic.football.IPersonalPageable;
 import com.domain.logic.football.PlayerRoleInTeam;
 import com.domain.logic.users.Member;
-import com.logger.Logger;
+import com.logger.EventLogger;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,7 +53,7 @@ public class Player implements IRole, IPersonalPageable {
         member.removePlayer(this);
         events.clear();
         roleInTeams.clear();
-        Logger.getInstance().saveLog("The player has been removed successfully");
+        EventLogger.getInstance().saveLog("The player has been removed successfully");
         return true;
 
     }

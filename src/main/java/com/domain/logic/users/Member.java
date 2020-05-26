@@ -10,9 +10,8 @@ import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.roles.*;
 import com.domain.logic.utils.SHA1Function;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.logger.Logger;
+import com.logger.EventLogger;
 
-import javax.management.relation.Role;
 import java.util.ArrayList;
 
 public class Member implements IGameObserver, IPersonalPageObserver {
@@ -44,7 +43,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
         if (!AssociationSystem.getInstance().checkIfConnected(this))
             return false;
         AssociationSystem.getInstance().logOutUser(this);
-        Logger.getInstance().saveLog("Member logout successfully");
+        EventLogger.getInstance().saveLog("Member logout successfully");
         return true;
     }
 
@@ -54,7 +53,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
      */
     public void writeComplaint(String complaintData){
         Complaint newComp = new Complaint(this, complaintData);
-        Logger.getInstance().saveLog("the member -> " + this.userName + " sent new complaint to the system, compID:" + newComp.getCompID());
+        EventLogger.getInstance().saveLog("the member -> " + this.userName + " sent new complaint to the system, compID:" + newComp.getCompID());
         this.unresolvedComplaints.add(newComp);
     }
 
@@ -68,7 +67,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
     public String readResolvedComplaint(int wantedCompId) {
         for (int i = 0; i < this.resolvedComplaints.size(); i++) {
             if (this.resolvedComplaints.get(i).getCompID() == wantedCompId) {
-                Logger.getInstance().saveLog("the member -> " + this.userName + " read the answer for his complaint, compId: " + wantedCompId);
+                EventLogger.getInstance().saveLog("the member -> " + this.userName + " read the answer for his complaint, compId: " + wantedCompId);
                 return this.resolvedComplaints.get(i).getCompAns();
             }
         }
@@ -99,7 +98,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
     public String notifyCompAns(Complaint complaint) {
         this.unresolvedComplaints.remove(complaint);
         this.resolvedComplaints.add(complaint);
-        Logger.getInstance().saveLog("the member -> " + this.userName + " was notify that his complaint with comId: " + complaint.getCompID() + " has been answered");
+        EventLogger.getInstance().saveLog("the member -> " + this.userName + " was notify that his complaint with comId: " + complaint.getCompID() + " has been answered");
         //notify the member that his complaint has been answered
         return  "Complaint " + complaint.getCompID() + " has been answered by System Manager";
     }
@@ -112,7 +111,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
      */
     public String search(int key, String query){
         SearchSystem searcher = SearchSystem.getInstance();
-        Logger.getInstance().saveLog("the member -> " + this.userName + " searched -> " + query);
+        EventLogger.getInstance().saveLog("the member -> " + this.userName + " searched -> " + query);
         return searcher.search(key, query);
     }
 
@@ -121,7 +120,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
             if (memberRole.getClass().getName().equals(role.getName()))
                 return memberRole;
         }
-        throw new ClassNotFoundException("this member has no "+role.getClass());
+        throw new ClassNotFoundException("member "+this.userName+" has no role: "+role.getClass());
     }
 
     @Override
@@ -144,7 +143,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
             this.userName = userName;
             //TODO call DAO to add the Member
             if(manageMembers.addMember(this)){
-                Logger.getInstance().saveLog("the member -> " + this.name + " changed his userName to -> " + userName);
+                EventLogger.getInstance().saveLog("the member -> " + this.name + " changed his userName to -> " + userName);
                 return true;
             }
         }
@@ -159,7 +158,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
             String hashPassword = SHA1Function.hash(password);
             this.passwordHash = hashPassword;
             if(manageMembers.addMember(this)){
-                Logger.getInstance().saveLog("the member -> " + this.userName + " changed his password");
+                EventLogger.getInstance().saveLog("the member -> " + this.userName + " changed his password");
                 return true;
             }
         }
@@ -177,7 +176,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
         }
         //TODO call DAO to remove Member from DB
         ManageMembers manageMembers = ManageMembers.getInstance();
-        Logger.getInstance().saveLog("the member -> " + this.userName + " was deleted from the system");
+        EventLogger.getInstance().saveLog("the member -> " + this.userName + " was deleted from the system");
         return manageMembers.removeMember(this.userName, this.passwordHash);
     }
 
