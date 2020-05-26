@@ -11,7 +11,9 @@ import com.domain.logic.roles.AssociationAgent;
 import com.domain.logic.roles.IRole;
 import com.domain.logic.roles.Referee;
 import com.domain.logic.users.Member;
+
 public class AssociationAgentAcceptanceTest {
+    private static String assosName = "";
 
     public AssociationAgentAcceptanceTest() {
     }
@@ -102,10 +104,8 @@ public class AssociationAgentAcceptanceTest {
 
             case ("5.6") : {
                 SeasonInLeague seasonInLeague = new SeasonInLeague(league, season2020);
-                Policy policy = new Policy(seasonInLeague);
-                RankingPolicy chosenRP = new RankingPolicy(policy);
                 try {
-                    league.setPolicyToSeason(season2020,policy);
+                    serviceLayerManager.defineGameSettingPolicy(assosName, league.getLeagueName(), season2020.getYear(), "TWO");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

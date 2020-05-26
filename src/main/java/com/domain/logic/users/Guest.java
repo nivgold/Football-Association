@@ -25,7 +25,7 @@ public class Guest {
     public Member login(String userName, String password) throws Exception {
         String hashPassword = SHA1Function.hash(password);
         Dao dao = DBCommunicator.getInstance();
-        dao.addLog("attempt to login with credentials: "+userName+" , "+password);
+        Logger.getInstance().saveLog("attempt to login with credentials: "+userName+" , "+password);
         Member member = dao.findMember(userName, hashPassword);
         if(member != null) {
             Logger.getInstance().saveLog("the guest: " + this.firstName + " login as the member: " + userName);

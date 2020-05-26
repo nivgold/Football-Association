@@ -154,6 +154,21 @@ public class DomainController {
     }
 
     // ------------------------Additions-----------------------------
+    // System UC's
+    /**
+     * "Reset System" UC
+     */
+    public void performResetSystem(String sysManagerUserName) {
+        try {
+            Member member = AssociationSystem.getInstance().findConnectedUser(sysManagerUserName);
+            if(member instanceof SystemManagerMember){
+                SystemManagerMember systemManagerMember = (SystemManagerMember) member;
+                systemManagerMember.resetSystem(dao);
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
     public ArrayList<String> getAllLeaguesNames(){
         try {
             return dao.getAllLeaguesNames();
@@ -194,14 +209,6 @@ public class DomainController {
         dao.addLeague(new League(leagueName));
     }
 
-
-    // System UC's
-    /**
-     * "Reset System" UC
-     */
-    public void performResetSystem() throws Exception {
-        dao.resetSystem();
-    }
 
     // System Manager Member UC's
 
