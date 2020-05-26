@@ -6,8 +6,7 @@ import com.domain.logic.AssociationSystem;
 import com.domain.logic.SearchSystem;
 import com.domain.logic.data_types.Address;
 import com.domain.logic.utils.SHA1Function;
-import com.logger.Logger;
-import org.apache.tomcat.jni.Error;
+import com.logger.EventLogger;
 
 public class Guest {
     private static int countID = 0;
@@ -25,19 +24,13 @@ public class Guest {
     public Member login(String userName, String password) throws Exception {
         String hashPassword = SHA1Function.hash(password);
         Dao dao = DBCommunicator.getInstance();
-        Logger.getInstance().saveLog("attempt to login with credentials: "+userName+" , "+password);
         Member member = dao.findMember(userName, hashPassword);
         if(member != null) {
-            Logger.getInstance().saveLog("the guest: " + this.firstName + " login as the member: " + userName);
-            // TODO upload all dependencies
-            System.out.println("successful login");
+            AssociationSystem.getInstance().connectUser(member);
         }
         else {
-            Logger.getInstance().saveLog("the guest: " + this.firstName + " failed to login as the member: " + userName);
-
-            throw new Exception("failed to login");
+            throw new Exception("guest failed to login with the credentials: \""+userName+"\" , \""+password+"\"");
         }
-        AssociationSystem.getInstance().connectUser(member);
         return member;
     }
 
@@ -54,10 +47,10 @@ public class Guest {
             Address memberAdd = new Address(country, state, city, postalCode);
             //TODO add new member to dao
             newMember = new Member(userName, hashPassword, email, memberAdd, this.firstName + " " + this.lastName);
-            Logger.getInstance().saveLog("the guest: " + this.firstName + " register as the member: " + userName);
+            EventLogger.getInstance().saveLog("the guest: " + this.firstName + " register as the member: " + userName);
             return newMember;
         }
-        Logger.getInstance().saveLog("the guest: " + this.firstName + " failed to register as the member: " + userName);
+        EventLogger.getInstance().saveLog("the guest: " + this.firstName + " failed to register as the member: " + userName);
         return null;
     }
 

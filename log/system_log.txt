@@ -1429,3 +1429,7 @@ INFO    2020-05-26 19:17:50 - attempt to login with credentials: sysManager_admi
 INFO    2020-05-26 19:17:53 - the guest:  login as the member: sysManager_admin
 INFO    2020-05-26 19:18:06 - attempt to login with credentials: main Referee asaf , asafpass
 INFO    2020-05-26 19:18:06 - the guest: 123 login as the member: main Referee asaf
+INFO    2020-05-26 20:31:52 - attempt to login with credentials: sysManager_admin , admin
+INFO    2020-05-26 20:31:54 - the guest:  login as the member: sysManager_admin
+INFO    2020-05-26 20:32:03 - attempt to login with credentials: main Referee asaf , asafpass
+INFO    2020-05-26 20:32:03 - the guest: 123 login as the member: main Referee asaf

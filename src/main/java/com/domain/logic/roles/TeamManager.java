@@ -3,7 +3,7 @@ package com.domain.logic.roles;
 import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.football.Team;
 import com.domain.logic.users.Member;
-import com.logger.Logger;
+import com.logger.EventLogger;
 
 public class TeamManager implements IRole, ITeamObserver {
 
@@ -36,7 +36,7 @@ public class TeamManager implements IRole, ITeamObserver {
         this.appointer.getAppointments().remove(this);
         this.team = null;
         this.appointer = null;
-        Logger.getInstance().saveLog("The team manager has been removed successfully");
+        EventLogger.getInstance().saveLog("The team manager has been removed successfully");
         return true;
     }
 

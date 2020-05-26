@@ -8,7 +8,7 @@ import com.domain.logic.football.Game;
 import com.domain.logic.football.League;
 import com.domain.logic.users.IGameObserver;
 import com.domain.logic.users.Member;
-import com.logger.Logger;
+import com.logger.EventLogger;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class Referee implements IRole, IGameObserver {
             //TODO call DAO to add new event to game
             return true;
         } else {
-            Logger.getInstance().saveLog(member.getUserName() + " referee is not authorized to add events to the game");
+            EventLogger.getInstance().saveLog(member.getUserName() + " referee is not authorized to add events to the game");
             return false;
         }
     }
@@ -77,20 +77,28 @@ public class Referee implements IRole, IGameObserver {
             Dao dao = DBCommunicator.getInstance();
             dao.addGameEvent(gameID, gameMinute, description, type, playerUsername, changeScore);
         }
+        else{
+            throw new Exception("\""+this.member.getUserName()+"\" is not authorized to add game event in gameID: "+gameID);
+        }
     }
 
     private boolean isAuthorized(int gameID) throws Exception {
-        return DBCommunicator.getInstance().isRefereeAuthorized(this.member.getUserName(), gameID);
+        Dao dao = DBCommunicator.getInstance();
+        return dao.isRefereeAuthorized(this.member.getUserName(), gameID);
     }
 
     private boolean isReportAuthorized(int gameID) throws Exception {
-        return DBCommunicator.getInstance().isReportAuthorized(this.member.getUserName(), gameID);
+        Dao dao = DBCommunicator.getInstance();
+        return dao.isReportAuthorized(this.member.getUserName(), gameID);
     }
 
     public void createReport(int gameID, String report) throws Exception {
         if (isReportAuthorized(gameID)){
             Dao dao = DBCommunicator.getInstance();
             dao.setGameReport(gameID, report);
+        }
+        else{
+            throw new Exception("\""+this.member.getUserName()+"\" is not authorized to create game report in gameID: "+gameID);
         }
     }
 
@@ -115,10 +123,10 @@ public class Referee implements IRole, IGameObserver {
                 }
                 g.getEvents().add(newEvent);
             } else {
-                Logger.getInstance().saveLog("This referee is not authorized to change events of this game");
+                EventLogger.getInstance().saveLog("This referee is not authorized to change events of this game");
             }
         } else {
-            Logger.getInstance().saveLog("The valid time to make changes to this game is over");
+            EventLogger.getInstance().saveLog("The valid time to make changes to this game is over");
         }
 
     }
@@ -181,7 +189,7 @@ public class Referee implements IRole, IGameObserver {
         this.removeRefereeFromGames();
         main.clear();
         side.clear();
-        Logger.getInstance().saveLog("The referee has been removed successfully");
+        EventLogger.getInstance().saveLog("The referee has been removed successfully");
         return true;
 
     }

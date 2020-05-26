@@ -1,6 +1,5 @@
 package com.stubs;
 
-import com.data.DBCommunicator;
 import com.data.Dao;
 import com.domain.logic.football.League;
 import com.domain.logic.football.Season;
@@ -10,7 +9,7 @@ import com.domain.logic.policies.Policy;
 import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
 import com.domain.logic.roles.Referee;
-import com.logger.Logger;
+import com.logger.EventLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,9 +76,9 @@ public class LeagueStub extends League {
 
         Dao dao = DBStub.getInstance();
         dao.setGameRankingPolicy(season.getYear(), this.leagueName, rPolicy.getWin(), rPolicy.getGoals(), rPolicy.getDraw(), rPolicy.getYellowCards(), rPolicy.getRedCards());
-        //com.logger
-        Logger logger = Logger.getInstance();
-        logger.saveLog("Ranking Business.policies.Policy assigned to season " + season.getYear() + " in league " + leagueName);
+        //com.eventLogger
+        EventLogger eventLogger = EventLogger.getInstance();
+        eventLogger.saveLog("Ranking Business.policies.Policy assigned to season " + season.getYear() + " in league " + leagueName);
     }
 
     @Override
@@ -104,8 +103,8 @@ public class LeagueStub extends League {
         Dao dao = DBStub.getInstance();
         dao.setGameSettingPolicy(season.getYear(), this.leagueName, gameSettingPolicyField);
 
-        Logger logger = Logger.getInstance();
-        logger.saveLog("Business.football.Game Setting policy assigned to season " + season.getYear() + " in league " + leagueName);
+        EventLogger eventLogger = EventLogger.getInstance();
+        eventLogger.saveLog("Business.football.Game Setting policy assigned to season " + season.getYear() + " in league " + leagueName);
     }
 
     public void addSeasonInLeague(SeasonInLeague seasonInLeague){

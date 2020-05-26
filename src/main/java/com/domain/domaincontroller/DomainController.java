@@ -21,6 +21,8 @@ import com.domain.logic.roles.*;
 import com.domain.logic.users.Guest;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
+import com.logger.ErrorLogger;
+import com.logger.EventLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -42,11 +44,13 @@ public class DomainController {
     public Member login(String username, String password, String firstName, String lastName){
         try {
             Guest guest = new Guest(firstName, lastName);
-            return guest.login(username, password);
-            // TODO - send OK to the service layer
+            EventLogger.getInstance().saveLog("attempt to login with credentials: \""+username+"\" , \""+password+"\"");
+            Member member = guest.login(username, password);
+
+            EventLogger.getInstance().saveLog("member: \""+username+"'\" has logged in");
+            return member;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            // TODO - send FAIL to the service layer
+            ErrorLogger.getInstance().saveError(e.getMessage());
             return null;
         }
     }
@@ -56,16 +60,13 @@ public class DomainController {
         try {
             Member member = AssociationSystem.getInstance().findConnectedUser(teamOwnerUsername);
             TeamOwner teamOwner = (TeamOwner) member.getSpecificRole(TeamOwner.class);
+            EventLogger.getInstance().saveLog("\""+teamOwnerUsername+"\" attempting to create a new team with team name: \""+teamName+"\"");
             teamOwner.createTeam(teamName, new Field(fieldCountry, fieldState, fieldCity, fieldPostalCode));
-            // TODO - send OK to the service layer
+
+            EventLogger.getInstance().saveLog("new team :\""+teamName+"\" created by member: \""+member.getUserName()+"\"");
             return true;
-        } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-            // TODO - send FAIL service layer
-            return false;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            // TODO - send FAIL service layer
+            ErrorLogger.getInstance().saveError(e.getMessage());
             return false;
         }
     }
@@ -76,6 +77,8 @@ public class DomainController {
             Member member = AssociationSystem.getInstance().findConnectedUser(associationAgentUsername);
             AssociationAgent associationAgent = (AssociationAgent) member.getSpecificRole(AssociationAgent.class);
             SeasonInLeague seasonInLeague = dao.findSeasonInLeague(seasonYear, leagueName);
+
+            EventLogger.getInstance().saveLog("\""+associationAgentUsername+"\" attempting to change Game Setting Policy in League: \""+leagueName+"\" at Season: "+seasonYear+" to "+gameSettingPolicy+" match each pair");
             // creating the appropriate game setting policy
             if (gameSettingPolicy.equals("one")){
                 associationAgent.setGameSettingPolicy(seasonInLeague.getLeague(), seasonInLeague.getSeason(), new GameSettingPolicy(seasonInLeague.getPolicy(), new OneMatchEachPairSettingPolicy()));
@@ -83,11 +86,11 @@ public class DomainController {
             else if(gameSettingPolicy.equals("two")){
                 associationAgent.setGameSettingPolicy(seasonInLeague.getLeague(), seasonInLeague.getSeason(), new GameSettingPolicy(seasonInLeague.getPolicy(), new TwoMatchEachPairSettingPolicy()));
             }
-            // TODO - send OK message to service layer
+
+            EventLogger.getInstance().saveLog("\""+associationAgentUsername+"\n has changed the Game Setting Policy in League: \""+leagueName+"\" at Season: "+seasonYear+" to "+gameSettingPolicy+" match each pair");
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            // TODO - send FAIL message to service layer
+            ErrorLogger.getInstance().saveError(e.getMessage());
             return false;
         }
     }
@@ -98,13 +101,15 @@ public class DomainController {
             Member member = AssociationSystem.getInstance().findConnectedUser(associationAgentUsername);
             AssociationAgent associationAgent = (AssociationAgent) member.getSpecificRole(AssociationAgent.class);
             SeasonInLeague seasonInLeague = dao.findSeasonInLeague(seasonYear, leagueName);
+
+            EventLogger.getInstance().saveLog("\""+associationAgentUsername+" attempting to change Game Ranking Policy in League: \""+leagueName+"\" at Season: "+seasonYear+" to:\nwin:"+win+"\ngoals:"+goals+"\ndraw:"+draw+"\nYellow Cards:"+yellowCards+"\nRed Cards:"+redCards);
             // creating the appropriate game ranking policy
             associationAgent.setRankingPolicy(seasonInLeague.getLeague(), seasonInLeague.getSeason(), new RankingPolicy(seasonInLeague.getPolicy(), win, goals, draw, yellowCards, redCards));
-            // TODO - send OK message to service layer
+
+            EventLogger.getInstance().saveLog("\""+associationAgentUsername+"\" has changed the Game Ranking Policy in League: \""+leagueName+"\" at Season: "+seasonYear+" to:\nwin:"+win+"\ngoals:"+goals+"\ndraw:"+draw+"\nYellow Cards:"+yellowCards+"\nRed Cards:"+redCards);
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            // TODO - send FAIL message to service layer
+            ErrorLogger.getInstance().saveError(e.getMessage());
             return false;
         }
     }
@@ -114,17 +119,16 @@ public class DomainController {
         try{
             Member memberReferee = AssociationSystem.getInstance().findConnectedUser(refereeUsername);
             Referee referee = (Referee) memberReferee.getSpecificRole(Referee.class);
-//            Member memberPlayer = dao.findMember(playerUsername);
-//            Player player = (Player) memberPlayer.getSpecificRole(Player.class);
-//            Game game = dao.findGame(gameID);
             EventType eventType = EventType.strToEventType(type);
+
+            EventLogger.getInstance().saveLog("\""+refereeUsername+"\" attempting to add new game event in gameID: "+gameID);
             // create the game event
             referee.createGameEvent(gameMinute, description, eventType, gameID, playerUsername);
-            // TODO - send OK message to service layer
+
+            EventLogger.getInstance().saveLog("new game event was added to gameID: "+gameID+" by referee: \""+refereeUsername+"\"");
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            // TODO - send FAIL message to service layer
+            ErrorLogger.getInstance().saveError(e.getMessage());
             return false;
         }
     }
@@ -134,14 +138,14 @@ public class DomainController {
         try{
             Member member = AssociationSystem.getInstance().findConnectedUser(refereeUsername);
             Referee referee = (Referee) member.getSpecificRole(Referee.class);
-            //Game game = dao.findGame(gameID);
+            EventLogger.getInstance().saveLog("\""+refereeUsername+"\" attempting to create game report in gameID: "+gameID);
             // create game report
             referee.createReport(gameID, report);
-            // TODO - send OK message to service layer
+
+            EventLogger.getInstance().saveLog("\""+refereeUsername+"\" created game report in gameID: "+gameID);
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            // TODO - send FAIL message to service layer
+            ErrorLogger.getInstance().saveError(e.getMessage());
             return false;
         }
     }

@@ -16,6 +16,7 @@ import com.domain.logic.users.SystemManagerMember;
 import com.domain.logic.utils.SHA1Function;
 import com.externalsystems.AssociationAccountingSystem;
 import com.externalsystems.CountryTaxLawSystem;
+import com.logger.EventLogger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -61,12 +62,16 @@ public class AssociationSystem {
 
     public void connectUser(Member member){
         connectedUsers.add(member);
+        EventLogger.getInstance().saveLog("adding member: \""+member.getUserName()+"\" to connected member");
     }
 
     public Member findConnectedUser(String username) throws Exception {
+        EventLogger.getInstance().saveLog("finding connected member with username: '"+username+"' ...");
         for (Member member : connectedUsers){
-            if (member.getUserName().equals(username))
+            if (member.getUserName().equals(username)) {
+                EventLogger.getInstance().saveLog("'"+username+"' has found in connected users!");
                 return member;
+            }
         }
         throw new Exception("user not found in connected users");
     }
