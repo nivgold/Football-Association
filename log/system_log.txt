@@ -1302,3 +1302,10 @@ INFO    2020-05-25 22:51:19 - the guest: koren login as the member: teamOwner_Ko
 INFO    2020-05-25 22:53:25 - the guest: koren login as the member: teamOwner_Koren
 INFO    2020-05-25 22:55:25 - the guest: koren login as the member: teamOwner_Koren
 INFO    2020-05-25 23:02:00 - the guest: koren login as the member: teamOwner_Koren
+INFO    2020-05-26 16:39:46 - the guest: tal failed to login as the member: tal
+INFO    2020-05-26 16:40:02 - the guest: tal failed to login as the member: tal
+INFO    2020-05-26 16:44:50 - the guest: Tal login as the member: teamOwner_Tal
+INFO    2020-05-26 17:05:40 - the guest: Tal login as the member: teamOwner_Tal
+INFO    2020-05-26 17:06:23 - the guest: Tal login as the member: teamOwner_Tal
+INFO    2020-05-26 17:06:28 - the guest: Tal login as the member: teamOwner_Tal
+INFO    2020-05-26 17:11:11 - the guest: Tal login as the member: teamOwner_Tal

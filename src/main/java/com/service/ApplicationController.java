@@ -106,7 +106,7 @@ public class ApplicationController {
     }
 
 
-    // ------------------------others-------
+    // ------------------------***others***-------
 
     // ------------------------get all leagues-------
     @GetMapping("/getLeagueNames")
@@ -118,6 +118,9 @@ public class ApplicationController {
     @GetMapping("/getRefereeActiveGame")
     public GameIdentifierResponse getRefereeActiveGame(@RequestParam("refereeUsername") String refereeUsername){
         GameIdentifier gameIdentifier = domainController.getRefereeActiveGame(refereeUsername);
+        if (gameIdentifier==null) {
+            return null;
+        }
         return new GameIdentifierResponse(gameIdentifier.getGameID(),gameIdentifier.getHostTeamName(),gameIdentifier.getGuestTeamName());
     }
 
@@ -126,6 +129,14 @@ public class ApplicationController {
     public ArrayList<String> getAllTeamPlayers(@RequestParam String teamName){
         return domainController.getAllTeamPlayers(teamName);
     }
+
+    // ------------------resetSystem (Dangerous!):----
+    @PostMapping("/resetSystem")
+    public void resetSystem(@RequestBody ResetSystemRequest resetSystemRequest) {
+        try { domainController.performResetSystem(); }
+        catch (Exception e) {}
+    }
+
 
 
 
