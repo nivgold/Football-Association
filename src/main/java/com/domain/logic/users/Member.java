@@ -35,8 +35,6 @@ public class Member implements IGameObserver, IPersonalPageObserver {
         this.unresolvedComplaints = new ArrayList<>();
         this.resolvedComplaints = new ArrayList<>();
         this.roles = new ArrayList<>();
-        //TODO call DAO to add Member to the DB
-        AssociationSystem.getInstance().getManageMembers().addMember(this);
     }
 
     public boolean logout(){
@@ -124,8 +122,8 @@ public class Member implements IGameObserver, IPersonalPageObserver {
     }
 
     @Override
-    public void updateGame(Game game) {
-        System.out.println(game.toString());
+    public void updateGame(String message) {
+        // send message
     }
 
     @Override

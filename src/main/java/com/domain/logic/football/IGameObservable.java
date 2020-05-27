@@ -6,6 +6,6 @@ import com.domain.logic.users.IGameObserver;
 public interface IGameObservable {
     void register(IGameObserver gameObserver);
     void remove(IGameObserver gameObserver);
-    void notifyFanObservers();
+    void notifyGameEvent(Event event);
     void notifyRefereeObservers();
 }
