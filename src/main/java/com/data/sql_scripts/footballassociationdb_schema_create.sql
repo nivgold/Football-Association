@@ -363,6 +363,16 @@ CREATE TABLE teamsInSIL(
     PRIMARY KEY (`leagueID`, `seasonYear`, teamID)
 );
 
+CREATE TABLE gameFans(
+    -- FOREIGN KEY
+    gameID int NOT NULL ,
+    memberID int NOT NULL ,
+    CONSTRAINT `fk_game_gameFans` FOREIGN KEY (gameID) REFERENCES `game` (`gameID`),
+    CONSTRAINT `fk_member_gameFans` FOREIGN KEY (memberID) REFERENCES `member`(`memberID`),
+    -- PRIMARY KEY
+    PRIMARY KEY (`gameID`, `memberID`)
+);
+
 INSERT INTO `address` (`city`,`country`,`postalCode`, `state`)
     VALUES ('Netanya','Israel','472948239','NONE');
 
@@ -524,3 +534,5 @@ UPDATE member
 UPDATE policy
     SET seasonYear = 2020, leagueID = 1
     WHERE policyID = 1;
+
+INSERT INTO gameFans (`gameID`, `memberID`) VALUES (1, 1);
