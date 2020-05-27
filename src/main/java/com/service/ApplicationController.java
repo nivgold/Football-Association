@@ -132,7 +132,7 @@ public class ApplicationController {
 
     //------------------------getAllTeamPlayers-----
     @GetMapping("/getTeamPlayerNames")
-    public ArrayList<String> getAllTeamPlayers(@RequestParam String teamName){
+    public ArrayList<String> getAllTeamPlayers(@RequestParam("teamName") String teamName){
         return domainController.getAllTeamPlayers(teamName);
     }
 
