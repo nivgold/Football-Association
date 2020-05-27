@@ -17,6 +17,9 @@ public class Event {
     private Game game;
     private Player player;
 
+    private String playerUsername;
+    private int gameID;
+
 
     /**
      * constructor that gets all the parameters
@@ -28,6 +31,9 @@ public class Event {
         this.dateTime = dateTime;
         this.game = game;
         this.player = player;
+
+        this.player.getMember().getUserName();
+        this.gameID = game.getGameID();
     }
 
     /**
@@ -40,6 +46,17 @@ public class Event {
         this.game = game;
         this.player = player;
         dateTime = new Date();
+
+        this.player.getMember().getUserName();
+        this.gameID = game.getGameID();
+    }
+
+    public Event(int gameMinute, String description, EventType type, int gameID, String playerUsername){
+        this.gameMinute = gameMinute;
+        this.description = description;
+        this.type = type;
+        this.gameID = gameID;
+        this.playerUsername = playerUsername;
     }
 
     public Date getDateTime() {

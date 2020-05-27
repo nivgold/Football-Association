@@ -62,7 +62,7 @@ public class Referee implements IRole, IGameObserver {
         }
     }
 
-    public void createGameEvent(int gameMinute, String description, EventType type, int gameID, String playerUsername) throws Exception {
+    public Event createGameEvent(int gameMinute, String description, EventType type, int gameID, Game game, String playerUsername) throws Exception {
         if (isAuthorized(gameID)){
             // 0 - no score change
             // 1 - add goal to host team
@@ -76,6 +76,7 @@ public class Referee implements IRole, IGameObserver {
             }
             Dao dao = DBCommunicator.getInstance();
             dao.addGameEvent(gameID, gameMinute, description, type, playerUsername, changeScore);
+            return new Event(gameMinute, description, type, gameID, playerUsername);
         }
         else{
             throw new Exception("\""+this.member.getUserName()+"\" is not authorized to add game event in gameID: "+gameID);
@@ -243,8 +244,8 @@ public class Referee implements IRole, IGameObserver {
     }
 
     @Override
-    public void updateGame(Game game) {
-        System.out.println("The game date is updated to " + game.getDate());
+    public void updateGame(String message) {
+        System.out.println(message);
     }
 
     public void registerToGame(Game g) {

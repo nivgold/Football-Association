@@ -19,6 +19,7 @@ import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPo
 import com.domain.logic.policies.game_setting_policies.TwoMatchEachPairSettingPolicy;
 import com.domain.logic.roles.*;
 import com.domain.logic.users.Guest;
+import com.domain.logic.users.IGameObserver;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 import com.logger.ErrorLogger;
@@ -121,9 +122,35 @@ public class DomainController {
             Referee referee = (Referee) memberReferee.getSpecificRole(Referee.class);
             EventType eventType = EventType.strToEventType(type);
 
+            // retrieve game fans
+            ArrayList<String[]> fansUsernames = dao.getGameFans(gameID);
+            // divide to not-connected and connected users
+            ArrayList<IGameObserver> connectedGameFans = new ArrayList<>();
+            ArrayList<String> notConnectedFansEmail = new ArrayList<>();
+            for (String[] gameFan: fansUsernames){
+                try{
+                    Member connectedMember = AssociationSystem.getInstance().findConnectedUser(gameFan[0]);
+                    connectedGameFans.add(connectedMember);
+                }
+                catch (Exception e){
+                    // not connected
+                    String email = gameFan[1];
+                    notConnectedFansEmail.add(email);
+                }
+            }
+
+            // creating a game with connected fans
+            Game game = new Game(gameID, connectedGameFans);
+
             EventLogger.getInstance().saveLog("\""+refereeUsername+"\" attempting to add new game event in gameID: "+gameID);
             // create the game event
-            referee.createGameEvent(gameMinute, description, eventType, gameID, playerUsername);
+            Event event = referee.createGameEvent(gameMinute, description, eventType, gameID, game, playerUsername);
+
+            // calling the game notify fans
+            game.notifyGameEvent(event);
+            // calling the not-connected fans
+            // send push notification
+
 
             EventLogger.getInstance().saveLog("new game event was added to gameID: "+gameID+" by referee: \""+refereeUsername+"\"");
             return true;

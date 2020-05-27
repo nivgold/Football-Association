@@ -404,6 +404,28 @@ public class DBCommunicator implements Dao {
             throw new Exception("SQL exception");
         }
     }
+
+    @Override
+    public ArrayList<String[]> getGameFans(int gameID) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT username, email FROM gamefans " +
+                "INNER JOIN member m on gamefans.memberID = m.memberID " +
+                "WHERE gameID = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, gameID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ArrayList<String[]> members = new ArrayList<>();
+            while (resultSet.next()){
+                String username = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                members.add(new String[]{username, email});
+            }
+            return members;
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
     // -------------added functions---------------
 
     @Override

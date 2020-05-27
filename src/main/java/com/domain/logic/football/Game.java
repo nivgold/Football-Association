@@ -58,6 +58,11 @@ public class Game implements IGameObservable {
         // TODO call dao to update gameID
     }
 
+    public Game(int gameID, ArrayList<IGameObserver> gameFans){
+        this.gameID = gameID;
+        this.fanObservers = gameFans;
+    }
+
     public void setStartGame(){
         this.gameState = GameState.OnGoing;
     }
@@ -96,16 +101,27 @@ public class Game implements IGameObservable {
             this.fanObservers.remove(gameObserver);
     }
 
+
     @Override
-    public void notifyFanObservers() {
-        for (IGameObserver gameObserver : this.fanObservers)
-            gameObserver.updateGame(this);
+    public void notifyGameEvent(Event event) {
+        for (IGameObserver gameObserver : this.fanObservers){
+            gameObserver.updateGame("New Game event in GameID:"+gameID+"!\n" +
+                    "on minute: "+event.getGameMinute());
+        }
     }
 
     @Override
     public void notifyRefereeObservers() {
         for (IGameObserver gameObserver : this.refereeObservers)
-            gameObserver.updateGame(this);
+            gameObserver.updateGame("asdasd");
+    }
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 
     public Team getHost() {
