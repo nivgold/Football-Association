@@ -1,11 +1,8 @@
 package com.data;
-
-
 import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.GameIdentifier;
 import com.domain.logic.enums.EventType;
 import com.domain.logic.football.*;
-import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
 import com.domain.logic.policies.game_setting_policies.TwoMatchEachPairSettingPolicy;
 import com.domain.logic.roles.*;
@@ -13,12 +10,10 @@ import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.springframework.stereotype.Repository;
-
-
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 @Repository("DBCommunicator")
 public class DBCommunicator implements Dao {
@@ -128,7 +123,8 @@ public class DBCommunicator implements Dao {
                     }
                     else{
                         //insert new value to ranking policy table
-                        insertRankingPolicy(connection, 3, 2, 1, 1, 3, policyID, seasonInLeague);
+                        insertRankingPolicy(connection, 3, 2, 1, 1, 3, policyID);
+                        seasonInLeague.getPolicy().setRankingPolicy(3, 1, 1, 1, 2);
                     }
                 }
 
@@ -144,7 +140,7 @@ public class DBCommunicator implements Dao {
     /**
      * insert new value to ranking policy table and update the policy table as well
      */
-    private void insertRankingPolicy(Connection connection, int win, int goals, int draw, int yellowCards, int redCards, int policyID, SeasonInLeague seasonInLeague) {
+    private void insertRankingPolicy(Connection connection, int win, int goals, int draw, int yellowCards, int redCards, int policyID) {
         String setDefRanking = "INSERT INTO rankingpolicy (win, goals, draw, yellowCards, redCards, policyID) " +
                 "   VALUES (?, ?, ?, ?, ?, ?)";
         try {
@@ -168,7 +164,6 @@ public class DBCommunicator implements Dao {
                 updatePolicyStatement.setInt(1, rankingPolicyID);
                 updatePolicyStatement.setInt(2, policyID);
                 updatePolicyStatement.executeUpdate();
-                seasonInLeague.getPolicy().setRankingPolicy(3, 1, 1, 1, 2);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -199,67 +194,54 @@ public class DBCommunicator implements Dao {
     public void setGameRankingPolicy(int seasonYear, String leagueName, int win, int goals, int draw, int yellowCards, int redCards) throws Exception {
         Connection connection = DBConnector.getConnection();
         try{
-            int policyID = -1;
-
+            int policyID;
+            int rankingPolicyID;
             // find PolicyID Query
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT PolicyID FROM seasoninleague INNER JOIN league ON league.leagueID=seasoninleague.leagueID WHERE seasoninleague.seasonYear = ? AND league.league_name LIKE ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT p.policyID, p.rankingPolicyID  " +
+                    "FROM seasoninleague INNER JOIN policy p " +
+                    "ON seasoninleague.leagueID = p.leagueID AND seasoninleague.seasonYear = p.seasonYear " +
+                    "INNER JOIN league l on seasoninleague.leagueID = l.leagueID" +
+                    " WHERE seasoninleague.seasonYear = ? AND l.league_name LIKE ?");
             preparedStatement.setInt(1, seasonYear);
             preparedStatement.setString(2, leagueName);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-                policyID = resultSet.getInt("policyID");
-
-            // find rankingPolicyID Query
-            String sql_find = "SELECT rankingPolicyID FROM rankingpolicy" +
-                    " WHERE draw = ? AND" +
-                    " goals = ? AND" +
-                    " redCards = ? AND" +
-                    " win = ? AND" +
-                    " yellowCards = ?";
-            preparedStatement = connection.prepareStatement(sql_find);
-            preparedStatement.setInt(1, draw);
-            preparedStatement.setInt(2, goals);
-            preparedStatement.setInt(3, redCards);
-            preparedStatement.setInt(4, win);
-            preparedStatement.setInt(5, yellowCards);
-            resultSet = preparedStatement.executeQuery();
-
-            int rankingPolicyID;
-            if (resultSet.next()){
-                rankingPolicyID = resultSet.getInt("rankingPolicyID");
-            }
-            else{
-                // need to add ranking policy ID
-                preparedStatement.executeUpdate("INSERT INTO rankingpolicy (win, goals, draw, yellowCards, redCards, policyID) " +
-                        "VALUE (?, ?, ?, ?, ?, policyID)", Statement.RETURN_GENERATED_KEYS);
-                preparedStatement.setInt(1, win);
-                preparedStatement.setInt(2, goals);
-                preparedStatement.setInt(3, draw);
-                preparedStatement.setInt(4, yellowCards);
-                preparedStatement.setInt(5, redCards);
-                preparedStatement.executeUpdate();
-                ResultSet rs = preparedStatement.getGeneratedKeys();
-                if (rs.next()){
-                    rankingPolicyID = rs.getInt(1);
+            if (resultSet.next()) {
+                policyID = resultSet.getInt(1);
+                rankingPolicyID = resultSet.getInt(2);
+                if(rankingPolicyID == 0){
+                    // need to add new ranking policy ID
+                    insertRankingPolicy(connection, win, goals, draw, yellowCards, redCards, policyID);
                 }
-                else
-                    throw new Exception("new ranking policy wan't added properly");
+                else {
+                    //need to update existing ranking policy
+                    updateRankingPolicy(connection, win, goals, draw, yellowCards, redCards, rankingPolicyID);
+                }
             }
-
-            // has valid ranking policy id
-            // need to connect to the policy
-            String sqlUpdatePolicy = "UPDATE policy " +
-                    "SET rankingPolicyID = ? " +
-                    "WHERE policyID = ?";
-            preparedStatement = connection.prepareStatement(sqlUpdatePolicy);
-            preparedStatement.setInt(1, rankingPolicyID);
-            preparedStatement.setInt(2, policyID);
             connection.close();
         } catch (SQLException e) {
             connection.close();
             throw new Exception("cannot perform operation");
         }
     }
+
+    private void updateRankingPolicy(Connection connection, int win, int goals, int draw, int yellowCards, int redCards, int rankingPolicyID) {
+        String updateRanking = "UPDATE rankingpolicy " +
+                "SET win = ?, goals = ?, draw = ?, yellowCards = ?, redCards = ? " +
+                "WHERE rankingPolicyID = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(updateRanking);
+            preparedStatement.setInt(1, win);
+            preparedStatement.setInt(2, goals);
+            preparedStatement.setInt(3, draw);
+            preparedStatement.setInt(4, yellowCards);
+            preparedStatement.setInt(5, redCards);
+            preparedStatement.setInt(6, rankingPolicyID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public GameIdentifier getRefereeActiveGame(String refereeUsername) throws Exception {
         Connection connection = DBConnector.getConnection();
@@ -402,6 +384,22 @@ public class DBCommunicator implements Dao {
                 return true;
             }
             return false;
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
+
+    @Override
+    public ArrayList<String> getAllTeamNames() throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT teamName FROM team";
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            ArrayList<String> teamNames = new ArrayList<>();
+            while (resultSet.next())
+                teamNames.add(resultSet.getString("teamName"));
+            return teamNames;
         } catch (SQLException e) {
             throw new Exception("SQL exception");
         }

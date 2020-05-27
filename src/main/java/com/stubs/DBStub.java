@@ -99,6 +99,11 @@ public class DBStub implements Dao {
     }
 
     @Override
+    public ArrayList<String> getAllTeamNames() throws Exception {
+        return null;
+    }
+
+    @Override
     public SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception {
         for (SeasonInLeague seasonInLeague : this.seasonInLeagues){
             if (seasonInLeague.getSeason().getYear()==seasonYear && seasonInLeague.getLeague().getLeagueName().equals(leagueName))

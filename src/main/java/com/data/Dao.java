@@ -28,6 +28,7 @@ public interface Dao {
     void addGameEvent(int gameID, int gameMinute, String description, EventType type, String playerUsername, int changeScore) throws Exception;
     boolean isRefereeAuthorized(String refereeUsername, int gameID) throws Exception;
     boolean isReportAuthorized(String refereeUsername, int gameID) throws Exception;
+    ArrayList<String> getAllTeamNames() throws Exception;
     // -------------added functions---------------
 
 
