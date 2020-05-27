@@ -15,11 +15,12 @@ public class NotificationController {
     private SimpMessagingTemplate simpleMessagingTemplate;
 
     @MessageMapping("/hello")
-    public void greeting(int gameID, NotificationMessage message) throws Exception {
+    @SendTo("/topic/greetings")
+    public Greeting greeting(NotificationMessage message) throws Exception {
         Thread.sleep(1000); // simulated delay
-        simpleMessagingTemplate.convertAndSend("topic/games/" + gameID, message);
-
-        //return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
+        //simpleMessagingTemplate.convertAndSend("topic/games/" + gameID, message);
+        System.out.println("sjdofno");
+        return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getContent()));
 
     }
 }
