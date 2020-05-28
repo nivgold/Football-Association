@@ -108,6 +108,11 @@ public class DBStub implements Dao {
     }
 
     @Override
+    public ArrayList<Integer> getAllLeagueSeasons(String leagueName) throws Exception {
+        return null;
+    }
+
+    @Override
     public void setGameReport(int gameID, String report) throws Exception {
 
     }
@@ -129,15 +134,6 @@ public class DBStub implements Dao {
 
     @Override
     public ArrayList<String> getAllTeamNames() throws Exception {
-        return null;
-    }
-
-    @Override
-    public SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception {
-        for (SeasonInLeague seasonInLeague : this.seasonInLeagues){
-            if (seasonInLeague.getSeason().getYear()==seasonYear && seasonInLeague.getLeague().getLeagueName().equals(leagueName))
-                return seasonInLeague;
-        }
         return null;
     }
 
