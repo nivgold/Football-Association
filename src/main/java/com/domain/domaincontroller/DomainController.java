@@ -177,60 +177,76 @@ public class DomainController {
         }
     }
 
-    // ------------------------4.3.Game Notifications To Users------
-    public void sendNotification(String username){
-
-    }
-
     // ------------------------Additions-----------------------------
-    // System UC's
-    /**
-     * "Reset System" UC
-     */
     public void performResetSystem(String sysManagerUserName) {
         try {
             Member member = AssociationSystem.getInstance().findConnectedUser(sysManagerUserName);
             if(member instanceof SystemManagerMember){
                 SystemManagerMember systemManagerMember = (SystemManagerMember) member;
+                EventLogger.getInstance().saveLog("performing reset system...");
                 systemManagerMember.resetSystem(dao);
+                EventLogger.getInstance().saveLog("reset system successfully done");
             }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            ErrorLogger.getInstance().saveError(e.getMessage());
         }
     }
     public ArrayList<String> getAllLeaguesNames(){
+        ArrayList<String> allLeagueNames = new ArrayList<>();
+        EventLogger.getInstance().saveLog("attempting to find and return all league names");
         try {
-            return dao.getAllLeaguesNames();
+            allLeagueNames = dao.getAllLeaguesNames();
+            EventLogger.getInstance().saveLog("returning all league names");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            ErrorLogger.getInstance().saveError(e.getMessage());
         }
+        return allLeagueNames;
     }
     public GameIdentifier getRefereeActiveGame(String refereeUsername){
+        GameIdentifier gameIdentifier = null;
+        EventLogger.getInstance().saveLog("attempting to find current active game for referee: \""+refereeUsername+"\"");
         try{
-            return dao.getRefereeActiveGame(refereeUsername);
+            gameIdentifier = dao.getRefereeActiveGame(refereeUsername);
+            EventLogger.getInstance().saveLog("returning active game for referee: \""+refereeUsername+"\"");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            ErrorLogger.getInstance().saveError(e.getMessage());
         }
+        return gameIdentifier;
     }
     public ArrayList<String> getAllTeamPlayers(String teamName){
+        ArrayList<String> allTeamPlayers = new ArrayList<>();
+        EventLogger.getInstance().saveLog("attempting to find and return all players of team: \""+teamName+"\"");
         try{
-            return dao.getAllTeamPlayers(teamName);
+            allTeamPlayers = dao.getAllTeamPlayers(teamName);
+            EventLogger.getInstance().saveLog("returning all players of team: \""+teamName+"\"");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            ErrorLogger.getInstance().saveError(e.getMessage());
         }
+        return allTeamPlayers;
     }
 
     public SeasonInLeague findSeasonInLeague(int i, String leagueName) {
         SeasonInLeague seasonInLeague = null;
+        EventLogger.getInstance().saveLog("attempting to find and return season in league for league: \""+leagueName+"\"");
         try {
             seasonInLeague = dao.findSeasonInLeague(i, leagueName);
+            EventLogger.getInstance().saveLog("returning season in league to league: \""+leagueName+"\"");
         } catch (Exception e) {
-            System.err.println();
+            ErrorLogger.getInstance().saveError(e.getMessage());
         }
         return seasonInLeague;
+    }
+
+    public ArrayList<Integer> getAllLeagueSeasons(String leagueName){
+        ArrayList<Integer> allLeagueSeasons = new ArrayList<>();
+        EventLogger.getInstance().saveLog("attempting to find all league seasons for league: \""+leagueName+"\"");
+        try {
+            allLeagueSeasons = dao.getAllLeagueSeasons(leagueName);
+            EventLogger.getInstance().saveLog("returning all seasons for league: \""+leagueName+"\"");
+        } catch (Exception e) {
+            ErrorLogger.getInstance().saveError(e.getMessage());
+        }
+        return allLeagueSeasons;
     }
 
     /**
