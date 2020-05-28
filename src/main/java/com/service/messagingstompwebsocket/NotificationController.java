@@ -19,7 +19,6 @@ public class NotificationController {
     public Greeting greeting(NotificationMessage message) throws Exception {
         Thread.sleep(1000); // simulated delay
         //simpleMessagingTemplate.convertAndSend("topic/games/" + gameID, message);
-        System.out.println("sjdofno");
         return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getContent()));
 
     }

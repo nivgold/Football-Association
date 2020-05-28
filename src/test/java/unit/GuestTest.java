@@ -50,11 +50,4 @@ class GuestTest {
         assertTrue(null != guest.registerAsMember("newMem", "pass", "email", "d", "", "", ""));
         manageMembers.removeMember("newMem", SHA1Function.hash("pass"));
     }
-
-    @Test
-    void search() {
-        //checks that member was found
-       assertEquals(guest.search(1, "Koren Ishlach"), "["+member.toString()+"]");
-       assertEquals(guest.search(3, "Koren Ishlach"), "[Koren Ishlach]");
-    }
 }

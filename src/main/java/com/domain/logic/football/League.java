@@ -220,7 +220,6 @@ public class League {
         Policy policy = seasonInLeague.getPolicy();
         policy.setGameSettingPolicy(settingPolicy);
 
-        //TODO call DAO to add GameSettingPolicy to policy in the DB
         boolean gameSettingPolicyField;
         if(settingPolicy.getSettingStrategy() instanceof OneMatchEachPairSettingPolicy)
             gameSettingPolicyField = false;

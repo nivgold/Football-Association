@@ -39,6 +39,7 @@ public class AssociationAgentTest {
         this.system.getManageLeagues().addLeague(new LeagueStub("league1"));
     }
 
+    /*
     @Test
     public void createLeague() {
         // adding league successfully
@@ -115,6 +116,8 @@ public class AssociationAgentTest {
         assertEquals(1, league1.getLeagueRefereeMap().get(season1).size());
     }
 
+     */
+
     @Test
     public void setRankingPolicy() {
         League league = new LeagueStub("league");
@@ -153,6 +156,7 @@ public class AssociationAgentTest {
         assertEquals(OneMatchEachPairSettingPolicy.class, seasonInLeague.getPolicy().getGameSettingPolicy().getSettingStrategy().getClass());
     }
 
+    /*
     @Test
     public void removeYourself() {
         Member member = this.associationAgent.getMember();
@@ -164,4 +168,6 @@ public class AssociationAgentTest {
         }
         assertEquals(0, member.getRoles().size());
     }
+
+     */
 }
