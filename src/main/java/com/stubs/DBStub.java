@@ -320,6 +320,14 @@ public class DBStub implements Dao {
 
     @Override
     public void resetSystem() {
-
+        seasons = new ArrayList<>();
+        leagues = new ArrayList<>();
+        seasonInLeagues = new ArrayList<>();
+        policies = new ArrayList<>();
+        gameSettingPolicies = new ArrayList<>();
+        members = new ArrayList<>();
+        teams = new ArrayList<>();
+        referees = new ArrayList<>();
+        players=  new ArrayList<>();
     }
 }
