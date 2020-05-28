@@ -9,7 +9,6 @@ import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.managers.ManageSeasons;
 import com.domain.logic.managers.ManageTeams;
 import com.domain.logic.roles.AssociationAgent;
-import com.domain.logic.roles.Referee;
 import com.domain.logic.roles.TeamOwner;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
@@ -17,6 +16,7 @@ import com.domain.logic.utils.SHA1Function;
 import com.externalsystems.AssociationAccountingSystem;
 import com.externalsystems.CountryTaxLawSystem;
 import com.logger.EventLogger;
+import com.stubs.DBStub;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -37,6 +37,7 @@ public class AssociationSystem {
     private ManageMembers manageMembers;
     private ManageSeasons manageSeasons;
     private ManageTeams manageTeams;
+    private DBStub dbStub;
 
     private AssociationAccountingSystem associationAccountingSystem;
     private CountryTaxLawSystem countryTaxLawSystem;
@@ -46,6 +47,7 @@ public class AssociationSystem {
         this.manageMembers = ManageMembers.getInstance();
         this.manageSeasons = ManageSeasons.getInstance();
         this.manageTeams = ManageTeams.getInstance();
+        this.dbStub = DBStub.getInstance();
     }
 
     public static AssociationSystem getInstance()
@@ -101,6 +103,7 @@ public class AssociationSystem {
             String sysMemUserName = (String) sysMemClose.get("userName");
             String sysMemUserPass = (String) sysMemClose.get("password");
             SystemManagerMember systemManagerMember = new SystemManagerMember(sysMemUserName, sysMemUserPass, "email",new Address("", "", "", ""), "name");
+            dbStub.addMember(systemManagerMember);
 
             Field[] fields = new Field[2];
             JSONArray jsonArrayFields = (JSONArray) array.get(3);
@@ -122,6 +125,7 @@ public class AssociationSystem {
                 String memPassword=(String) memClose.get("password");
                 String hashPassword = SHA1Function.hash(memPassword);
                 Member member = new Member(memUserName, hashPassword, "email" +i, new Address("" + i, "" +i, "" + i, "" + i), memName);
+                dbStub.addMember(member);
                 String memIRole=(String) memClose.get("role");
                 if(memIRole.equals("referee")){
                     Referee referee = new Referee(member);
@@ -130,13 +134,13 @@ public class AssociationSystem {
                     AssociationAgent associationAgent = new AssociationAgent(member);
                 }
                 else{//add role of team owner
-                    Team[] teams = new Team[2];
                     JSONArray jsonArrayTeams = (JSONArray) array.get(2);
                     JSONObject teamClose = (JSONObject) ((JSONObject) jsonArrayTeams.get(counter)).get("team");
                     String teamName = (String) teamClose.get("teamName") ;
                     String teamStatus = (String) teamClose.get("TeamStatus") ;
-                    TeamOwner teamOwner = new TeamOwner(member, teamName, TeamStatus.valueOf(teamStatus), fields[counter]);
-
+                    TeamOwner teamOwner = new TeamOwner(member);
+                    Team team = new Team(teamName, TeamStatus.valueOf(teamStatus), teamOwner, fields[counter]);
+                    dbStub.addTeam(team);
                     counter++;
                 }
             }
