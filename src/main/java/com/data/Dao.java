@@ -30,6 +30,7 @@ public interface Dao {
     boolean isReportAuthorized(String refereeUsername, int gameID) throws Exception;
     ArrayList<String> getAllTeamNames() throws Exception;
     ArrayList<String[]> getGameFans(int gameID) throws Exception;
+    ArrayList<Integer> getAllLeagueSeasons(String leagueName) throws Exception;
     // -------------added functions---------------
 
 

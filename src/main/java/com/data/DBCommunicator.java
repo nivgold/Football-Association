@@ -426,6 +426,26 @@ public class DBCommunicator implements Dao {
             throw new Exception("SQL exception");
         }
     }
+
+    @Override
+    public ArrayList<Integer> getAllLeagueSeasons(String leagueName) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT seasonYear FROM seasoninleague " +
+                "INNER JOIN league l on seasoninleague.leagueID = l.leagueID " +
+                "WHERE l.league_name LIKE ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, leagueName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ArrayList<Integer> allLeagueSeasons = new ArrayList<>();
+            while (resultSet.next()){
+                allLeagueSeasons.add(resultSet.getInt(1));
+            }
+            return allLeagueSeasons;
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
     // -------------added functions---------------
 
     @Override
