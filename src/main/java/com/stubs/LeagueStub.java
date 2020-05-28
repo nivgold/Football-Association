@@ -78,7 +78,7 @@ public class LeagueStub extends League {
         dao.setGameRankingPolicy(season.getYear(), this.leagueName, rPolicy.getWin(), rPolicy.getGoals(), rPolicy.getDraw(), rPolicy.getYellowCards(), rPolicy.getRedCards());
         //com.eventLogger
         EventLogger eventLogger = EventLogger.getInstance();
-        eventLogger.saveLog("Ranking Business.policies.Policy assigned to season " + season.getYear() + " in league " + leagueName);
+        eventLogger.saveLog("Policy assigned to season " + season.getYear() + " in league " + leagueName);
     }
 
     @Override

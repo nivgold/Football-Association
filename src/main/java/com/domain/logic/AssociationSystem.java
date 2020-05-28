@@ -9,6 +9,7 @@ import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.managers.ManageSeasons;
 import com.domain.logic.managers.ManageTeams;
 import com.domain.logic.roles.AssociationAgent;
+import com.domain.logic.roles.Referee;
 import com.domain.logic.roles.TeamOwner;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
