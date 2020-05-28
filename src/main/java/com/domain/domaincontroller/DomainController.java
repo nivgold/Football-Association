@@ -467,14 +467,22 @@ public class DomainController {
      * "Create League" UC
      */
     public void performCreateLeague(AssociationAgent associationAgent, String name){
-        associationAgent.createLeague(name);
+        try {
+            associationAgent.createLeague(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * "Create Season in League" UC
      */
     public void performCreateSeasonInLeague(AssociationAgent associationAgent, League league, int year){
-        associationAgent.createSeasonInLeague(league, year);
+        try {
+            associationAgent.createSeasonInLeague(league, year);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -495,7 +503,11 @@ public class DomainController {
      * "Set Referee in League in Season" UC
      */
     public void performSetRefereeInLeagueInSeason(AssociationAgent associationAgent, Referee referee, League league, Season season){
-        associationAgent.setRefereeInLeague(referee, league, season);
+        try {
+            associationAgent.setRefereeInLeague(referee, league, season);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

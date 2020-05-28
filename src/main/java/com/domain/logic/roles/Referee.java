@@ -29,7 +29,6 @@ public class Referee implements IRole, IGameObserver {
         this.main = new ArrayList<>();
         this.side = new ArrayList<>();
         member.addReferee(this);
-        //TODO call the DAO to add new referee to the DB
     }
 
     /**

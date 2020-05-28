@@ -452,12 +452,14 @@ public class DBCommunicator implements Dao {
 
     @Override
     public boolean removeLeague(String leagueName) {
+        //TODO function
         return false;
     }
 
     @Override
     public boolean addLeague(League league) {
-        return false;
+        //TODO function!
+        return true;
     }
 
     @Override
@@ -697,6 +699,21 @@ public class DBCommunicator implements Dao {
         }
     }
 
+    @Override
+    public boolean addSeasonInLeague(int year, String leagueName) {
+        //TODO function
+        return false;
+    }
+
+    @Override
+    public void appointReferee(String userName) throws Exception {
+
+    }
+
+    @Override
+    public void removeReferee(String userName) {
+        //TODO function
+    }
 
     //LIAR LIAR PANTS ON FIRE:
     @Override
