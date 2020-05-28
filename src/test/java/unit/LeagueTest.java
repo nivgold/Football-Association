@@ -111,9 +111,16 @@ public class LeagueTest {
             e.printStackTrace();
         }
         try {
-            assertEquals(DBStub.getInstance().findSeasonInLeague(2011, "league").getPolicy().getRankingPolicy(), rankingPolicy);
+            RankingPolicy daoRankingPolicy = DBStub.getInstance().findSeasonInLeague(2011, "league").getPolicy().getRankingPolicy();
+            assertEquals(daoRankingPolicy.getPolicy(), rankingPolicy.getPolicy());
+            assertEquals(daoRankingPolicy.getWin(), rankingPolicy.getWin());
+            assertEquals(daoRankingPolicy.getGoals(), rankingPolicy.getGoals());
+            assertEquals(daoRankingPolicy.getDraw(), rankingPolicy.getDraw());
+            assertEquals(daoRankingPolicy.getYellowCards(), rankingPolicy.getYellowCards());
+            assertEquals(daoRankingPolicy.getRedCards(), rankingPolicy.getRedCards());
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         }
     }
 
