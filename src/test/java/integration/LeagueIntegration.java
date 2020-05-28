@@ -7,6 +7,7 @@ import com.domain.logic.policies.Policy;
 import com.domain.logic.roles.Referee;
 import com.domain.logic.roles.TeamOwner;
 import com.domain.logic.users.Member;
+import com.stubs.DBStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LeagueIntegration{
 
-
+    DBStub dbStub = DBStub.getInstance();
     League league = new League("test league");
     Member member1 = new Member("Talfrim","123","x@x.x",null,"Tal");
     TeamOwner teamOwner1;
@@ -47,7 +48,7 @@ public class LeagueIntegration{
         try {
             referee = new Referee(member1);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("good catch!");
         }
     }
 
@@ -60,12 +61,6 @@ public class LeagueIntegration{
     public void clean() {
         AssociationSystem.getInstance().clearSystem();
         league = new League("test league");
-    }
-
-    @Test
-    public void testAddGame() {
-        league.addGame(game);
-        assertTrue(game.getLeague()==league);
     }
 
     @Test
