@@ -7,6 +7,7 @@ import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.football.*;
 import com.domain.logic.policies.GameSettingPolicy;
 import com.domain.logic.policies.Policy;
+import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
 import com.domain.logic.policies.game_setting_policies.TwoMatchEachPairSettingPolicy;
 import com.domain.logic.roles.Referee;
@@ -69,7 +70,8 @@ public class LeagueTest {
 
     @BeforeEach
     public void clean() {
-        AssociationSystem.getInstance().clearSystem();
+        //AssociationSystem.getInstance().clearSystem();
+        DBStub.getInstance().resetSystem();
         league = new LeagueStub("league");
         season = new Season(2011);
         seasonInLeague = new SeasonInLeague(league, season);
@@ -84,10 +86,35 @@ public class LeagueTest {
     }
 
     @Test
-    public void testSetGameSettingPolicy() throws Exception {
+    public void testSetGameSettingPolicy() {
         GameSettingPolicy gameSettingPolicy = new GameSettingPolicy(seasonInLeague.getPolicy(), new OneMatchEachPairSettingPolicy());
-        league.setGameSettingPolicy(season, gameSettingPolicy);
-        assertEquals(DBStub.getInstance().findSeasonInLeague(2011, "league").getPolicy().getGameSettingPolicy(), gameSettingPolicy);
+        // setting game setting policy
+        try {
+            league.setGameSettingPolicy(season, gameSettingPolicy);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            assertEquals(DBStub.getInstance().findSeasonInLeague(2011, "league").getPolicy().getGameSettingPolicy(), gameSettingPolicy);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testSetRankingPolicy(){
+        RankingPolicy rankingPolicy = new RankingPolicy(seasonInLeague.getPolicy(), 1, 0, 0, 0, 0);
+        // setting ranking policy
+        try {
+            league.setRankingPolicy(season, rankingPolicy);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            assertEquals(DBStub.getInstance().findSeasonInLeague(2011, "league").getPolicy().getRankingPolicy(), rankingPolicy);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /*

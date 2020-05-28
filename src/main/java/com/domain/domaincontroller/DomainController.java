@@ -177,11 +177,6 @@ public class DomainController {
         }
     }
 
-    // ------------------------4.3.Game Notifications To Users------
-    public void sendNotification(String username){
-
-    }
-
     // ------------------------Additions-----------------------------
     // System UC's
     /**
