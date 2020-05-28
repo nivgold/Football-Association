@@ -6,6 +6,7 @@ import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.managers.ManageTeams;
 import com.domain.logic.roles.TeamOwner;
 import com.domain.logic.utils.SHA1Function;
+import com.stubs.DBStub;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,19 +14,20 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AssociationSystemIntegrationTest {
+    DBStub dbStub = DBStub.getInstance();
     @Test
-    void resetSystem() {
+    void resetSystem() throws Exception {
         AssociationSystem.getInstance().clearSystem();
         try {
             assertTrue(AssociationSystem.getInstance().resetSystem());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertTrue(ManageMembers.getInstance().findMember("managerSys", SHA1Function.hash("admin")) != null);
-        assertTrue(ManageMembers.getInstance().findAllReferees().size() == 3);
-        assertTrue(ManageMembers.getInstance().findAllTeamOwner().size() == 2);
-        assertTrue(ManageMembers.getInstance().findAllAssociationAgent().size() == 1);
-        ArrayList<Team> allTeams = ManageTeams.getInstance().getAllTeams();
+        assertTrue(dbStub.findMember("managerSys", SHA1Function.hash("admin")) != null);
+        assertTrue(dbStub.findAllReferees().size() == 3);
+        assertTrue(dbStub.findAllTeamOwner().size() == 2);
+        assertTrue(dbStub.findAllAssociationAgent().size() == 1);
+        ArrayList<Team> allTeams = dbStub.getAllTeams();
         assertTrue(allTeams.size() == 2);
         for (Team team : allTeams) {
             TeamOwner teamOwner = team.getTeam_owners().get(0);

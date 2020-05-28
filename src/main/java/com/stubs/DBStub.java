@@ -248,17 +248,47 @@ public class DBStub implements Dao {
 
     @Override
     public ArrayList<Referee> findAllReferees() {
-        return null;
+        ArrayList<Referee> allRefs = new ArrayList<>();
+        for(Member member: members){
+            try {
+                if(member.getSpecificRole(Referee.class) != null){
+                    allRefs.add((Referee) member.getSpecificRole(Referee.class));
+                }
+            } catch (ClassNotFoundException e) {
+                continue;
+            }
+        }
+        return allRefs;
     }
 
     @Override
     public ArrayList<TeamOwner> findAllTeamOwner() {
-        return null;
+        ArrayList<TeamOwner> allRefs = new ArrayList<>();
+        for(Member member: members){
+            try {
+                if(member.getSpecificRole(TeamOwner.class) != null){
+                    allRefs.add((TeamOwner) member.getSpecificRole(TeamOwner.class));
+                }
+            } catch (ClassNotFoundException e) {
+                continue;
+            }
+        }
+        return allRefs;
     }
 
     @Override
     public ArrayList<AssociationAgent> findAllAssociationAgent() {
-        return null;
+        ArrayList<AssociationAgent> allRefs = new ArrayList<>();
+        for(Member member: members){
+            try {
+                if(member.getSpecificRole(AssociationAgent.class) != null){
+                    allRefs.add((AssociationAgent) member.getSpecificRole(AssociationAgent.class));
+                }
+            } catch (ClassNotFoundException e) {
+                continue;
+            }
+        }
+        return allRefs;
     }
 
     @Override
@@ -312,8 +342,9 @@ public class DBStub implements Dao {
     }
 
     @Override
-    public boolean addTeam(Team Team) {
-        return false;
+    public boolean addTeam(Team team) {
+        teams.add(team);
+        return true;
     }
 
     @Override
@@ -323,7 +354,7 @@ public class DBStub implements Dao {
 
     @Override
     public ArrayList<Team> getAllTeams() {
-        return null;
+        return teams;
     }
 
     @Override
