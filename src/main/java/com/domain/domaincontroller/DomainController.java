@@ -24,6 +24,7 @@ import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 import com.logger.ErrorLogger;
 import com.logger.EventLogger;
+import com.service.SendMail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -150,9 +151,10 @@ public class DomainController {
             // create the game event
             Event event = referee.createGameEvent(gameMinute, description, eventType, gameID, hostTeamName, guestTeamName, playerUsername);
 
-            // calling the not-connected fans
-
-            //TODO - send email to non-connected fans
+            // sending emails to all unconnected users
+            for(String email : notConnectedFansEmail){
+                SendMail.sendToUser(email, event);
+            }
 
             EventLogger.getInstance().saveLog("new game event was added to gameID: "+gameID+" by referee: \""+refereeUsername+"\"");
             return event;
