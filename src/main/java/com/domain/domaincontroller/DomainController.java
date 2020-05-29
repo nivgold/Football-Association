@@ -153,7 +153,7 @@ public class DomainController {
 
             // sending emails to all unconnected users
             for(String email : notConnectedFansEmail){
-                SendMail.sendToUser(email, event);
+                SendMail.sendToUser("NEW GAME EVENT!!!", email, event.toString());
             }
 
             EventLogger.getInstance().saveLog("new game event was added to gameID: "+gameID+" by referee: \""+refereeUsername+"\"");
