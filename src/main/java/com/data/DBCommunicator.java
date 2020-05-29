@@ -638,6 +638,13 @@ public class DBCommunicator implements Dao {
                 int associationAgentID = resultSet.getInt("associationAgentID");
                 if (associationAgentID !=0 ) new AssociationAgent(member);
             }
+
+            preparedStatement = connection.prepareStatement("SELECT gameID FROM gamefans INNER JOIN member m on gamefans.memberID = m.memberID where username LIKE ?");
+            preparedStatement.setString(1, userName);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                member.addObservedGameID(resultSet.getInt(1));
+            }
             connection.close();
             return member;
         } catch (SQLException e) {
