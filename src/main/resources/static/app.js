@@ -18,7 +18,7 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
+        stompClient.subscribe('/game/'+$("#gameID").val(), function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
     });
@@ -33,7 +33,22 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'content': $("#name").val()}));
+    $.ajax({
+        type: "POST",
+        url: "http://lvh.me:5001/api/v1/addEventToGame",
+        data: JSON.stringify({refereeUsername: "main Referee asaf",
+        gameID: 1,
+        gameMinute: 20,
+        description: 'Koren Ishlah blabla',
+        type: 'Foul',
+        playerUsername: 'teamOwner_Niv'}),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+    });
+    // $.post("http://lvh.me:5001/api/v1/getLeagueNames", function () {
+    //
+    // });
+    //stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
 }
 
 function showGreeting(message) {

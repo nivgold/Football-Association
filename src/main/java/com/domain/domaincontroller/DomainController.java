@@ -116,8 +116,9 @@ public class DomainController {
     }
 
     // ------------------------4.1.Referee Adds Events To Game------
-    public boolean addGameEvent(String refereeUsername, int gameID, int gameMinute, String description, String type, String playerUsername){
+    public Event addGameEvent(String refereeUsername, int gameID, int gameMinute, String description, String type, String playerUsername){
         try{
+            login("main Referee asaf", "asafpass", "123", "!23");
             Member memberReferee = AssociationSystem.getInstance().findConnectedUser(refereeUsername);
             Referee referee = (Referee) memberReferee.getSpecificRole(Referee.class);
             EventType eventType = EventType.strToEventType(type);
@@ -140,23 +141,24 @@ public class DomainController {
             }
 
             // creating a game with connected fans
-            Game game = new Game(gameID, connectedGameFans);
+            String[] teamNames = dao.getTeamNamesOfGame(gameID);
+            String hostTeamName = teamNames[0];
+            String guestTeamName = teamNames[1];
+
 
             EventLogger.getInstance().saveLog("\""+refereeUsername+"\" attempting to add new game event in gameID: "+gameID);
             // create the game event
-            Event event = referee.createGameEvent(gameMinute, description, eventType, gameID, game, playerUsername);
+            Event event = referee.createGameEvent(gameMinute, description, eventType, gameID, hostTeamName, guestTeamName, playerUsername);
 
-            // calling the game notify fans
-            game.notifyGameEvent(event);
             // calling the not-connected fans
-            // send push notification
 
+            //TODO - send email to non-connected fans
 
             EventLogger.getInstance().saveLog("new game event was added to gameID: "+gameID+" by referee: \""+refereeUsername+"\"");
-            return true;
+            return event;
         } catch (Exception e) {
             ErrorLogger.getInstance().saveError(e.getMessage());
-            return false;
+            return null;
         }
     }
 

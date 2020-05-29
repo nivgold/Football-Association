@@ -318,7 +318,7 @@ public class DBCommunicator implements Dao {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new Exception("SQL exception");
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -442,6 +442,29 @@ public class DBCommunicator implements Dao {
                 allLeagueSeasons.add(resultSet.getInt(1));
             }
             return allLeagueSeasons;
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
+
+    @Override
+    public String[] getTeamNamesOfGame(int gameID) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT host.teamName, guest.teamName FROM " +
+                "game INNER JOIN team host ON host.teamID = game.host_teamID " +
+                "INNER JOIN team guest ON guest.teamID = game.guest_teamID " +
+                "WHERE game.gameID = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, gameID);
+            String[] teamNames = new String[2];
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                teamNames[0] = resultSet.getString(1);
+                teamNames[1] = resultSet.getString(2);
+
+            }
+            return teamNames;
         } catch (SQLException e) {
             throw new Exception("SQL exception");
         }

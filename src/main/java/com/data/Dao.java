@@ -29,6 +29,7 @@ public interface Dao {
     ArrayList<String> getAllTeamNames() throws Exception;
     ArrayList<String[]> getGameFans(int gameID) throws Exception;
     ArrayList<Integer> getAllLeagueSeasons(String leagueName) throws Exception;
+    String[] getTeamNamesOfGame(int gameID) throws Exception;
     // -------------added functions---------------
 
 

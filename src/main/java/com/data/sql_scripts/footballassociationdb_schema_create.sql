@@ -26,6 +26,7 @@ drop table if exists team;
 drop table if exists team_manager;
 drop table if exists team_owner;
 drop table if exists teamsInSIL;
+drop table if exists gameFans;
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- create Complaint table
@@ -287,6 +288,7 @@ CREATE TABLE side_referee_in_game(
 );
 
 CREATE TABLE event(
+    eventID int NOT NULL AUTO_INCREMENT,
     `date` DATETIME NOT NULL DEFAULT NOW(),
     game_minute INT NOT NULL ,
     description varchar(255) ,
@@ -299,7 +301,7 @@ CREATE TABLE event(
     REFERENCES `player` (`playerID`),
     CONSTRAINT `fk_game_event` FOREIGN KEY (`gameID`)
     REFERENCES `game` (`gameID`),
-    PRIMARY KEY (playerID, gameID)
+    PRIMARY KEY (eventID)
 );
 
 CREATE TABLE rankingPolicy(
@@ -476,7 +478,7 @@ INSERT INTO refereesInSIL (seasonYear, leagueID, refereeID)
     VALUES (2020, 1, 1);
 
 INSERT INTO game (date, host_teamID, guest_teamID, main_refereeID, seasonYear, leagueID, fieldID)
-    VALUES ('2020-05-26 17:00:00', 1, 2, 1, 2020, 1, 1);
+    VALUES ('2020-05-29 15:00:00', 1, 2, 1, 2020, 1, 1);
 
 INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`, systemManager)
     VALUES ('side Referee asaf1','63ee39facef3e951eddbfad442b8624a811563e0','asaf1 zosman', 'asafzos1@post.bgu.ac.il', 7, 0);

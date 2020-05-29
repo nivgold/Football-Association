@@ -113,6 +113,11 @@ public class DBStub implements Dao {
     }
 
     @Override
+    public String[] getTeamNamesOfGame(int gameID) throws Exception {
+        return new String[0];
+    }
+
+    @Override
     public void setGameReport(int gameID, String report) throws Exception {
 
     }

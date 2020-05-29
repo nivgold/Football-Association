@@ -14,7 +14,7 @@ public class AddEventToGameRequest {
     String type;
     String playerUsername;
 
-    public AddEventToGameRequest(@JsonProperty("refereeUsername")String refereeUsername, @JsonProperty("gameID")int gameID, @JsonProperty("gameMinute")int gameMinute, @JsonProperty("description")String description, @JsonProperty("type")String type, @JsonProperty("PlayerUsername")String playerUsername) {
+    public AddEventToGameRequest(@JsonProperty("refereeUsername")String refereeUsername, @JsonProperty("gameID")int gameID, @JsonProperty("gameMinute")int gameMinute, @JsonProperty("description")String description, @JsonProperty("type")String type, @JsonProperty("playerUsername")String playerUsername) {
         this.refereeUsername = refereeUsername;
         this.gameID = gameID;
         this.gameMinute = gameMinute;
