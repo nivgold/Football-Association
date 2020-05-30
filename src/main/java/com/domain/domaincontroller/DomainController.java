@@ -24,6 +24,7 @@ import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 import com.logger.ErrorLogger;
 import com.logger.EventLogger;
+import com.service.SendMail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -116,8 +117,9 @@ public class DomainController {
     }
 
     // ------------------------4.1.Referee Adds Events To Game------
-    public boolean addGameEvent(String refereeUsername, int gameID, int gameMinute, String description, String type, String playerUsername){
+    public Event addGameEvent(String refereeUsername, int gameID, int gameMinute, String description, String type, String playerUsername){
         try{
+            login("main Referee asaf", "asafpass", "123", "!23");
             Member memberReferee = AssociationSystem.getInstance().findConnectedUser(refereeUsername);
             Referee referee = (Referee) memberReferee.getSpecificRole(Referee.class);
             EventType eventType = EventType.strToEventType(type);
@@ -140,23 +142,25 @@ public class DomainController {
             }
 
             // creating a game with connected fans
-            Game game = new Game(gameID, connectedGameFans);
+            String[] teamNames = dao.getTeamNamesOfGame(gameID);
+            String hostTeamName = teamNames[0];
+            String guestTeamName = teamNames[1];
+
 
             EventLogger.getInstance().saveLog("\""+refereeUsername+"\" attempting to add new game event in gameID: "+gameID);
             // create the game event
-            Event event = referee.createGameEvent(gameMinute, description, eventType, gameID, game, playerUsername);
+            Event event = referee.createGameEvent(gameMinute, description, eventType, gameID, hostTeamName, guestTeamName, playerUsername);
 
-            // calling the game notify fans
-            game.notifyGameEvent(event);
-            // calling the not-connected fans
-            // send push notification
-
+            // sending emails to all unconnected users
+            for(String email : notConnectedFansEmail){
+                SendMail.sendToUser(email, event);
+            }
 
             EventLogger.getInstance().saveLog("new game event was added to gameID: "+gameID+" by referee: \""+refereeUsername+"\"");
-            return true;
+            return event;
         } catch (Exception e) {
             ErrorLogger.getInstance().saveError(e.getMessage());
-            return false;
+            return null;
         }
     }
 
@@ -177,60 +181,76 @@ public class DomainController {
         }
     }
 
-    // ------------------------4.3.Game Notifications To Users------
-    public void sendNotification(String username){
-
-    }
-
     // ------------------------Additions-----------------------------
-    // System UC's
-    /**
-     * "Reset System" UC
-     */
     public void performResetSystem(String sysManagerUserName) {
         try {
             Member member = AssociationSystem.getInstance().findConnectedUser(sysManagerUserName);
             if(member instanceof SystemManagerMember){
                 SystemManagerMember systemManagerMember = (SystemManagerMember) member;
+                EventLogger.getInstance().saveLog("performing reset system...");
                 systemManagerMember.resetSystem(dao);
+                EventLogger.getInstance().saveLog("reset system successfully done");
             }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            ErrorLogger.getInstance().saveError(e.getMessage());
         }
     }
     public ArrayList<String> getAllLeaguesNames(){
+        ArrayList<String> allLeagueNames = new ArrayList<>();
+        EventLogger.getInstance().saveLog("attempting to find and return all league names");
         try {
-            return dao.getAllLeaguesNames();
+            allLeagueNames = dao.getAllLeaguesNames();
+            EventLogger.getInstance().saveLog("returning all league names");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            ErrorLogger.getInstance().saveError(e.getMessage());
         }
+        return allLeagueNames;
     }
     public GameIdentifier getRefereeActiveGame(String refereeUsername){
+        GameIdentifier gameIdentifier = null;
+        EventLogger.getInstance().saveLog("attempting to find current active game for referee: \""+refereeUsername+"\"");
         try{
-            return dao.getRefereeActiveGame(refereeUsername);
+            gameIdentifier = dao.getRefereeActiveGame(refereeUsername);
+            EventLogger.getInstance().saveLog("returning active game for referee: \""+refereeUsername+"\"");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            ErrorLogger.getInstance().saveError(e.getMessage());
         }
+        return gameIdentifier;
     }
     public ArrayList<String> getAllTeamPlayers(String teamName){
+        ArrayList<String> allTeamPlayers = new ArrayList<>();
+        EventLogger.getInstance().saveLog("attempting to find and return all players of team: \""+teamName+"\"");
         try{
-            return dao.getAllTeamPlayers(teamName);
+            allTeamPlayers = dao.getAllTeamPlayers(teamName);
+            EventLogger.getInstance().saveLog("returning all players of team: \""+teamName+"\"");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            ErrorLogger.getInstance().saveError(e.getMessage());
         }
+        return allTeamPlayers;
     }
 
     public SeasonInLeague findSeasonInLeague(int i, String leagueName) {
         SeasonInLeague seasonInLeague = null;
+        EventLogger.getInstance().saveLog("attempting to find and return season in league for league: \""+leagueName+"\"");
         try {
             seasonInLeague = dao.findSeasonInLeague(i, leagueName);
+            EventLogger.getInstance().saveLog("returning season in league to league: \""+leagueName+"\"");
         } catch (Exception e) {
-            System.err.println();
+            ErrorLogger.getInstance().saveError(e.getMessage());
         }
         return seasonInLeague;
+    }
+
+    public ArrayList<Integer> getAllLeagueSeasons(String leagueName){
+        ArrayList<Integer> allLeagueSeasons = new ArrayList<>();
+        EventLogger.getInstance().saveLog("attempting to find all league seasons for league: \""+leagueName+"\"");
+        try {
+            allLeagueSeasons = dao.getAllLeagueSeasons(leagueName);
+            EventLogger.getInstance().saveLog("returning all seasons for league: \""+leagueName+"\"");
+        } catch (Exception e) {
+            ErrorLogger.getInstance().saveError(e.getMessage());
+        }
+        return allLeagueSeasons;
     }
 
     /**
@@ -467,14 +487,22 @@ public class DomainController {
      * "Create League" UC
      */
     public void performCreateLeague(AssociationAgent associationAgent, String name){
-        associationAgent.createLeague(name);
+        try {
+            associationAgent.createLeague(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * "Create Season in League" UC
      */
     public void performCreateSeasonInLeague(AssociationAgent associationAgent, League league, int year){
-        associationAgent.createSeasonInLeague(league, year);
+        try {
+            associationAgent.createSeasonInLeague(league, year);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -495,7 +523,11 @@ public class DomainController {
      * "Set Referee in League in Season" UC
      */
     public void performSetRefereeInLeagueInSeason(AssociationAgent associationAgent, Referee referee, League league, Season season){
-        associationAgent.setRefereeInLeague(referee, league, season);
+        try {
+            associationAgent.setRefereeInLeague(referee, league, season);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

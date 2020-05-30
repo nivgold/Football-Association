@@ -318,7 +318,7 @@ public class DBCommunicator implements Dao {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new Exception("SQL exception");
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -426,6 +426,49 @@ public class DBCommunicator implements Dao {
             throw new Exception("SQL exception");
         }
     }
+
+    @Override
+    public ArrayList<Integer> getAllLeagueSeasons(String leagueName) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT seasonYear FROM seasoninleague " +
+                "INNER JOIN league l on seasoninleague.leagueID = l.leagueID " +
+                "WHERE l.league_name LIKE ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, leagueName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ArrayList<Integer> allLeagueSeasons = new ArrayList<>();
+            while (resultSet.next()){
+                allLeagueSeasons.add(resultSet.getInt(1));
+            }
+            return allLeagueSeasons;
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
+
+    @Override
+    public String[] getTeamNamesOfGame(int gameID) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT host.teamName, guest.teamName FROM " +
+                "game INNER JOIN team host ON host.teamID = game.host_teamID " +
+                "INNER JOIN team guest ON guest.teamID = game.guest_teamID " +
+                "WHERE game.gameID = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, gameID);
+            String[] teamNames = new String[2];
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                teamNames[0] = resultSet.getString(1);
+                teamNames[1] = resultSet.getString(2);
+
+            }
+            return teamNames;
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
     // -------------added functions---------------
 
     @Override
@@ -452,12 +495,14 @@ public class DBCommunicator implements Dao {
 
     @Override
     public boolean removeLeague(String leagueName) {
+        //TODO function
         return false;
     }
 
     @Override
     public boolean addLeague(League league) {
-        return false;
+        //TODO function!
+        return true;
     }
 
     @Override
@@ -593,6 +638,13 @@ public class DBCommunicator implements Dao {
                 int associationAgentID = resultSet.getInt("associationAgentID");
                 if (associationAgentID !=0 ) new AssociationAgent(member);
             }
+
+            preparedStatement = connection.prepareStatement("SELECT gameID FROM gamefans INNER JOIN member m on gamefans.memberID = m.memberID where username LIKE ?");
+            preparedStatement.setString(1, userName);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                member.addObservedGameID(resultSet.getInt(1));
+            }
             connection.close();
             return member;
         } catch (SQLException e) {
@@ -697,6 +749,21 @@ public class DBCommunicator implements Dao {
         }
     }
 
+    @Override
+    public boolean addSeasonInLeague(int year, String leagueName) {
+        //TODO function
+        return false;
+    }
+
+    @Override
+    public void appointReferee(String userName) throws Exception {
+
+    }
+
+    @Override
+    public void removeReferee(String userName) {
+        //TODO function
+    }
 
     //LIAR LIAR PANTS ON FIRE:
     @Override

@@ -14,9 +14,7 @@ import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class DBStub implements Dao {
 
@@ -79,8 +77,44 @@ public class DBStub implements Dao {
     }
 
     @Override
+    public boolean addSeasonInLeague(int year, String leagueName) throws Exception {
+       seasonInLeagues.add(new SeasonInLeague(this.findLeague(leagueName), this.findSeason(year)));
+       return true;
+    }
+
+    @Override
+    public void appointReferee(String userName) throws Exception {
+        Member member = findMember(userName);
+        Referee referee = new Referee(member);
+    }
+
+    @Override
+    public void removeReferee(String userName) throws Exception {
+
+    }
+
+    @Override
+    public SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception {
+        for (SeasonInLeague seasonInLeague : this.seasonInLeagues){
+            if (seasonInLeague.getSeason().getYear()==seasonYear && seasonInLeague.getLeague().getLeagueName().equals(leagueName))
+                return seasonInLeague;
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<String[]> getGameFans(int gameID) throws Exception {
         return null;
+    }
+
+    @Override
+    public ArrayList<Integer> getAllLeagueSeasons(String leagueName) throws Exception {
+        return null;
+    }
+
+    @Override
+    public String[] getTeamNamesOfGame(int gameID) throws Exception {
+        return new String[0];
     }
 
     @Override
@@ -109,20 +143,11 @@ public class DBStub implements Dao {
     }
 
     @Override
-    public SeasonInLeague findSeasonInLeague(int seasonYear, String leagueName) throws Exception {
-        for (SeasonInLeague seasonInLeague : this.seasonInLeagues){
-            if (seasonInLeague.getSeason().getYear()==seasonYear && seasonInLeague.getLeague().getLeagueName().equals(leagueName))
-                return seasonInLeague;
-        }
-        return null;
-    }
-
-    @Override
     public void setGameSettingPolicy(int seasonYear, String leagueName, boolean gameSettingPolicyField) throws Exception {
         SeasonInLeague seasonInLeague = findSeasonInLeague(seasonYear, leagueName);
         Policy policy = seasonInLeague.getPolicy();
         if (gameSettingPolicyField){
-            policy.getGameSettingPolicy().setSettingStrategy(new OneMatchEachPairSettingPolicy());
+            policy.setGameSettingPolicy(new OneMatchEachPairSettingPolicy());
         }
         else{
             policy.getGameSettingPolicy().setSettingStrategy(new TwoMatchEachPairSettingPolicy());
@@ -163,7 +188,8 @@ public class DBStub implements Dao {
 
     @Override
     public boolean addLeague(League league) {
-        return false;
+        leagues.add(league);
+        return true;
     }
 
     @Override
@@ -173,7 +199,11 @@ public class DBStub implements Dao {
 
     @Override
     public ArrayList<String> getAllLeaguesNames() throws Exception {
-        return null;
+        ArrayList<String> leaguesNames = new ArrayList<>();
+        for(League league : leagues){
+            leaguesNames.add(league.getLeagueName());
+        }
+        return leaguesNames;
     }
 
     @Override
@@ -212,7 +242,8 @@ public class DBStub implements Dao {
 
     @Override
     public boolean addMember(Member member) {
-        return false;
+        members.add(member);
+        return true;
     }
 
     @Override
@@ -227,17 +258,47 @@ public class DBStub implements Dao {
 
     @Override
     public ArrayList<Referee> findAllReferees() {
-        return null;
+        ArrayList<Referee> allRefs = new ArrayList<>();
+        for(Member member: members){
+            try {
+                if(member.getSpecificRole(Referee.class) != null){
+                    allRefs.add((Referee) member.getSpecificRole(Referee.class));
+                }
+            } catch (ClassNotFoundException e) {
+                continue;
+            }
+        }
+        return allRefs;
     }
 
     @Override
     public ArrayList<TeamOwner> findAllTeamOwner() {
-        return null;
+        ArrayList<TeamOwner> allRefs = new ArrayList<>();
+        for(Member member: members){
+            try {
+                if(member.getSpecificRole(TeamOwner.class) != null){
+                    allRefs.add((TeamOwner) member.getSpecificRole(TeamOwner.class));
+                }
+            } catch (ClassNotFoundException e) {
+                continue;
+            }
+        }
+        return allRefs;
     }
 
     @Override
     public ArrayList<AssociationAgent> findAllAssociationAgent() {
-        return null;
+        ArrayList<AssociationAgent> allRefs = new ArrayList<>();
+        for(Member member: members){
+            try {
+                if(member.getSpecificRole(AssociationAgent.class) != null){
+                    allRefs.add((AssociationAgent) member.getSpecificRole(AssociationAgent.class));
+                }
+            } catch (ClassNotFoundException e) {
+                continue;
+            }
+        }
+        return allRefs;
     }
 
     @Override
@@ -253,7 +314,7 @@ public class DBStub implements Dao {
     @Override
     public Season findSeason(Integer seasonYear) throws Exception {
         for (Season season : this.seasons){
-            if (season.getYear()==seasonYear)
+            if (season.getYear() == seasonYear)
                 return season;
         }
         return null;
@@ -266,7 +327,8 @@ public class DBStub implements Dao {
 
     @Override
     public boolean addSeason(Season season) {
-        return false;
+        seasons.add(season);
+        return true;
     }
 
     @Override
@@ -290,8 +352,9 @@ public class DBStub implements Dao {
     }
 
     @Override
-    public boolean addTeam(Team Team) {
-        return false;
+    public boolean addTeam(Team team) {
+        teams.add(team);
+        return true;
     }
 
     @Override
@@ -301,7 +364,7 @@ public class DBStub implements Dao {
 
     @Override
     public ArrayList<Team> getAllTeams() {
-        return null;
+        return teams;
     }
 
     @Override
@@ -320,6 +383,14 @@ public class DBStub implements Dao {
 
     @Override
     public void resetSystem() {
-
+        seasons = new ArrayList<>();
+        leagues = new ArrayList<>();
+        seasonInLeagues = new ArrayList<>();
+        policies = new ArrayList<>();
+        gameSettingPolicies = new ArrayList<>();
+        members = new ArrayList<>();
+        teams = new ArrayList<>();
+        referees = new ArrayList<>();
+        players=  new ArrayList<>();
     }
 }

@@ -19,6 +19,8 @@ public class Event {
 
     private String playerUsername;
     private int gameID;
+    private String hostTeamName;
+    private String guestTeamName;
 
 
     /**
@@ -51,12 +53,14 @@ public class Event {
         this.gameID = game.getGameID();
     }
 
-    public Event(int gameMinute, String description, EventType type, int gameID, String playerUsername){
+    public Event(int gameMinute, String description, EventType type, int gameID, String hostTeamName, String guestTeamName, String playerUsername){
         this.gameMinute = gameMinute;
         this.description = description;
         this.type = type;
         this.gameID = gameID;
         this.playerUsername = playerUsername;
+        this.hostTeamName = hostTeamName;
+        this.guestTeamName = guestTeamName;
     }
 
     public Date getDateTime() {
@@ -105,5 +109,21 @@ public class Event {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public String getPlayerUsername() {
+        return playerUsername;
+    }
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    @Override
+    public String toString() {
+        return "New game event happened in the game between :"+hostTeamName+" VS. "+guestTeamName+"\n" +
+                "Event Type: "+type.name()+"\n" +
+                "Description: "+description+"\n" +
+                "Player Involved: "+playerUsername;
     }
 }

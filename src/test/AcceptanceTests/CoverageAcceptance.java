@@ -181,7 +181,11 @@ public class CoverageAcceptance {
         Member memAssociationAgent = serviceLayerManager.findMember("ass", SHA1Function.hash("a123"));
         ArrayList<IRole> allRoles = memAssociationAgent.getRoles();
         AssociationAgent associationAgent = (AssociationAgent) allRoles.get(0);
-        associationAgent.createLeague("newLeague");
+        try {
+            associationAgent.createLeague("newLeague");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if(serviceLayerManager.findLeague("newLeague") != null){
             System.out.println("association agent added new league to the system");
         }

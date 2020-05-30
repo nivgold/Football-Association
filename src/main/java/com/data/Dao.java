@@ -7,9 +7,7 @@ import com.domain.logic.roles.*;
 import com.domain.logic.users.Member;
 import com.domain.logic.users.SystemManagerMember;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
 public interface Dao {
 
@@ -30,6 +28,8 @@ public interface Dao {
     boolean isReportAuthorized(String refereeUsername, int gameID) throws Exception;
     ArrayList<String> getAllTeamNames() throws Exception;
     ArrayList<String[]> getGameFans(int gameID) throws Exception;
+    ArrayList<Integer> getAllLeagueSeasons(String leagueName) throws Exception;
+    String[] getTeamNamesOfGame(int gameID) throws Exception;
     // -------------added functions---------------
 
 
@@ -232,4 +232,9 @@ public interface Dao {
 
     void resetSystem();
 
+    boolean addSeasonInLeague(int year, String leagueName) throws Exception;
+
+    void appointReferee(String userName) throws Exception;
+
+    void removeReferee(String userName) throws Exception;
 }

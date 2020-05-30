@@ -2,20 +2,24 @@ package com.service;
 
 import com.domain.domaincontroller.DomainController;
 import com.domain.logic.data_types.GameIdentifier;
+import com.domain.logic.football.Event;
 import com.domain.logic.users.Member;
+import com.service.messagingstompwebsocket.Notification;
 import com.service.request_data_holders.*;
 import com.service.responses.GameIdentifierResponse;
 import com.service.responses.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 @RequestMapping("api/v1")
 @RestController @CrossOrigin
 public class ApplicationController {
 
+    @Autowired
+    private SimpMessagingTemplate simpleMessagingTemplate;
 
     private final DomainController domainController;
 
@@ -88,7 +92,9 @@ public class ApplicationController {
     // ------------------------4.1.Referee Adds Events To Game------
     @PostMapping("/addEventToGame")
     public StatusResponse addEventToGame(@RequestBody AddEventToGameRequest addEventToGameRequest) {
-        if (domainController.addGameEvent(addEventToGameRequest.getRefereeUsername(),addEventToGameRequest.getGameID(),addEventToGameRequest.getGameMinute(),addEventToGameRequest.getDescription(),addEventToGameRequest.getType(),addEventToGameRequest.getPlayerUsername())) {
+        Event event = domainController.addGameEvent(addEventToGameRequest.getRefereeUsername(),addEventToGameRequest.getGameID(),addEventToGameRequest.getGameMinute(),addEventToGameRequest.getDescription(),addEventToGameRequest.getType(),addEventToGameRequest.getPlayerUsername());
+        if (event != null) {
+            Notification.sendGameEventNotification(simpleMessagingTemplate, event.getGameID(), event.toString());
             return StatusResponse.getTrueStatusObj();
         }
         return StatusResponse.getFalseStatusObj();

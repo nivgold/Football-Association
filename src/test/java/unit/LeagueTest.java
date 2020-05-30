@@ -1,18 +1,25 @@
 package unit;
 
 
+import com.data.Dao;
 import com.domain.logic.AssociationSystem;
 import com.domain.logic.enums.TeamStatus;
 import com.domain.logic.football.*;
+import com.domain.logic.policies.GameSettingPolicy;
 import com.domain.logic.policies.Policy;
+import com.domain.logic.policies.RankingPolicy;
 import com.domain.logic.policies.game_setting_policies.OneMatchEachPairSettingPolicy;
 import com.domain.logic.policies.game_setting_policies.TwoMatchEachPairSettingPolicy;
 import com.domain.logic.roles.Referee;
 import com.domain.logic.roles.TeamOwner;
 import com.domain.logic.users.Member;
+import com.stubs.DBStub;
+import com.stubs.LeagueStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -20,49 +27,104 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LeagueTest {
 
 
-    League league = new League("test league");
-    Member member1 = new Member("Talfrim","123","x@x.x",null,"Tal");
-    TeamOwner teamOwner1;
+//    League league = new League("test league");
+//    Member member1 = new Member("Talfrim","123","x@x.x",null,"Tal");
+//    TeamOwner teamOwner1;
+//
+//    {
+//        try {
+//            teamOwner1 = new TeamOwner(member1);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    Field filed1 = new Field("Israel","hasharon","Herzliya","12345");
+//    Field filed2 = new Field("Israel","hasharon","Herzliya","54321");
+//    Team team1 = new Team("team1-test", TeamStatus.Open,teamOwner1,filed1);
+//    Team team2 = new Team("team2-test", TeamStatus.Open,teamOwner1,filed2);
+//    SeasonInLeague seasonInLeague = new SeasonInLeague(league, new Season(2019));
+//    Game game = new Game(team1,team2,seasonInLeague, LocalDateTime.now(),filed1);
+//    Game game2 = new Game(team1,team2,seasonInLeague, LocalDateTime.now(),filed1);
+//    Season season2019 = new Season(2019);
+//    Season season2020 = new Season(2020);
+//    SeasonInLeague seasonInLeague2 = new SeasonInLeague(league, season2019);
+//    Policy policy = new Policy(seasonInLeague2);
+//    Referee referee;
+//
+//    {
+//        try {
+//            referee = new Referee(member1);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    {
-        try {
-            teamOwner1 = new TeamOwner(member1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    Field filed1 = new Field("Israel","hasharon","Herzliya","12345");
-    Field filed2 = new Field("Israel","hasharon","Herzliya","54321");
-    Team team1 = new Team("team1-test", TeamStatus.Open,teamOwner1,filed1);
-    Team team2 = new Team("team2-test", TeamStatus.Open,teamOwner1,filed2);
-    SeasonInLeague seasonInLeague = new SeasonInLeague(league, new Season(2019));
-    Game game = new Game(team1,team2,seasonInLeague, LocalDateTime.now(),filed1);
-    Game game2 = new Game(team1,team2,seasonInLeague, LocalDateTime.now(),filed1);
-    Season season2019 = new Season(2019);
-    Season season2020 = new Season(2020);
-    SeasonInLeague seasonInLeague2 = new SeasonInLeague(league, season2019);
-    Policy policy = new Policy(seasonInLeague2);
-    Referee referee;
-
-    {
-        try {
-            referee = new Referee(member1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
+    private League league;
+    private SeasonInLeague seasonInLeague;
+    private Season season;
     public LeagueTest() {
 
     }
 
     @BeforeEach
     public void clean() {
-        AssociationSystem.getInstance().clearSystem();
-        league = new League("test league");
+        //AssociationSystem.getInstance().clearSystem();
+        DBStub.getInstance().resetSystem();
+        league = new LeagueStub("league");
+        season = new Season(2011);
+        seasonInLeague = new SeasonInLeague(league, season);
+        DBStub.seasonInLeagues.add(seasonInLeague);
     }
+
+    @Test
+    public void testGetSeasonLeaguePolicy(){
+        HashMap<Season, Policy> seasonLeaguePolicy = league.getSeasonLeaguePolicy();
+        assertEquals(2, seasonLeaguePolicy.keySet().size());
+        assertEquals(seasonInLeague.getPolicy(), seasonLeaguePolicy.get(season));
+    }
+
+    @Test
+    public void testSetGameSettingPolicy() {
+        GameSettingPolicy gameSettingPolicy = new GameSettingPolicy(seasonInLeague.getPolicy(), new OneMatchEachPairSettingPolicy());
+        // setting game setting policy
+        try {
+            league.setGameSettingPolicy(season, gameSettingPolicy);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            assertEquals(DBStub.getInstance().findSeasonInLeague(2011, "league").getPolicy().getGameSettingPolicy(), gameSettingPolicy);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testSetRankingPolicy(){
+        RankingPolicy rankingPolicy = new RankingPolicy(seasonInLeague.getPolicy(), 1, 0, 0, 0, 0);
+        // setting ranking policy
+        try {
+            league.setRankingPolicy(season, rankingPolicy);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            RankingPolicy daoRankingPolicy = DBStub.getInstance().findSeasonInLeague(2011, "league").getPolicy().getRankingPolicy();
+            assertEquals(daoRankingPolicy.getPolicy(), rankingPolicy.getPolicy());
+            assertEquals(daoRankingPolicy.getWin(), rankingPolicy.getWin());
+            assertEquals(daoRankingPolicy.getGoals(), rankingPolicy.getGoals());
+            assertEquals(daoRankingPolicy.getDraw(), rankingPolicy.getDraw());
+            assertEquals(daoRankingPolicy.getYellowCards(), rankingPolicy.getYellowCards());
+            assertEquals(daoRankingPolicy.getRedCards(), rankingPolicy.getRedCards());
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /*
     @Test
     public void testAddGame() {
         league.addGame(game);
@@ -124,6 +186,8 @@ public class LeagueTest {
         assertTrue(league.getLeagueRefereeMap().get(season2019).contains(referee)); //adding succeeded
     }
 
+
+     */
 
 }
 

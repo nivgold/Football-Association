@@ -24,6 +24,7 @@ public class Member implements IGameObserver, IPersonalPageObserver {
     private String email;
     private String name;
     private String passwordHash;
+    private ArrayList<Integer> observedGameIDs;
 
 
     public Member(String userName, String passwordHash, String email, Address address, String name) {
@@ -35,6 +36,15 @@ public class Member implements IGameObserver, IPersonalPageObserver {
         this.unresolvedComplaints = new ArrayList<>();
         this.resolvedComplaints = new ArrayList<>();
         this.roles = new ArrayList<>();
+        this.observedGameIDs = new ArrayList<>();
+    }
+
+    public ArrayList<Integer> getObservedGameIDs() {
+        return observedGameIDs;
+    }
+
+    public void addObservedGameID(int gameID){
+        this.observedGameIDs.add(gameID);
     }
 
     public boolean logout(){
