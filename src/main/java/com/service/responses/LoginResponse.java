@@ -15,7 +15,8 @@ public class LoginResponse {
     public LoginResponse(Member member, String status) {
         this.status = status;
         this.member = member;
-        roles=fillRolesList(member.getRoles());
+        if (member!=null)
+            roles=fillRolesList(member.getRoles());
     }
 
     private ArrayList<RoleIdentifierForResponses> fillRolesList(ArrayList<IRole> originalRoles) {

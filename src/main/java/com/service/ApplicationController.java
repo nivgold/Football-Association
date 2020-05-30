@@ -1,7 +1,6 @@
 package com.service;
 
 import com.domain.domaincontroller.DomainController;
-import com.domain.logic.data_types.Address;
 import com.domain.logic.data_types.GameIdentifier;
 import com.domain.logic.users.Member;
 import com.service.request_data_holders.*;
@@ -63,7 +62,6 @@ public class ApplicationController {
     }
 
 
-
     //-------------------------***3.Manage Game:***---------------------
 
     // ------------------------3.1.Define GameSetting Policy-------
@@ -107,7 +105,6 @@ public class ApplicationController {
 
 
     // ------------------------***others***-------
-
     // ------------------------test getter-------
     @GetMapping("/testGetter")
     public StatusResponse getTrueStatus() {
