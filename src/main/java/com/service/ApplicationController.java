@@ -139,6 +139,13 @@ public class ApplicationController {
         return domainController.getAllTeamPlayers(teamName);
     }
 
+    //------------------------getAllLeagueSeasons-----
+    @GetMapping("/getAllLeagueSeasons")
+    public ArrayList<Integer> getAllLeagueSeasons(@RequestParam("leagueName") String teamName){
+        return domainController.getAllLeagueSeasons(teamName);
+    }
+
+
     // ------------------resetSystem (Dangerous!):----
     @PostMapping("/resetSystem")
     public void resetSystem(@RequestBody ResetSystemRequest resetSystemRequest) {
