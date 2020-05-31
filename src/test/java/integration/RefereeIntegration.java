@@ -81,6 +81,7 @@ class RefereeIntegration {
         this.game = new Game(team, team, seasonInLeague, LocalDateTime.now(), team.getField());
         game.setGameID(1);
         dbStub.addGame(game);
+        game.addSideReferee(referee);
     }
 
     @Test
@@ -100,13 +101,30 @@ class RefereeIntegration {
         assertEquals("new", this.game.getEvents().get(1).getDescription());
         assertEquals(70, this.game.getEvents().get(1).getGameMinute());
         assertEquals(2, this.game.getEvents().size());
+        // test create game event with unauthorized referee
+        Member member4 = new Member("cheater", SHA1Function.hash("cheater"), "cheater@gmail.com", new Address("Israel", "Israel", "Haifa", "6127824"), "shimon");
+        dbStub.addMember(member4);
+        try {
+            Referee referee1 = new RefereeStub(member4);
+            referee1.createGameEvent(10, "new event" , EventType.Foul, 1,  game.getHost().getTeamName(), game.getGuest().getTeamName(), this.game.getHost().getPlayers().get(0).getPlayer().getMember().getUserName());
+        } catch (Exception e) {
+            System.out.println("unauthorized referee was blocked from doing the change");
+        }
+    }
+
+    @Test
+    public void testCreateGameReport(){
+        try {
+            this.referee.createReport(1, "hey just creating a report");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
-    
 
-
-//    @Test
+    //    @Test
 //    public void testEditGameEvent(){
 //        Event gameEvent = this.game.getEvents().get(0);
 //        Event newGameEvent = new Event(1, "new", EventType.Foul, this.game, this.game.getHost().getPlayers().get(0).getPlayer());

@@ -38,9 +38,20 @@ public class RefereeStub extends Referee {
         }
     }
 
+    public void createReport(int gameID, String report) throws Exception {
+        if (isAuthorized(gameID)){
+            Dao dao = DBStub.getInstance();
+            dao.setGameReport(gameID, report);
+        }
+        else{
+            throw new Exception("\""+ getMember().getUserName()+"\" is not authorized to create game report in gameID: "+gameID);
+        }
+    }
+
     private boolean isAuthorized(int gameID){
         Dao dao = DBStub.getInstance();
-        if(dao.findGame(gameID) != null)
+        Game game = dao.findGame(gameID);
+        if(game != null && (game.getSideReferees().contains(this)|| game.getMainReferee() == this))
             return true;
         return false;
     }
