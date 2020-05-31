@@ -4,10 +4,12 @@ import com.domain.logic.football.Team;
 import com.domain.logic.managers.ManageMembers;
 import com.domain.logic.managers.ManageTeams;
 import com.domain.logic.utils.SHA1Function;
+import com.stubs.DBStub;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AssociationSystemTest {
@@ -20,11 +22,6 @@ class AssociationSystemTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertTrue(ManageMembers.getInstance().findMember("managerSys", SHA1Function.hash("admin")) != null);
-        assertTrue(ManageMembers.getInstance().findAllReferees().size() == 3);
-        assertTrue(ManageMembers.getInstance().findAllTeamOwner().size() == 2);
-        assertTrue(ManageMembers.getInstance().findAllAssociationAgent().size() == 1);
-        ArrayList<Team> allTeams = ManageTeams.getInstance().getAllTeams();
-        assertTrue(allTeams.size() == 2);
+        assertEquals(7, DBStub.members.size());
     }
 }

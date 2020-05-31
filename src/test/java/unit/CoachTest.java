@@ -44,27 +44,27 @@ class CoachTest {
         this.cits = new CoachInTeamStub("description", c, t);
     }
 
-    @Test
-    void addCoachInTeam() {
-        assertFalse(t.getCoaches().contains(cits));
-        c.addCoachInTeam(cits);
-        t.addCoachInTeam(cits);
-        assertTrue(t.getCoaches().contains(cits));
-    }
-
-
-    @Test
-    void removeYourself() {
-        assertTrue( c.getMember().getRoles().size() == 1);
-        c.addCoachInTeam(cits);
-        t.addCoachInTeam(cits);
-        assertTrue(cits.getTeam().getCoaches().size() == 1);
-        try {
-            assertTrue(c.removeYourself());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        assertTrue(cits.getTeam().getCoaches().size() == 0);
-        assertFalse(c.getMember().getRoles().contains(c));
-    }
+//    @Test
+//    void addCoachInTeam() {
+//        assertFalse(t.getCoaches().contains(cits));
+//        c.addCoachInTeam(cits);
+//        t.addCoachInTeam(cits);
+//        assertTrue(t.getCoaches().contains(cits));
+//    }
+//
+//
+//    @Test
+//    void removeYourself() {
+//        assertTrue( c.getMember().getRoles().size() == 1);
+//        c.addCoachInTeam(cits);
+//        t.addCoachInTeam(cits);
+//        assertTrue(cits.getTeam().getCoaches().size() == 1);
+//        try {
+//            assertTrue(c.removeYourself());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        assertTrue(cits.getTeam().getCoaches().size() == 0);
+//        assertFalse(c.getMember().getRoles().contains(c));
+//    }
 }

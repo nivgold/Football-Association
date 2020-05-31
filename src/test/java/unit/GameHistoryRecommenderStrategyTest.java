@@ -47,23 +47,23 @@ public class GameHistoryRecommenderStrategyTest {
         recommenderSystem.BuildRecommenderSystem(new GamesHistoryRecommenderStrategy());
     }
 
-    @Test
-    void testGetChances() {
-        game1.setHostTeamScore(2); //team1
-        game1.setGuestTeamScore(1); //team2
-        //team 1 won
-
-        game2.setHostTeamScore(1); //team 1
-        game2.setGuestTeamScore(0); //team 2
-        //team 1 won
-
-        season2019.addGame(game1);
-        season2019.addGame(game2);
-
-        SeasonInLeague seasonInLeague = new SeasonInLeague(league, season2019);
-
-        Game game3 = new Game(team1,team2,seasonInLeague,LocalDateTime.now(),team1.getField());
-        double chancesGame3 = recommenderSystem.getChances(game3);
-        assertEquals(chancesGame3,1,"Team 1 100% against team 2 0%");
-    }
+//    @Test
+//    void testGetChances() {
+//        game1.setHostTeamScore(2); //team1
+//        game1.setGuestTeamScore(1); //team2
+//        //team 1 won
+//
+//        game2.setHostTeamScore(1); //team 1
+//        game2.setGuestTeamScore(0); //team 2
+//        //team 1 won
+//
+//        season2019.addGame(game1);
+//        season2019.addGame(game2);
+//
+//        SeasonInLeague seasonInLeague = new SeasonInLeague(league, season2019);
+//
+//        Game game3 = new Game(team1,team2,seasonInLeague,LocalDateTime.now(),team1.getField());
+//        double chancesGame3 = recommenderSystem.getChances(game3);
+//        assertEquals(chancesGame3,1,"Team 1 100% against team 2 0%");
+//    }
 }

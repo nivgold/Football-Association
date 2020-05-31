@@ -39,15 +39,22 @@ class RefereeTest {
         }
         DBStub.members.add(member);
         DBStub.referees.add(referee);
+
     }
 
-//    @Test
-//    void createGameEvent() {
-//        // need game
-//        // need player
-//        // need referee
-//        // need event
-//    }
+    @Test
+    public void createGameEvent() {
+        // need game
+        // need player
+        // need referee
+        // need event
+    }
+
+    @Test
+    public void createGameReport(){
+        // need game
+        // need referee
+    }
 //
 //    @Test
 //    void editGameEvent() {

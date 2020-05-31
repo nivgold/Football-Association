@@ -14,11 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SeasonTest {
 
-    League league = new League("test league");
-    Member member1 = new Member("Talfrim","123","x@x.x",null,"Tal");
-    Season season2019 = new Season(2019);
-    Season season2020 = new Season(2020);
-    Policy policy = new Policy(new SeasonInLeague(league, season2020));
+    private League league = new League("test league");
+    private Season season2019 = new Season(2019);
 
     @BeforeEach
     public void clean() {
@@ -28,8 +25,11 @@ public class SeasonTest {
 
     @Test
     void testSetPolicyToLeague() {
-        season2019.setPolicyToLeague(league,policy);
-        assertEquals(season2019.getSeasonLeaguePolicy().get(league),policy);
+        SeasonInLeague seasonInLeague = new SeasonInLeague(league, season2019);
+        Policy policy = new Policy(seasonInLeague);
 
+        season2019.setPolicyToLeague(league, policy);
+
+        assertEquals(policy, season2019.getSeasonLeaguePolicy().get(league));
     }
 }

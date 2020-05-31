@@ -25,18 +25,18 @@ public class PersonalPageTest {
     PersonalPage personalPage = new PersonalPage(coach);
 
 
-    @Test
-    void testRegister() {
-        AssociationSystem.getInstance().clearSystem();
-        personalPage.register(member);
-        assertTrue(personalPage.getPersonalPageObservers().contains(member));
-    }
-
-    @Test
-    void testRemove() {
-        AssociationSystem.getInstance().clearSystem();
-        personalPage.register(member);
-        personalPage.remove(member);
-        assertFalse(personalPage.getPersonalPageObservers().contains(member));
-    }
+//    @Test
+//    void testRegister() {
+//        AssociationSystem.getInstance().clearSystem();
+//        personalPage.register(member);
+//        assertTrue(personalPage.getPersonalPageObservers().contains(member));
+//    }
+//
+//    @Test
+//    void testRemove() {
+//        AssociationSystem.getInstance().clearSystem();
+//        personalPage.register(member);
+//        personalPage.remove(member);
+//        assertFalse(personalPage.getPersonalPageObservers().contains(member));
+//    }
 }

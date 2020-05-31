@@ -51,30 +51,14 @@ class MemberTest {
     }
 
     @Test
-    void getAllTypeRole() {
-        //one insertion
-        Coach coach = null;
+    void testGetSpecificRole() {
         try {
-            coach = new Coach(member);
+            Referee referee = new Referee(member);
+
+            assertEquals(referee, member.getSpecificRole(Referee.class));
         } catch (Exception e) {
-            e.printStackTrace();
+            fail();
         }
-        try {
-            member.getRoles().add(new Referee(member));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ArrayList<IRole> allReferees = member.getAllTypeRole(Coach.class);
-        assertEquals(allReferees.get(0), coach);
-        //another one
-        Coach coach2 = null;
-        try {
-            coach2 = new Coach(member);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        allReferees = member.getAllTypeRole(Coach.class);
-        assertEquals(allReferees.get(1), coach2);
     }
 
     @Test
@@ -89,28 +73,28 @@ class MemberTest {
         assertFalse(member.getUnresolvedComplaints().contains(complaint));
     }
 
-    @Test
-    void setUserName() {
-        //checks scenario with no lapping data with another member
-        String newUserName = "bla";
-        assertTrue(member.setUserName(newUserName));
-        //checks scenario with lapping data with another member
-        newUserName = "pam";
-        Member memberTemp = new Member(newUserName, member.getPasswordHash(), "ssEmail",
-                new Address("", "", "", ""), "sdc sdf");
-        assertFalse(member.setUserName(newUserName));
-        ManageMembers.getInstance().removeMember(memberTemp.getUserName(), memberTemp.getPasswordHash());
-    }
-
-    @Test
-    void setPasswordHash() {
-        //checks scenario with no lapping data with another member
-        String newPass = "bla";
-        assertTrue(member.setPasswordHash(newPass));
-        //checks scenario with lapping data with another member
-        newPass = "pam";
-        Member memberTemp = new Member(member.getUserName(), SHA1Function.hash(newPass), "ssEmail",
-                new Address("", "", "", ""), "sdc sdf");
-        assertFalse(member.setPasswordHash(newPass));
-    }
+//    @Test
+//    void setUserName() {
+//        //checks scenario with no lapping data with another member
+//        String newUserName = "bla";
+//        assertTrue(member.setUserName(newUserName));
+//        //checks scenario with lapping data with another member
+//        newUserName = "pam";
+//        Member memberTemp = new Member(newUserName, member.getPasswordHash(), "ssEmail",
+//                new Address("", "", "", ""), "sdc sdf");
+//        assertFalse(member.setUserName(newUserName));
+//        ManageMembers.getInstance().removeMember(memberTemp.getUserName(), memberTemp.getPasswordHash());
+//    }
+//
+//    @Test
+//    void setPasswordHash() {
+//        //checks scenario with no lapping data with another member
+//        String newPass = "bla";
+//        assertTrue(member.setPasswordHash(newPass));
+//        //checks scenario with lapping data with another member
+//        newPass = "pam";
+//        Member memberTemp = new Member(member.getUserName(), SHA1Function.hash(newPass), "ssEmail",
+//                new Address("", "", "", ""), "sdc sdf");
+//        assertFalse(member.setPasswordHash(newPass));
+//    }
 }

@@ -41,13 +41,13 @@ class GuestTest {
         assertEquals(member, guest.login("korenISH", "pass"));
     }
 
-    @Test
-    void registerAsMember() {
-        //fail to register cause of an existing member
-        assertFalse(null != guest.registerAsMember(member.getUserName(), "pass", "email", "d", "", "", ""));
-
-        //register
-        assertTrue(null != guest.registerAsMember("newMem", "pass", "email", "d", "", "", ""));
-        manageMembers.removeMember("newMem", SHA1Function.hash("pass"));
-    }
+//    @Test
+//    void registerAsMember() {
+//        //fail to register cause of an existing member
+//        assertFalse(null != guest.registerAsMember(member.getUserName(), "pass", "email", "d", "", "", ""));
+//
+//        //register
+//        assertTrue(null != guest.registerAsMember("newMem", "pass", "email", "d", "", "", ""));
+//        manageMembers.removeMember("newMem", SHA1Function.hash("pass"));
+//    }
 }

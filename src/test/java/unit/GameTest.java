@@ -52,23 +52,23 @@ public class GameTest {
     }
 
 
-    @Test
-    void testRegister() {
-        game.register(referee);
-        assertTrue(game.getRefereeObservers().contains(referee));
-        assertFalse(game.getFanObservers().contains(referee));
-
-        game.register(member1);
-        assertTrue(game.getFanObservers().contains(member1));
-    }
-
-    void testRemove() {
-        game.register(referee);
-        game.remove(referee);
-        assertFalse(game.getRefereeObservers().contains(referee));
-
-        game.register(member1);
-        game.remove(member1);
-        assertFalse(game.getFanObservers().contains(member1));
-    }
+//    @Test
+//    void testRegister() {
+//        game.register(referee);
+//        assertTrue(game.getRefereeObservers().contains(referee));
+//        assertFalse(game.getFanObservers().contains(referee));
+//
+//        game.register(member1);
+//        assertTrue(game.getFanObservers().contains(member1));
+//    }
+//
+//    void testRemove() {
+//        game.register(referee);
+//        game.remove(referee);
+//        assertFalse(game.getRefereeObservers().contains(referee));
+//
+//        game.register(member1);
+//        game.remove(member1);
+//        assertFalse(game.getFanObservers().contains(member1));
+//    }
 }

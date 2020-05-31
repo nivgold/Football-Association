@@ -95,7 +95,7 @@ public class LeagueTest {
             e.printStackTrace();
         }
         try {
-            assertEquals(DBStub.getInstance().findSeasonInLeague(2011, "league").getPolicy().getGameSettingPolicy(), gameSettingPolicy);
+            assertEquals(DBStub.getInstance().findSeasonInLeague(2011, "league").getPolicy().getGameSettingPolicy().getSettingStrategy().getClass(), OneMatchEachPairSettingPolicy.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -56,41 +56,41 @@ class SearchSystemTest {
 
     }
 
-    @Test
-    void search() {
-        String searchResult;
-        String[] check;
-        // testing "search by name"
-        searchResult = this.searchSystem.search(1, "Yossi");
-        check = searchResult.split(",");
-        assertEquals(2, check.length);
-
-        searchResult = this.searchSystem.search(1, "Blue");
-        assertEquals("[]", searchResult);
-
-        // testing "search by category"
-
-        // search coaches
-        searchResult = this.searchSystem.search(2, "Coach");
-        assertTrue(!searchResult.equals("[]"));
-        assertEquals(1, searchResult.split(",").length);
-
-        // search players
-        searchResult = this.searchSystem.search(2, "Player");
-        assertTrue(!searchResult.equals("[]"));
-        assertEquals(2, searchResult.split(",").length);
-
-        // search teams
-        searchResult = this.searchSystem.search(2, "Team");
-        assertTrue(!searchResult.equals("[]"));
-        assertEquals(1, searchResult.split(",").length);
-
-        // testing "search by keywords"
-        searchResult = this.searchSystem.search(3, "2012");
-        assertTrue(searchResult.equals("[]"));
-
-        searchResult = this.searchSystem.search(3, "shimon");
-        assertTrue(!searchResult.equals("[]"));
-        assertEquals(1, searchResult.split(",").length);
-    }
+//    @Test
+//    void search() {
+//        String searchResult;
+//        String[] check;
+//        // testing "search by name"
+//        searchResult = this.searchSystem.search(1, "Yossi");
+//        check = searchResult.split(",");
+//        assertEquals(2, check.length);
+//
+//        searchResult = this.searchSystem.search(1, "Blue");
+//        assertEquals("[]", searchResult);
+//
+//        // testing "search by category"
+//
+//        // search coaches
+//        searchResult = this.searchSystem.search(2, "Coach");
+//        assertTrue(!searchResult.equals("[]"));
+//        assertEquals(1, searchResult.split(",").length);
+//
+//        // search players
+//        searchResult = this.searchSystem.search(2, "Player");
+//        assertTrue(!searchResult.equals("[]"));
+//        assertEquals(2, searchResult.split(",").length);
+//
+//        // search teams
+//        searchResult = this.searchSystem.search(2, "Team");
+//        assertTrue(!searchResult.equals("[]"));
+//        assertEquals(1, searchResult.split(",").length);
+//
+//        // testing "search by keywords"
+//        searchResult = this.searchSystem.search(3, "2012");
+//        assertTrue(searchResult.equals("[]"));
+//
+//        searchResult = this.searchSystem.search(3, "shimon");
+//        assertTrue(!searchResult.equals("[]"));
+//        assertEquals(1, searchResult.split(",").length);
+//    }
 }

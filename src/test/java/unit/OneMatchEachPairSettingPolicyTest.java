@@ -32,22 +32,22 @@ public class OneMatchEachPairSettingPolicyTest {
     }
 
 
-    @Test
-    void testCreateGames() {
-        AssociationSystem.getInstance().clearSystem();
-        league.addSeason(season2019);
-        policy.setGameSettingPolicy(new GameSettingPolicy(policy,new OneMatchEachPairSettingPolicy()));
-        for (int i=0; i<3; i++) {
-            Team team = null;
-            try {
-                team = new Team("team" + i, TeamStatus.Open,new TeamOwner(new Member("","","",null,"")),new Field("",",",",",""));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            league.addTeamToSeasonInLeague(season2019,team);
-        }
-
-        ArrayList<Game> games = policy.getGameSettingPolicy().createGames();
-        assertEquals(3,games.size());
-    }
+//    @Test
+//    void testCreateGames() {
+//        AssociationSystem.getInstance().clearSystem();
+//        league.addSeason(season2019);
+//        policy.setGameSettingPolicy(new GameSettingPolicy(policy,new OneMatchEachPairSettingPolicy()));
+//        for (int i=0; i<3; i++) {
+//            Team team = null;
+//            try {
+//                team = new Team("team" + i, TeamStatus.Open,new TeamOwner(new Member("","","",null,"")),new Field("",",",",",""));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            league.addTeamToSeasonInLeague(season2019,team);
+//        }
+//
+//        ArrayList<Game> games = policy.getGameSettingPolicy().createGames();
+//        assertEquals(3,games.size());
+//    }
 }

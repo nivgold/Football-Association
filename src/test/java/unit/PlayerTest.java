@@ -50,16 +50,16 @@ public class PlayerTest {
         p.addPlayerRoleInTeam(prits);
     }
 
-    @Test
-    public void removeYourself() {
-        assertTrue( p.getMember().getRoles().size() == 1);
-        assertTrue(prits.getTeam().getPlayers().size() == 1);
-        try {
-            assertTrue(p.removeYourself());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        assertTrue(prits.getTeam().getPlayers().size() == 0);
-        assertFalse(p.getMember().getRoles().contains(p));
-    }
+//    @Test
+//    public void removeYourself() {
+//        assertTrue( p.getMember().getRoles().size() == 1);
+//        assertTrue(prits.getTeam().getPlayers().size() == 1);
+//        try {
+//            assertTrue(p.removeYourself());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        assertTrue(prits.getTeam().getPlayers().size() == 0);
+//        assertFalse(p.getMember().getRoles().contains(p));
+//    }
 }
