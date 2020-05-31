@@ -9,16 +9,13 @@ import com.domain.logic.football.*;
 import com.domain.logic.roles.Player;
 import com.domain.logic.roles.Referee;
 import com.domain.logic.roles.TeamOwner;
-import com.domain.logic.users.IGameObserver;
 import com.domain.logic.users.Member;
 import com.domain.logic.utils.SHA1Function;
 import com.stubs.DBStub;
 import com.stubs.RefereeStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,6 +78,7 @@ class RefereeIntegration {
         this.game = new Game(team, team, seasonInLeague, LocalDateTime.now(), team.getField());
         game.setGameID(1);
         dbStub.addGame(game);
+        game.addSideReferee(referee);
     }
 
     @Test
@@ -100,13 +98,40 @@ class RefereeIntegration {
         assertEquals("new", this.game.getEvents().get(1).getDescription());
         assertEquals(70, this.game.getEvents().get(1).getGameMinute());
         assertEquals(2, this.game.getEvents().size());
+        // test create game event with unauthorized referee
+        Member member4 = new Member("cheater", SHA1Function.hash("cheater"), "cheater@gmail.com", new Address("Israel", "Israel", "Haifa", "6127824"), "shimon");
+        dbStub.addMember(member4);
+        try {
+            Referee referee1 = new RefereeStub(member4);
+            referee1.createGameEvent(10, "new event" , EventType.Foul, 1,  game.getHost().getTeamName(), game.getGuest().getTeamName(), this.game.getHost().getPlayers().get(0).getPlayer().getMember().getUserName());
+        } catch (Exception e) {
+            System.out.println("unauthorized referee was blocked from doing the change");
+            assertEquals(2, this.game.getEvents().size());
+        }
+    }
+
+    @Test
+    public void testCreateGameReport(){
+        try {
+            //check with good referee
+            String report = "hey just creating a report";
+            this.referee.createReport(1, report);
+            assertEquals(report, game.getReport());
+            // test create game event with unauthorized referee
+            Member member4 = new Member("cheater", SHA1Function.hash("cheater"), "cheater@gmail.com", new Address("Israel", "Israel", "Haifa", "6127824"), "shimon");
+            dbStub.addMember(member4);
+            Referee referee1 = new RefereeStub(member4);
+            report = "bad report";
+            referee1.createReport(1, report);
+        } catch (Exception e) {
+            System.out.println("unauthorized referee was blocked from doing the change");
+            assertNotEquals("bad report", game.getReport());
+        }
     }
 
 
-    
 
-
-//    @Test
+    //    @Test
 //    public void testEditGameEvent(){
 //        Event gameEvent = this.game.getEvents().get(0);
 //        Event newGameEvent = new Event(1, "new", EventType.Foul, this.game, this.game.getHost().getPlayers().get(0).getPlayer());
