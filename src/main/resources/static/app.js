@@ -37,7 +37,7 @@ function sendName() {
         type: "POST",
         url: "http://lvh.me:5001/api/v1/addEventToGame",
         data: JSON.stringify({refereeUsername: "main Referee asaf",
-        gameID: 1,
+        gameID: $("#gameID").val(),
         gameMinute: 20,
         description: 'Koren Ishlah blabla',
         type: 'Foul',

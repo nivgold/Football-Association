@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 
 public class SendMail {
 
-    public static void sendToUser(String to, Event event) {
+    public static void sendToUser(String subject, String to, String messageData) {
         // Sender's email ID needs to be mentioned
         String from = "footballleagueproject@gmail.com";
 
@@ -55,10 +55,10 @@ public class SendMail {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
             // Set Subject: header field
-            message.setSubject("This is the Subject Line!");
+            message.setSubject(subject);
 
             // Now set the actual message
-            message.setText("This is actual message");
+            message.setText(messageData);
 
             System.out.println("sending...");
             // Send message
