@@ -50,7 +50,6 @@ public class ApplicationController {
         Member member = domainController.login(loginRequest.getUserName(),loginRequest.getPassword(), loginRequest.getFirstName(), loginRequest.getLastName());
         if (member==null)
             return new LoginResponse(null,"false");
-        System.out.println(member.getUserName());
         return new LoginResponse(member, "true");
     }
 
@@ -64,7 +63,6 @@ public class ApplicationController {
          }
          return StatusResponse.getFalseStatusObj();
     }
-
 
 
     //-------------------------***3.Manage Game:***---------------------
@@ -112,7 +110,6 @@ public class ApplicationController {
 
 
     // ------------------------***others***-------
-
     // ------------------------test getter-------
     @GetMapping("/testGetter")
     public StatusResponse getTrueStatus() {
@@ -135,9 +132,19 @@ public class ApplicationController {
         return new GameIdentifierResponse(gameIdentifier.getGameID(),gameIdentifier.getHostTeamName(),gameIdentifier.getGuestTeamName());
     }
 
+    //------------------------getRefereeReportActiveGame-----
+    @GetMapping("/getRefereeReportActiveGame")
+    public GameIdentifierResponse getRefereeReportActiveGame(@RequestParam("refereeUsername") String refereeUsername){
+        GameIdentifier gameIdentifier = domainController.getRefereeReportActiveGame(refereeUsername);
+        if (gameIdentifier==null) {
+            return null;
+        }
+        return new GameIdentifierResponse(gameIdentifier.getGameID(),gameIdentifier.getHostTeamName(),gameIdentifier.getGuestTeamName());
+    }
+
     //------------------------getAllTeamPlayers-----
     @GetMapping("/getTeamPlayerNames")
-    public ArrayList<String> getAllTeamPlayers(@RequestParam String teamName){
+    public ArrayList<String> getAllTeamPlayers(@RequestParam("teamName") String teamName){
         return domainController.getAllTeamPlayers(teamName);
     }
 
@@ -146,6 +153,12 @@ public class ApplicationController {
     public void resetSystem(@RequestBody ResetSystemRequest resetSystemRequest) {
         try { domainController.performResetSystem(resetSystemRequest.getSysManagerUserName()); }
         catch (Exception e) {}
+    }
+
+    //------------------------getAllLeagueSeasons-----
+    @GetMapping("/getAllLeagueSeasons")
+    public ArrayList<Integer> getAllLeagueSeasons(@RequestParam("leagueName") String teamName){
+        return domainController.getAllLeagueSeasons(teamName);
     }
 
 

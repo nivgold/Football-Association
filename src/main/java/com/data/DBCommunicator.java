@@ -35,7 +35,7 @@ public class DBCommunicator implements Dao {
     @Override
     public boolean checkIfTeamExists(String teamName) throws Exception {
         Connection connection = DBConnector.getConnection();
-        String sql = "SELECT * FROM team WHERE teamName LIKE ?";
+        String sql = "SELECT * FROM team WHERE teamName = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, teamName);
@@ -77,7 +77,7 @@ public class DBCommunicator implements Dao {
         Connection connection = DBConnector.getConnection();
         String sql = "SELECT seasonYear, league_name, PolicyID FROM seasoninleague" +
                 " INNER JOIN league ON  league.leagueID = seasoninleague.leagueID" +
-                " WHERE seasonYear = ? AND  league_name LIKE ?";
+                " WHERE seasonYear = ? AND  league_name = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, seasonYear);
@@ -176,7 +176,7 @@ public class DBCommunicator implements Dao {
         String sql = "UPDATE policy" +
                 " SET gameSettingPolicy = ?" +
                 " WHERE policyID = (SELECT PolicyID FROM seasoninleague INNER JOIN league ON league.leagueID=seasoninleague.leagueID" +
-                " WHERE seasoninleague.seasonYear = ? AND league.league_name LIKE ?)";
+                " WHERE seasoninleague.seasonYear = ? AND league.league_name = ?)";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setBoolean(1, gameSettingPolicyField);
@@ -201,7 +201,7 @@ public class DBCommunicator implements Dao {
                     "FROM seasoninleague INNER JOIN policy p " +
                     "ON seasoninleague.leagueID = p.leagueID AND seasoninleague.seasonYear = p.seasonYear " +
                     "INNER JOIN league l on seasoninleague.leagueID = l.leagueID" +
-                    " WHERE seasoninleague.seasonYear = ? AND l.league_name LIKE ?");
+                    " WHERE seasoninleague.seasonYear = ? AND l.league_name = ?");
             preparedStatement.setInt(1, seasonYear);
             preparedStatement.setString(2, leagueName);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -243,18 +243,58 @@ public class DBCommunicator implements Dao {
     }
 
     @Override
-    public GameIdentifier getRefereeActiveGame(String refereeUsername) throws Exception {
+    public GameIdentifier getRefereeReportActiveGame(String refereeUsername) throws Exception {
         Connection connection = DBConnector.getConnection();
-        String sql = "SELECT game.gameID, t.teamName as guestName, t2.teamName as hostName FROM referee INNER JOIN member ON " +
-                "referee.memberID = member.memberID INNER JOIN side_referee_in_game ON " +
-                "side_referee_in_game.side_referee_id = referee.refereeID INNER JOIN game ON " +
-                "game.gameID = side_referee_in_game.gameID INNER JOIN team t ON game.guest_teamID = t.teamID " +
-                "INNER JOIN team t2 ON t2.teamID = game.host_teamID " +
-                "WHERE member.username LIKE ? AND NOW() BETWEEN game.date AND DATE_ADD(game.date, INTERVAL 100 MINUTE)";
+        String sql = "(SELECT g.gameID as gameID, hostTeam.teamName as hostName, guestTeam.teamName as guestName FROM member INNER JOIN referee r on member.memberID = r.memberID " +
+                "INNER JOIN game g on r.refereeID = g.main_refereeID " +
+                "INNER JOIN team hostTeam ON g.host_teamID = hostTeam.teamID " +
+                "INNER JOIN team guestTeam ON g.guest_teamID = guestTeam.teamID " +
+                "WHERE member.username = ? " +
+                "AND NOW() BETWEEN DATE_ADD(g.date, INTERVAL 100 MINUTE ) AND DATE_ADD(g.date, INTERVAL 400 MINUTE )) " +
+                "UNION " +
+                "( SELECT game.gameID as gameID, hostTeam2.teamName as hostTeam, guestTeam2.teamName as guestName FROM referee INNER JOIN member m on referee.memberID = m.memberID " +
+                "INNER JOIN game ON game.main_refereeID = referee.refereeID " +
+                "INNER JOIN team hostTeam2 ON hostTeam2.teamID = game.host_teamID " +
+                "INNER JOIN team guestTeam2 ON guestTeam2.teamID = game.guest_teamID " +
+                "WHERE m.username = ? AND NOW() BETWEEN DATE_ADD(game.date, INTERVAL 100 MINUTE ) AND DATE_ADD(game.date, INTERVAL 400 MINUTE ))";
         try{
             GameIdentifier gameIdentifier = null;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, refereeUsername);
+            preparedStatement.setString(2, refereeUsername);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                int gameID = resultSet.getInt("gameID");
+                String guestName = resultSet.getString("guestName");
+                String hostName = resultSet.getString("hostName");
+                gameIdentifier = new GameIdentifier(gameID, hostName, guestName);
+            }
+            return gameIdentifier;
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
+
+    @Override
+    public GameIdentifier getRefereeActiveGame(String refereeUsername) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "(SELECT game.gameID as gameID, t.teamName as guestName, t2.teamName as hostName FROM referee INNER JOIN member ON " +
+                "referee.memberID = member.memberID INNER JOIN side_referee_in_game ON " +
+                "side_referee_in_game.side_referee_id = referee.refereeID INNER JOIN game ON " +
+                "game.gameID = side_referee_in_game.gameID INNER JOIN team t ON game.guest_teamID = t.teamID " +
+                "INNER JOIN team t2 ON t2.teamID = game.host_teamID " +
+                "WHERE member.username = ? AND NOW() BETWEEN game.date AND DATE_ADD(game.date, INTERVAL 100 MINUTE))" +
+                "UNION " +
+                "(SELECT game.gameID as gameID, guestTeam.teamName as guestName, hostTeam.teamName as hostTeam FROM referee INNER JOIN member m on referee.memberID = m.memberID " +
+                "INNER JOIN game ON game.main_refereeID = referee.refereeID " +
+                "INNER JOIN team hostTeam ON hostTeam.teamID = game.host_teamID " +
+                "INNER JOIN team guestTeam ON guestTeam.teamID = game.guest_teamID " +
+                "WHERE m.username = ? AND NOW() BETWEEN game.date AND DATE_ADD(game.date, INTERVAL 100 MINUTE))";
+        try{
+            GameIdentifier gameIdentifier = null;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, refereeUsername);
+            preparedStatement.setString(2, refereeUsername);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
                 int gameID = resultSet.getInt("gameID");
@@ -274,7 +314,7 @@ public class DBCommunicator implements Dao {
         String sql = "SELECT member.username FROM member INNER JOIN player ON player.memberID=member.memberID " +
                 "INNER JOIN player_in_team pit on player.playerID = pit.playerID " +
                 "INNER JOIN team t on pit.teamID = t.teamID " +
-                "WHERE t.teamName LIKE ?";
+                "WHERE t.teamName = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, teamName);
@@ -293,7 +333,7 @@ public class DBCommunicator implements Dao {
     public void addGameEvent(int gameID, int gameMinute, String description, EventType type, String playerUsername, int changeScore) throws Exception {
         Connection connection = DBConnector.getConnection();
         String sql_create_event = "INSERT INTO event (game_minute, description, event_type, playerID, gameID) " +
-                "VALUES (?, ?, ?, (SELECT player.playerID FROM player INNER JOIN member m on player.memberID = m.memberID WHERE m.username LIKE ?), ?)";
+                "VALUES (?, ?, ?, (SELECT player.playerID FROM player INNER JOIN member m on player.memberID = m.memberID WHERE m.username = ?), ?)";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql_create_event);
             preparedStatement.setInt(1, gameMinute);
@@ -343,13 +383,13 @@ public class DBCommunicator implements Dao {
         Connection connection = DBConnector.getConnection();
         String sql = "(SELECT g.gameID FROM member INNER JOIN referee r on member.memberID = r.memberID\n" +
                 "    INNER JOIN game g on r.refereeID = g.main_refereeID\n" +
-                "    WHERE g.gameID = ? AND member.username LIKE ? \n" +
+                "    WHERE g.gameID = ? AND member.username = ? \n" +
                 "    AND NOW() BETWEEN g.date AND DATE_ADD(g.date, INTERVAL 100 MINUTE ))\n" +
                 "UNION\n" +
                 "(SELECT g2.gameID FROM member INNER JOIN referee on referee.memberID = member.memberID\n" +
                 "    INNER JOIN side_referee_in_game srig on referee.refereeID = srig.side_referee_id\n" +
                 "    INNER JOIN game g2 on srig.gameID = g2.gameID\n" +
-                "    WHERE g2.gameID = ? AND member.username LIKE ? \n" +
+                "    WHERE g2.gameID = ? AND member.username = ? \n" +
                 "    AND NOW() BETWEEN g2.date AND DATE_ADD(g2.date, INTERVAL 100 MINUTE ))";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -373,7 +413,7 @@ public class DBCommunicator implements Dao {
         String sql = "SELECT gameID FROM game " +
                 "INNER JOIN referee r on game.main_refereeID = r.refereeID " +
                 "INNER JOIN member m on r.memberID = m.memberID " +
-                "WHERE game.gameID = ? AND m.username LIKE ? " +
+                "WHERE game.gameID = ? AND m.username = ? " +
                 "AND NOW() BETWEEN DATE_ADD(game.date, INTERVAL 100 MINUTE ) AND DATE_ADD(game.date, INTERVAL 400 MINUTE )";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -432,7 +472,7 @@ public class DBCommunicator implements Dao {
         Connection connection = DBConnector.getConnection();
         String sql = "SELECT seasonYear FROM seasoninleague " +
                 "INNER JOIN league l on seasoninleague.leagueID = l.leagueID " +
-                "WHERE l.league_name LIKE ?";
+                "WHERE l.league_name = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, leagueName);
@@ -475,7 +515,7 @@ public class DBCommunicator implements Dao {
     public League findLeague(String leagueName) throws Exception {
         Connection connection = DBConnector.getConnection();
         String sql = "SELECT league_name FROM league " +
-                "WHERE leagueID LIKE ?";
+                "WHERE league_name = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, leagueName);
@@ -537,7 +577,7 @@ public class DBCommunicator implements Dao {
         Connection connection = DBConnector.getConnection();
         String sql = "SELECT * FROM member INNER JOIN" +
                 " address ON address.addressID=member.addressID " +
-                " WHERE username LIKE ?";
+                " WHERE username = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, username);
@@ -639,7 +679,7 @@ public class DBCommunicator implements Dao {
                 if (associationAgentID !=0 ) new AssociationAgent(member);
             }
 
-            preparedStatement = connection.prepareStatement("SELECT gameID FROM gamefans INNER JOIN member m on gamefans.memberID = m.memberID where username LIKE ?");
+            preparedStatement = connection.prepareStatement("SELECT gameID FROM gamefans INNER JOIN member m on gamefans.memberID = m.memberID where username = ?");
             preparedStatement.setString(1, userName);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){

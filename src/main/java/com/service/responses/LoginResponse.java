@@ -9,13 +9,18 @@ public class LoginResponse {
 
     private Member member;
     private ArrayList<RoleIdentifierForResponses> roles;
+    private ArrayList<Integer> subscribedGames;
     private String status;
 
 
     public LoginResponse(Member member, String status) {
         this.status = status;
         this.member = member;
-        roles=fillRolesList(member.getRoles());
+        this.subscribedGames = new ArrayList<>();
+        if (member!=null) {
+            roles = fillRolesList(member.getRoles());
+            subscribedGames.addAll(member.getObservedGameIDs());
+        }
     }
 
     private ArrayList<RoleIdentifierForResponses> fillRolesList(ArrayList<IRole> originalRoles) {
@@ -36,5 +41,9 @@ public class LoginResponse {
 
     public ArrayList<RoleIdentifierForResponses> getRoles() {
         return roles;
+    }
+
+    public ArrayList<Integer> getSubscribedGames() {
+        return subscribedGames;
     }
 }

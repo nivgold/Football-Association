@@ -118,6 +118,11 @@ public class DBStub implements Dao {
     }
 
     @Override
+    public GameIdentifier getRefereeReportActiveGame(String refereeUsername) throws Exception {
+        return null;
+    }
+
+    @Override
     public void setGameReport(int gameID, String report) throws Exception {
 
     }
