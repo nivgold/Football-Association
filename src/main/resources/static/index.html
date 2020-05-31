@@ -1,55 +1,565 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Hello WebSocket</title>
-    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/main.css" rel="stylesheet">
-    <script src="/webjars/jquery/jquery.min.js"></script>
-    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
-    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-    <script src="/app.js"></script>
+	<title> Football Association </title>
+	<link   rel="stylesheet" type="text/css" href="layout.css" />
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  	<script type="text/javascript" src="script.js"> </script>
+  	<script type="text/javascript" src="menu.js"></script>
+  	<script type="text/javascript" src="requests.js"></script>
+  	<script type="text/javascript" src="requestWrapper.js"></script>
+  	<script type="text/javascript" src="requestJsonCreator.js"></script>
+
+    
+
 </head>
+
 <body>
-<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
-    enabled. Please enable
-    Javascript and reload this page!</h2></noscript>
-<div id="main-content" class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="connect">WebSocket connection:</label>
-                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
-                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
-                    </button>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="name">What is your name?</label>
-                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
-                    <label for="gameID">What is your gameID?</label>
-                    <input type="text" id="gameID" class="form-control">
-                </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
-            </form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <table id="conversation" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Greetings</th>
-                </tr>
-                </thead>
-                <tbody id="greetings">
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+
+	<div id="container">
+	
+		<div id="header" style="visibility: hidden;">
+			<a  id="notification">
+				<span> Welcome </span>
+				<span id="username_id"> Username </span>
+				<span> , </span>
+				<span onclick="inbox()">Inbox</span>
+				<span id="num_of_messages">[1]</span>
+			</a>
+		</div>	
+		
+		<div id="main">		
+			<div id="welcome">
+				<h1> Welcome To The Football Association Website! </h1>
+			</div>
+			
+			<div id="login"> 
+				<h1 id="login_title"> LOG IN </h1>
+				<section>
+					<table>
+						<tr>
+							<td>
+								<label> <b> Username: </b> </label>
+							</td>
+							<td>
+								<input id="logName" type="text" placeholder="Username" >
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label><b> Password: </b></label>
+							</td>
+							<td>
+								<input id="logPswd" type="password" placeholder="Password" >
+							</td>
+						</tr>
+					</table>
+					<br>
+					<input id="login_btn" type="submit" value="Log In" onclick="submitLogin()">
+				</section>
+			</div>
+		</div>
+		
+		<div id="actions_title" style="visibility: hidden;">
+				<h1> What Would You Like To Do Next? </h1>
+		</div>
+			
+		<div id="actions" style="visibility: hidden;">
+			<table id="menu_table">
+				<tr>
+					<td id="new_team_col" button class="action" onclick="createNewTeamWindow()" style="visibility: hidden;">
+						<h2>Create New Team</h2>
+					</td>
+				</tr>
+				<tr>
+					<td id="league_ranking_policy_col" button class="action" onclick="chooseRankingPolicyWindow()" style="visibility: hidden;">
+						<h2>Choose League Ranking Policy</h2>
+					</td>
+				</tr>
+				<tr>
+					<td id="league__game_setting_policy_col" button class="action" onclick="chooseGameSettingPolicyWindow()" style="visibility: hidden;">
+						<h2>Choose League Game Setting Policy</h2>
+					</td>
+				</tr>
+				<tr>
+					<td id="manage_game_col" button class="action" onclick="manageGameWindow()" style="visibility: hidden;">
+						<h2>Manage Game</h2>
+					</td>
+				</tr>
+				<tr>
+					<td button class="action" onclick="subscriptionWindow()">
+						<h2>Subscription</h2>
+					</td>
+				</tr>
+				<tr>
+					<td button class="action" onclick="logoutWindow()">
+						<h2>Log Out</h2>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="new_team_background" style="visibility: hidden;">
+		</div>
+		
+		<div id="new_team_title" style="visibility: hidden;">
+				<h1> Create Your New Team: </h1>
+		</div>
+		
+		<div id="new_team" style="visibility: hidden;">
+				<table>
+					<tr>
+						<td>
+							<label><b> Team Name: </b></label>
+						</td>
+						<td>
+							<input id="team_name" type="text" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b> Team Stadium Details: </b></label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b> Country: </b></label>
+						</td>
+						<td>
+							<input id="stadium_country" type="text" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b> State:</b></label>
+						</td>
+						<td>
+							<input id="stadium_state" type="text" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b> City:</b></label>
+						</td>
+						<td>
+							<input id="stadium_city" type="text" required>
+						</td>
+					</tr>
+										<tr>
+						<td>
+							<label><b> Postal Code:</b></label>
+						</td>
+						<td>
+							<input id="stadium_postal_code" type="text" required>
+						</td>
+					</tr>
+				</table>
+				<br>
+				<input id="new_team_btn" type="submit" value="Create Team" onclick="teamCreatedSubmit()">
+				<br>
+				<br>
+				<input id="back_to_menu_btn" type="submit" value="Back To Main Menu" onclick="showActions()">
+		</div>
+		
+		<div id="ranking_policy_background" style="visibility: hidden;">
+		</div>
+		
+		<div id="ranking_policy_title" style="visibility: hidden;">
+				<h1> Choose Your League Ranking Policy: </h1>
+		</div>
+
+		<div id="league_ranking_policy" style="visibility: hidden;">
+			<br>
+			<table>
+				<tr>
+					<td>
+						<label><b>League:</b></label>
+					</td>
+					<td>
+						<select id ="rp_league_name">
+							<option> Select League </option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label><b> Season:</b></label>
+					</td>
+					<td>
+						<select id = "rp_season">
+							<option> Select Season </option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label><b>Ranking Policy Details:</b></label>
+					</td>						
+				</tr>
+				<tr>
+					<td>
+						<label><b> Win: </b></label>
+					</td>			
+					<td>
+						<input id="wins_rank" value="0" type="text" required>
+					</td>
+					
+				</tr>
+				<tr>
+					<td>
+						<label><b> Draw:</b></label>
+					</td>
+					<td>
+						<input id="draws_rank" value="0" type="text" required>
+					</td>						
+				</tr>
+				<tr>
+					<td>
+						<label><b> Goals:</b></label>
+					</td>
+					<td>
+						<input id="goals_rank" value="0" type="text" required>
+					</td>						
+				</tr>
+				<tr>
+					<td>
+						<label><b> Yellow Cards: </b></label>
+					</td>
+					<td>
+						<input id="yellow_cards_rank" value="0" type="text" required>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label><b>Red Cards</b></label>
+					</td>
+					<td>
+						<input id="red_cards_rank" value="0" type="text" required>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<br>
+			<input id="league_ranking_policy_btn" type="submit" value="Update League Policy" onclick="updateRankingPolicySubmit()">
+			<br>
+			<br>
+			<input id="back_to_menu_btn" type="submit" value="Back To Main Menu" onclick="backToMenu()">
+		</div>
+
+		<div id="setting_policy_background" style="visibility: hidden;">
+		</div>
+		
+		<div id="setting_policy_title" style="visibility: hidden;">
+				<h1> Choose Your League Game Setting Policy: </h1>
+		</div>
+
+		<div id="league_game_setting_policy" style="visibility: hidden;">
+			<br>
+			<table>
+				<tr>
+					<td>
+						<label><b>League:</b></label>
+					</td>
+					<td>
+						<select id ="gsp_league_name">
+							<option> Select League </option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label><b> Season:</b></label>
+					</td>
+					<td>
+						<select id = "gsp_season">
+							<option> Select Season </option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label><b>Game Setting Policy: </b></label>
+					</td>
+					<td>
+						<select id=gameSettingPolicySelect>
+							<option value="select_gsp"> Select Policy </option>
+							<option value="one"> One Match For Each Pair </option>
+							<option value="two"> Two Match For Each Pair </option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<br>
+			<input id="league_game_setting_policy_btn" type="submit" value="Update League Policy" onclick="updateGameSettingPolicySubmit()">
+			<br>
+			<br>
+			<input id="back_to_menu_btn" type="submit" value="Back To Main Menu" onclick="backToMenu()">
+		</div>
+		
+		<div id="league_policy" style="visibility: hidden;">
+			<table>
+				<tr>
+					<h2> Choose Ranking Policy </h2>
+				</tr>
+				<tr>
+					<h2> Choose Game Setting Policy </h2>
+				</tr>
+			</table>
+			<br>
+			<br>
+			<input id="back_to_menu_btn" type="submit" value="Back To Main Menu" onclick="backToMenu()">
+		</div>
+
+		
+		<div id="manage_game_background" style="visibility: hidden;">
+		</div>
+		
+		<div id="manage_game_title" style="visibility: hidden;">
+				<h1> Choose Your Action: </h1>
+		</div>
+		
+		<div id="manage_game" style="visibility: hidden;">
+			<table>
+				<tr>
+					<td button class="action" onclick="createGameEventWindow()">
+						<h2> Create Game Event </h2>
+					</td>
+				</tr>
+				<!-- <tr>
+					<td button class="action" onclick="editGameEventWindow()">
+						<h2> Edit Game Event</h2>
+					</td>
+				</tr> -->
+				<tr>
+					<td button class="action" onclick="writeGameReportWindow()">
+						<h2> Write Game Report </h2>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<input id="back_to_menu_btn" type="submit" value="Back To Main Menu" onclick="backToMenu()">
+		</div>
+		
+		<div id="new_game_event_title" style="visibility: hidden;">
+				<h1> Create Your New Game Event: </h1>
+		</div>
+		
+		<div id="new_game_event" style="visibility: hidden;">
+				<table>
+					<tr>
+						<td>
+							<label><b>Game:</b></label>
+						</td>
+						<td>
+							<select id="gameID">
+								<option> Select Game </option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b> Game Minute: </b></label>
+						</td>
+						<td>
+							<input id="game_minute" type="text" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b> Event Type: </b></label>
+						</td>
+						<td>
+							<select id="eventTypeOption">
+								<option value="select_event"> Select Event </option>
+								<option value="HostGoal"> Host Goal </option>
+								<option value="GuestGoal"> Guest Goal </option>
+								<option value="Offside"> Offside </option>
+								<option value="Foul"> Foul </option>
+								<option value="YellowCard"> Yellow Card </option>
+								<option value="RedCard"> Red Card </option>
+								<option value="Injury"> Injury </option>
+								<option value="Substitution"> Substitution </option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b> Player: </b></label>
+						</td>
+						<td>
+							<select id="playerUsername">
+								<option value="player"> Select Player </option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b>Description:</b></label>
+						</td>
+						<td>
+							<textarea id="eventDescription" type="text" placeholder="Write here your event description.." required></textarea>
+						</td>
+					</tr>
+				</table>
+				<br>
+				<input id="new_game_event_btn" type="submit" value="Create Game Event" onclick="createEventSubmit()">
+				<br>
+				<br>
+				<input id="back_to_menu_btn" type="submit" value="Back To Main Menu" onclick="backToMenu()">
+		</div>
+		
+		<div id="edit_game_event_title" style="visibility: hidden;">
+				<h1> Edit Your Game Event: </h1>
+		</div>
+		
+		<div id="edit_game_event" style="visibility: hidden;">
+				<table>
+					<tr>
+						<td>
+							<label><b> Game: </b></label>
+						</td>
+						<td>
+							<select id="game_to_edit">
+								<option> Select Game </option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b> Event To Edit:</b></label>
+						</td>
+						<td>
+							<select id="event_to_edit">
+								<option> Select Event </option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b> Game Minute: </b></label>
+						</td>
+						<td>
+							<input id="game_minute_edit" type="text" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b> Event Type: </b></label>
+						</td>
+						<td>
+							<select>
+								<option value="select_event"> Select Event </option>
+								<option value="HostGoal"> Host Goal </option>
+								<option value="GuestGoal"> Guest Goal </option>
+								<option value="Offside"> Offside </option>
+								<option value="Foul"> Foul </option>
+								<option value="YellowCard"> Yellow Card </option>
+								<option value="RedCard"> Red Card </option>
+								<option value="Injury"> Injury </option>
+								<option value="Substitution"> Substitution </option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b> Player: </b></label>
+						</td>
+						<td>
+							<select>
+								<option value="player"> Select Player </option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label><b>Description:</b></label>
+						</td>
+						<td>
+							<textarea id="description_edit" type="text" placeholder="Write here your event description.." required></textarea>
+						</td>
+					</tr>
+				</table>
+				<br>
+				<input id="edit_game_event_btn" type="submit" value="Edit Game Event" onclick="editEventSubmit()">
+				<br>
+				<br>
+				<input id="back_to_menu_btn" type="submit" value="Back To Main Menu" onclick="backToMenu()">
+		</div>
+		
+		<div id="write_game_report_title" style="visibility: hidden;">
+				<h1> Write Your Report: </h1>
+		</div>
+	
+		<div id="write_game_report" style="visibility: hidden;">
+			<table>
+				<tr>
+					<td>
+						<label><b>Game:</b></label>
+					</td>
+					<td>
+						<select id="game_to_report">
+							<option> Select Game </option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label><b>Report:</b></label>
+					</td>
+					<td>
+						<textarea id="report" placeholder="Write here your report.." required></textarea>
+					</td>
+				</tr>
+				
+			</table>
+			<br>
+			<br>
+			<input id="write_game_report_btn" type="submit" value="Write Game Report" onclick="gameReportSubmit()">
+			<br>
+			<br>
+			<input id="back_to_menu_btn" type="submit" value="Back To Main Menu" onclick="backToMenu()">
+		</div>
+		
+		<div id="subscription_background" style="visibility: hidden;">	
+		</div>
+		
+		<div id="subscription_title" style="visibility: hidden;">
+				<h1> About Which Game You Want To Get Notifications? </h1>
+		</div>
+		
+		<div id="subscription" style="visibility: hidden;">
+			<table>
+				<tr>
+					<td>
+						<label><b>Game:</b></label>
+					</td>
+					<td>
+						<select id="game">
+							<option> Select Game </option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<input id="subscription_btn" type="submit" value="Subscribe" onclick="subscribedSubmit()">
+			<br>
+			<br>
+			<input id="back_to_menu_btn" type="submit" value="Back To Main Menu" onclick="backToMenu()">
+		</div>
+	</div>
+	
 </body>
+
 </html>
