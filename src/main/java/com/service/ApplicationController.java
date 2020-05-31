@@ -50,7 +50,6 @@ public class ApplicationController {
         Member member = domainController.login(loginRequest.getUserName(),loginRequest.getPassword(), loginRequest.getFirstName(), loginRequest.getLastName());
         if (member==null)
             return new LoginResponse(null,"false");
-        System.out.println(member.getUserName());
         return new LoginResponse(member, "true");
     }
 

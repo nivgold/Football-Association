@@ -16,6 +16,7 @@ public class LoginResponse {
     public LoginResponse(Member member, String status) {
         this.status = status;
         this.member = member;
+        this.subscribedGames = new ArrayList<>();
         if (member!=null) {
             roles = fillRolesList(member.getRoles());
             subscribedGames.addAll(member.getObservedGameIDs());
