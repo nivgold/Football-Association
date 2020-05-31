@@ -161,6 +161,14 @@ public class ApplicationController {
         return domainController.getAllLeagueSeasons(teamName);
     }
 
+    //------------------------Logout-----
+    @PostMapping("/logout")
+    public void logout(@RequestBody LogoutRequest logoutRequest){
+        try{
+            domainController.logout(logoutRequest.getUsername());
+        }catch (Exception e){}
+    }
+
 
 
 

@@ -57,6 +57,7 @@ public class DomainController {
         }
     }
 
+
     // ------------------------2.Create Team---------------------
     public boolean createTeam(String teamOwnerUsername, String teamName, String fieldCountry, String fieldState, String fieldCity, String fieldPostalCode){
         try {
@@ -182,6 +183,16 @@ public class DomainController {
     }
 
     // ------------------------Additions-----------------------------
+    public void logout(String username) {
+        try {
+            EventLogger.getInstance().saveLog("\""+username+"\n attempting to logout");
+            Member member = AssociationSystem.getInstance().findConnectedUser(username);
+            AssociationSystem.getInstance().logOutUser(member);
+            EventLogger.getInstance().saveLog("\""+username+"\n has logged out");
+        } catch (Exception e) {
+            ErrorLogger.getInstance().saveError("tyring to logout an un-connected user");
+        }
+    }
     public void performResetSystem(String sysManagerUserName) {
         try {
             Member member = AssociationSystem.getInstance().findConnectedUser(sysManagerUserName);
@@ -276,10 +287,6 @@ public class DomainController {
     public ArrayList<TeamManager> findAllTeamManager(String teamName) {
         //TODO
         return null;
-    }
-
-    public void logout() {
-        //TODO
     }
 
     /**
