@@ -60,7 +60,7 @@ public class TeamOwnerAcceptanceTest {
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
-                serviceLayerManager.logout();
+                //serviceLayerManager.logout();
                 try {
                     member = serviceLayerManager.login("new ownerToNiv", "ownerToNivpass", "", "");
                     ArrayList<TeamOwner> allTeamOwners = serviceLayerManager.findAllTeamOwner(nivTeamName);
@@ -94,7 +94,7 @@ public class TeamOwnerAcceptanceTest {
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
-                serviceLayerManager.logout();
+                //serviceLayerManager.logout();
                 try {
                     member = serviceLayerManager.login("new ownerToNiv", "ownerToNivpass", "", "");
                     ArrayList<TeamManager> allTeamManagers= serviceLayerManager.findAllTeamManager(nivTeamName);
@@ -132,7 +132,7 @@ public class TeamOwnerAcceptanceTest {
                     System.err.println(e.getMessage());
                 }
                 try {
-                    serviceLayerManager.logout();
+                    //serviceLayerManager.logout();
                     member = serviceLayerManager.login("new ownerToNiv", "ownerToNivpass", "", "");
                     ArrayList<TeamOwner> allTeamOwners = serviceLayerManager.findAllTeamOwner(nivTeamName);
                     if (allTeamOwners.size() != 1){

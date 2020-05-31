@@ -183,14 +183,16 @@ public class DomainController {
     }
 
     // ------------------------Additions-----------------------------
-    public void logout(String username) {
+    public boolean logout(String username) {
         try {
             EventLogger.getInstance().saveLog("\""+username+"\n attempting to logout");
             Member member = AssociationSystem.getInstance().findConnectedUser(username);
             AssociationSystem.getInstance().logOutUser(member);
             EventLogger.getInstance().saveLog("\""+username+"\n has logged out");
+            return true;
         } catch (Exception e) {
             ErrorLogger.getInstance().saveError("tyring to logout an un-connected user");
+            return false;
         }
     }
     public void performResetSystem(String sysManagerUserName) {

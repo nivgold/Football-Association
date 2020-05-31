@@ -163,10 +163,11 @@ public class ApplicationController {
 
     //------------------------Logout-----
     @PostMapping("/logout")
-    public void logout(@RequestBody LogoutRequest logoutRequest){
-        try{
-            domainController.logout(logoutRequest.getUsername());
-        }catch (Exception e){}
+    public StatusResponse logout(@RequestBody LogoutRequest logoutRequest){
+        if (domainController.logout(logoutRequest.getUsername())){
+            return StatusResponse.getTrueStatusObj();
+        }
+        return StatusResponse.getFalseStatusObj();
     }
 
 
