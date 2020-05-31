@@ -1,0 +1,380 @@
+#main {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+  background-image: url("https://img.wallpapersafari.com/desktop/1920/1080/59/61/wScxR0.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover; /* or contain depending on what you want */
+}
+
+#main img {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  margin: auto; 
+  min-width: 50%;
+  min-height: 50%;
+}
+
+label {
+	background-color: gray;
+}
+
+#welcome {
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  color: white;
+}
+
+#login {
+  position: absolute;
+  top: 40%;
+  left: 45%;
+  color: white;
+}
+
+#login_title {
+	padding-left: 60px;
+}
+
+#login_btn {
+    background-color: black;
+    color: white;
+    transition: all 0.1s ease 0s;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+	padding: 12px 24px;
+    border-radius: 4px;
+	width: 100%;
+}
+
+#actions {
+  position: absolute;
+  top: 33%;
+  left: 40%;
+  color: white;
+}
+
+.action:hover
+{
+	color: black;
+	cursor: pointer;
+}
+
+#actions_title {
+  position: absolute;
+  top: 15%;
+  left: 32%;
+  color: white;
+}
+
+#new_team {
+  position: absolute;
+  top: 35%;
+  left: 38%;
+  color: white;
+}
+
+#league_ranking_policy{
+  position: absolute;
+  top: 35%;
+  left: 38%;
+  color: white;
+}
+
+#league_game_setting_policy{
+  position: absolute;
+  top: 35%;
+  left: 38%;
+  color: white;
+}
+
+#new_team_title {
+  position: absolute;
+  top: 15%;
+  left: 37%;
+  color: white;
+}
+
+#new_team_background {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+  background-image: url("https://wallpapertag.com/wallpaper/full/5/a/a/651747-widescreen-chelsea-football-club-wallpapers-1920x1080.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+#new_team_btn {
+    background-color: black;
+    color: white;
+    transition: all 0.1s ease 0s;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+	padding: 12px 24px;
+    border-radius: 4px;
+	width: 100%;
+}
+
+#league_policy {
+  position: absolute;
+  top: 35%;
+  left: 37%;
+  color: white;
+}
+
+#league_policy_title {
+  position: absolute;
+  top: 15%;
+  left: 35%;
+  color: white;
+}
+
+#setting_policy_title{
+  position: absolute;
+  top: 15%;
+  left: 35%;
+  color: white;
+}
+
+#league_policy_background {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+  background-image: url("https://eskipaper.com/images/soccer-wallpaper-25.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+#ranking_policy_background {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+  background-image: url("https://eskipaper.com/images/soccer-wallpaper-25.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+#setting_policy_background {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+  background-image: url("https://eskipaper.com/images/soccer-wallpaper-25.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+#league_policy_btn {
+    background-color: black;
+    color: white;
+    transition: all 0.1s ease 0s;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+	padding: 12px 24px;
+    border-radius: 4px;
+	width: 100%;
+}
+
+#manage_game {
+  position: absolute;
+  top: 35%;
+  left: 40%;
+  color: white;
+}
+
+#manage_game_title {
+  position: absolute;
+  top: 15%;
+  left: 38%;
+  color: white;
+}
+
+#ranking_policy_title{
+  position: absolute;
+  top: 15%;
+  left: 38%;
+  color: white;
+}
+
+#manage_game_background {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+  background-image: url("https://images.daznservices.com/di/library/GOAL/c1/46/damir-skomina-2018-19-getty_l4nkeq9nw7vy1lk0ma4pqtjgr.jpg?t=-639685166&quality=60&w=1600");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+#back_to_menu_btn {
+    background-color: white;
+    color: black;
+    transition: all 0.1s ease 0s;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+	padding: 12px 24px;
+    border-radius: 4px;
+	width: 100%;
+}
+
+#ranking_table {
+	margin-left: 20px;
+}
+
+#new_game_event {
+  position: absolute;
+  top: 35%;
+  left: 37%;
+  color: white;
+}
+
+#new_game_event_title {
+  position: absolute;
+  top: 15%;
+  left: 35%;
+  color: white;
+}
+
+#new_game_event_btn {
+    background-color: black;
+    color: white;
+    transition: all 0.1s ease 0s;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+	padding: 12px 24px;
+    border-radius: 4px;
+	width: 100%;
+}
+
+#edit_game_event {
+  position: absolute;
+  top: 35%;
+  left: 37%;
+  color: white;
+}
+
+#edit_game_event_title {
+  position: absolute;
+  top: 15%;
+  left: 35%;
+  color: white;
+}
+
+#edit_game_event_btn {
+    background-color: black;
+    color: white;
+    transition: all 0.1s ease 0s;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+	padding: 12px 24px;
+    border-radius: 4px;
+	width: 100%;
+}
+
+#write_game_report {
+  position: absolute;
+  top: 35%;
+  left: 37%;
+  color: white;
+}
+
+#write_game_report_title {
+  position: absolute;
+  top: 15%;
+  left: 35%;
+  color: white;
+}
+
+#write_game_report_btn {
+    background-color: black;
+    color: white;
+    transition: all 0.1s ease 0s;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+	padding: 12px 24px;
+    border-radius: 4px;
+	width: 100%;
+}
+
+#description {
+	resize: none;
+}
+
+#report {
+	height: 100px;
+	width: 100%;
+	resize: none;
+}
+
+#subscription {
+  position: absolute;
+  top: 45%;
+  left: 40%;
+  color: white;
+}
+
+#subscription_title {
+  position: absolute;
+  top: 15%;
+  left: 28%;
+  color: white;
+}
+
+#subscription_background {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+  background-image: url("https://images.daznservices.com/di/library/GOAL/7c/d1/cristiano-ronaldo-real-madrid-juventus-uefa-champions-league_18580w5nkl89y1tztc55jxqh7g.jpg?t=-1930245854&quality=100");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+#subscription_btn {
+    background-color: black;
+    color: white;
+    transition: all 0.1s ease 0s;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+	padding: 12px 24px;
+    border-radius: 4px;
+	width: 100%;
+}
