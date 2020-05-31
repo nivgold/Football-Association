@@ -155,6 +155,12 @@ public class ApplicationController {
         catch (Exception e) {}
     }
 
+    //------------------------getAllLeagueSeasons-----
+    @GetMapping("/getAllLeagueSeasons")
+    public ArrayList<Integer> getAllLeagueSeasons(@RequestParam("leagueName") String teamName){
+        return domainController.getAllLeagueSeasons(teamName);
+    }
+
 
 
 
