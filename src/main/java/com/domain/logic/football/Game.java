@@ -239,4 +239,8 @@ public class Game implements IGameObservable {
         allObservers.addAll(this.refereeObservers);
         return allObservers;
     }
+
+    public String getReport() {
+        return report;
+    }
 }
