@@ -29,6 +29,7 @@ public class DBStub implements Dao {
     public static ArrayList<Team> teams = new ArrayList<>();
     public static ArrayList<Referee> referees = new ArrayList<>();
     public static ArrayList<Player> players=  new ArrayList<>();
+    public static ArrayList<Game> games=  new ArrayList<>();
 
     private DBStub(){
     }
@@ -47,6 +48,11 @@ public class DBStub implements Dao {
 
     @Override
     public Game findGame(int gameID) {
+        for(Game game : games){
+            if(game.getGameID() == gameID){
+                return game;
+            }
+        }
         return null;
     }
 
@@ -126,10 +132,11 @@ public class DBStub implements Dao {
     public void setGameReport(int gameID, String report) throws Exception {
 
     }
-
+    //int gameMinute, String description, EventType type, int gameID, String hostTeamName, String guestTeamName, String playerUsername
     @Override
     public void addGameEvent(int gameID, int gameMinute, String description, EventType type, String playerUsername, int changeScore) throws Exception {
-
+        Game game = findGame(gameID);
+        game.getEvents().add(new Event(gameMinute, description, type, game, (Player) findMember(playerUsername).getSpecificRole(Player.class)));
     }
 
     @Override
@@ -397,5 +404,9 @@ public class DBStub implements Dao {
         teams = new ArrayList<>();
         referees = new ArrayList<>();
         players=  new ArrayList<>();
+    }
+
+    public void addGame(Game game) {
+        games.add(game);
     }
 }

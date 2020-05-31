@@ -116,6 +116,10 @@ public class Game implements IGameObservable {
             gameObserver.updateGame("asdasd");
     }
 
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
+    }
+
     public int getGameID() {
         return gameID;
     }

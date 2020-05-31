@@ -39,6 +39,9 @@ public class RefereeStub extends Referee {
     }
 
     private boolean isAuthorized(int gameID){
+        Dao dao = DBStub.getInstance();
+        if(dao.findGame(gameID) != null)
+            return true;
         return false;
     }
 
