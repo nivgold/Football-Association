@@ -132,11 +132,11 @@ public class DBStub implements Dao {
     public void setGameReport(int gameID, String report) throws Exception {
 
     }
-
+    //int gameMinute, String description, EventType type, int gameID, String hostTeamName, String guestTeamName, String playerUsername
     @Override
     public void addGameEvent(int gameID, int gameMinute, String description, EventType type, String playerUsername, int changeScore) throws Exception {
-        findGame(gameID);
-
+        Game game = findGame(gameID);
+        game.getEvents().add(new Event(gameMinute, description, type, game, (Player) findMember(playerUsername).getSpecificRole(Player.class)));
     }
 
     @Override

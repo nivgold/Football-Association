@@ -85,27 +85,35 @@ class RefereeIntegration {
 
     @Test
     public void testCreateGameEvent(){
-        //int gameMinute, String description, EventType type, int gameID, String hostTeamName, String guestTeamName, String playerUsername
+
         try {
             this.referee.createGameEvent(40, "new game event" , EventType.Foul, 1,  game.getHost().getTeamName(), game.getGuest().getTeamName(), this.game.getHost().getPlayers().get(0).getPlayer().getMember().getUserName());
         } catch (Exception e) {
             e.printStackTrace();
         }
         assertEquals(1, this.game.getEvents().size());
+        assertEquals("new game event", this.game.getEvents().get(0).getDescription());
+        assertEquals(40, this.game.getEvents().get(0).getGameMinute());
         this.referee.getMain().add(this.game);
         this.game.setMainReferee(this.referee);
-        this.referee.createGameEvent(40, "new" , EventType.Foul, new Date(), this.game, this.game.getHost().getPlayers().get(0).getPlayer());
+        this.referee.createGameEvent(70, "new" , EventType.Foul, new Date(), this.game, this.game.getHost().getPlayers().get(0).getPlayer());
+        assertEquals("new", this.game.getEvents().get(1).getDescription());
+        assertEquals(70, this.game.getEvents().get(1).getGameMinute());
         assertEquals(2, this.game.getEvents().size());
     }
 
-    @Test
-    public void testEditGameEvent(){
-        Event gameEvent = this.game.getEvents().get(0);
-        Event newGameEvent = new Event(1, "new", EventType.Foul, this.game, this.game.getHost().getPlayers().get(0).getPlayer());
-        this.referee.editGameEvent(this.game, gameEvent, newGameEvent);
-        assertFalse(this.game.getEvents().contains(newGameEvent));
-        this.referee.getMain().add(this.game);
-        this.referee.editGameEvent(this.game, gameEvent, newGameEvent);
-        assertTrue(this.game.getEvents().contains(newGameEvent));
-    }
+
+    
+
+
+//    @Test
+//    public void testEditGameEvent(){
+//        Event gameEvent = this.game.getEvents().get(0);
+//        Event newGameEvent = new Event(1, "new", EventType.Foul, this.game, this.game.getHost().getPlayers().get(0).getPlayer());
+//        this.referee.editGameEvent(this.game, gameEvent, newGameEvent);
+//        assertFalse(this.game.getEvents().contains(newGameEvent));
+//        this.referee.getMain().add(this.game);
+//        this.referee.editGameEvent(this.game, gameEvent, newGameEvent);
+//        assertTrue(this.game.getEvents().contains(newGameEvent));
+//    }
 }
