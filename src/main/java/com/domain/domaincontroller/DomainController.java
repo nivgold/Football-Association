@@ -217,6 +217,17 @@ public class DomainController {
         }
         return gameIdentifier;
     }
+    public GameIdentifier getRefereeReportActiveGame(String refereeUsername){
+        GameIdentifier gameIdentifier = null;
+        EventLogger.getInstance().saveLog("attempting to find current active game for referee: \""+refereeUsername+"\"");
+        try{
+            gameIdentifier = dao.getRefereeReportActiveGame(refereeUsername);
+            EventLogger.getInstance().saveLog("returning active game for referee: \""+refereeUsername+"\"");
+        } catch (Exception e) {
+            ErrorLogger.getInstance().saveError(e.getMessage());
+        }
+        return gameIdentifier;
+    }
     public ArrayList<String> getAllTeamPlayers(String teamName){
         ArrayList<String> allTeamPlayers = new ArrayList<>();
         EventLogger.getInstance().saveLog("attempting to find and return all players of team: \""+teamName+"\"");

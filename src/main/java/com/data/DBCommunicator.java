@@ -243,6 +243,32 @@ public class DBCommunicator implements Dao {
     }
 
     @Override
+    public GameIdentifier getRefereeReportActiveGame(String refereeUsername) throws Exception {
+        Connection connection = DBConnector.getConnection();
+        String sql = "SELECT g.gameID as gameID, hostTeam.teamName as hostName, guestTeam.teamName as guestName FROM member INNER JOIN referee r on member.memberID = r.memberID " +
+                "INNER JOIN game g on r.refereeID = g.main_refereeID " +
+                "INNER JOIN team hostTeam ON g.host_teamID = hostTeam.teamID " +
+                "INNER JOIN team guestTeam ON g.guest_teamID = guestTeam.teamID " +
+                "WHERE member.username = ? " +
+                "AND NOW() BETWEEN DATE_ADD(g.date, INTERVAL 100 MINUTE ) AND DATE_ADD(g.date, INTERVAL 400 MINUTE )";
+        try{
+            GameIdentifier gameIdentifier = null;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, refereeUsername);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                int gameID = resultSet.getInt("gameID");
+                String guestName = resultSet.getString("guestName");
+                String hostName = resultSet.getString("hostName");
+                gameIdentifier = new GameIdentifier(gameID, hostName, guestName);
+            }
+            return gameIdentifier;
+        } catch (SQLException e) {
+            throw new Exception("SQL exception");
+        }
+    }
+
+    @Override
     public GameIdentifier getRefereeActiveGame(String refereeUsername) throws Exception {
         Connection connection = DBConnector.getConnection();
         String sql = "SELECT game.gameID, t.teamName as guestName, t2.teamName as hostName FROM referee INNER JOIN member ON " +

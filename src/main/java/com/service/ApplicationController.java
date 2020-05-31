@@ -133,6 +133,16 @@ public class ApplicationController {
         return new GameIdentifierResponse(gameIdentifier.getGameID(),gameIdentifier.getHostTeamName(),gameIdentifier.getGuestTeamName());
     }
 
+    //------------------------getRefereeReportActiveGame-----
+    @GetMapping("/getRefereeReportActiveGame")
+    public GameIdentifierResponse getRefereeReportActiveGame(@RequestParam("refereeUsername") String refereeUsername){
+        GameIdentifier gameIdentifier = domainController.getRefereeReportActiveGame(refereeUsername);
+        if (gameIdentifier==null) {
+            return null;
+        }
+        return new GameIdentifierResponse(gameIdentifier.getGameID(),gameIdentifier.getHostTeamName(),gameIdentifier.getGuestTeamName());
+    }
+
     //------------------------getAllTeamPlayers-----
     @GetMapping("/getTeamPlayerNames")
     public ArrayList<String> getAllTeamPlayers(@RequestParam("teamName") String teamName){
