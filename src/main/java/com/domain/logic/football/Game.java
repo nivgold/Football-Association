@@ -61,6 +61,9 @@ public class Game implements IGameObservable {
     public Game(int gameID, ArrayList<IGameObserver> gameFans){
         this.gameID = gameID;
         this.fanObservers = gameFans;
+        this.events = new ArrayList<>();
+        this.sideReferees = new ArrayList<>();
+        this.refereeObservers = new ArrayList<>();
     }
 
     public void setStartGame(){

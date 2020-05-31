@@ -406,6 +406,7 @@ public class DBStub implements Dao {
         teams = new ArrayList<>();
         referees = new ArrayList<>();
         players=  new ArrayList<>();
+        games = new ArrayList<>();
     }
 
     public void addGame(Game game) {
