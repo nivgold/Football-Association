@@ -478,7 +478,7 @@ INSERT INTO refereesInSIL (seasonYear, leagueID, refereeID)
     VALUES (2020, 1, 1);
 
 INSERT INTO game (date, host_teamID, guest_teamID, main_refereeID, seasonYear, leagueID, fieldID)
-    VALUES ('2020-05-31 10:00:00', 1, 2, 1, 2020, 1, 1);
+    VALUES ('2020-05-31 12:00:00', 1, 2, 1, 2020, 1, 1);
 
 INSERT INTO `member` (`username`,`passwordHash`,`name`, `email`, `addressID`, systemManager)
     VALUES ('side Referee asaf1','63ee39facef3e951eddbfad442b8624a811563e0','asaf1 zosman', 'asafzos1@post.bgu.ac.il', 7, 0);
