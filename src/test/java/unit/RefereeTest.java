@@ -13,6 +13,8 @@ import com.domain.logic.users.Member;
 import com.domain.logic.utils.SHA1Function;
 import com.stubs.DBStub;
 import com.stubs.RefereeStub;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +29,7 @@ class RefereeTest {
     private Member member;
     private Referee referee;
     private Player player;
+    private Game game;
 
     @BeforeEach
     public void initiate() throws Exception {
@@ -38,7 +41,9 @@ class RefereeTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Game game = new Game(10, new ArrayList<>());
+        game = new Game(10, new ArrayList<>());
+        game.setMainReferee(referee);
+        referee.addMainGame(game);
         Member member2 = new Member("asaf_player", SHA1Function.hash("asaf"), "asaf" , new Address("asaf", "asaf", "asaf", "asaf"), "asaf");
         player = new Player(member2);
 
@@ -50,6 +55,8 @@ class RefereeTest {
     @Test
     public void createGameEvent() {
         // successfully adding new game event
+        referee.addMainGame(game);
+        game.setMainReferee(referee);
         try {
             Event event = referee.createGameEvent(20, "blabla", EventType.Foul, 10, "Niv Team", "Tal Team", player.getMember().getUserName());
             assertEquals(10, event.getGameID());
@@ -57,13 +64,38 @@ class RefereeTest {
             assertEquals("blabla" ,event.getDescription());
             assertEquals("asaf_player" ,event.getPlayerUsername());
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             fail();
         }
+
+        // failing to add new game event because game not exists
+
+        try {
+            Event event = referee.createGameEvent(20, "blabla", EventType.Foul, 5, "Niv Team", "Tal Team", player.getMember().getUserName());
+            fail();
+        } catch (Exception e) {
+
+        }
+
     }
 
     @Test
     public void createGameReport(){
+        // successfully creating game report
+        try {
+            referee.createReport(10, "some report");
+        } catch (Exception e) {
+            fail();
+        }
 
+        // failing to create game report because game not exists
+
+        try {
+            referee.createReport(5, "some report");
+            fail();
+        } catch (Exception e) {
+
+        }
     }
 //
 //    @Test
