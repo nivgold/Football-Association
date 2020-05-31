@@ -245,16 +245,23 @@ public class DBCommunicator implements Dao {
     @Override
     public GameIdentifier getRefereeReportActiveGame(String refereeUsername) throws Exception {
         Connection connection = DBConnector.getConnection();
-        String sql = "SELECT g.gameID as gameID, hostTeam.teamName as hostName, guestTeam.teamName as guestName FROM member INNER JOIN referee r on member.memberID = r.memberID " +
+        String sql = "(SELECT g.gameID as gameID, hostTeam.teamName as hostName, guestTeam.teamName as guestName FROM member INNER JOIN referee r on member.memberID = r.memberID " +
                 "INNER JOIN game g on r.refereeID = g.main_refereeID " +
                 "INNER JOIN team hostTeam ON g.host_teamID = hostTeam.teamID " +
                 "INNER JOIN team guestTeam ON g.guest_teamID = guestTeam.teamID " +
                 "WHERE member.username = ? " +
-                "AND NOW() BETWEEN DATE_ADD(g.date, INTERVAL 100 MINUTE ) AND DATE_ADD(g.date, INTERVAL 400 MINUTE )";
+                "AND NOW() BETWEEN DATE_ADD(g.date, INTERVAL 100 MINUTE ) AND DATE_ADD(g.date, INTERVAL 400 MINUTE )) " +
+                "UNION " +
+                "( SELECT game.gameID as gameID, hostTeam2.teamName as hostTeam, guestTeam2.teamName as guestName FROM referee INNER JOIN member m on referee.memberID = m.memberID " +
+                "INNER JOIN game ON game.main_refereeID = referee.refereeID " +
+                "INNER JOIN team hostTeam2 ON hostTeam2.teamID = game.host_teamID " +
+                "INNER JOIN team guestTeam2 ON guestTeam2.teamID = game.guest_teamID " +
+                "WHERE m.username = ? AND NOW() BETWEEN DATE_ADD(game.date, INTERVAL 100 MINUTE ) AND DATE_ADD(game.date, INTERVAL 400 MINUTE ))";
         try{
             GameIdentifier gameIdentifier = null;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, refereeUsername);
+            preparedStatement.setString(2, refereeUsername);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
                 int gameID = resultSet.getInt("gameID");
@@ -271,16 +278,23 @@ public class DBCommunicator implements Dao {
     @Override
     public GameIdentifier getRefereeActiveGame(String refereeUsername) throws Exception {
         Connection connection = DBConnector.getConnection();
-        String sql = "SELECT game.gameID, t.teamName as guestName, t2.teamName as hostName FROM referee INNER JOIN member ON " +
+        String sql = "(SELECT game.gameID as gameID, t.teamName as guestName, t2.teamName as hostName FROM referee INNER JOIN member ON " +
                 "referee.memberID = member.memberID INNER JOIN side_referee_in_game ON " +
                 "side_referee_in_game.side_referee_id = referee.refereeID INNER JOIN game ON " +
                 "game.gameID = side_referee_in_game.gameID INNER JOIN team t ON game.guest_teamID = t.teamID " +
                 "INNER JOIN team t2 ON t2.teamID = game.host_teamID " +
-                "WHERE member.username = ? AND NOW() BETWEEN game.date AND DATE_ADD(game.date, INTERVAL 100 MINUTE)";
+                "WHERE member.username = ? AND NOW() BETWEEN game.date AND DATE_ADD(game.date, INTERVAL 100 MINUTE))" +
+                "UNION " +
+                "(SELECT game.gameID as gameID, guestTeam.teamName as guestName, hostTeam.teamName as hostTeam FROM referee INNER JOIN member m on referee.memberID = m.memberID " +
+                "INNER JOIN game ON game.main_refereeID = referee.refereeID " +
+                "INNER JOIN team hostTeam ON hostTeam.teamID = game.host_teamID " +
+                "INNER JOIN team guestTeam ON guestTeam.teamID = game.guest_teamID " +
+                "WHERE m.username = ? AND NOW() BETWEEN game.date AND DATE_ADD(game.date, INTERVAL 100 MINUTE))";
         try{
             GameIdentifier gameIdentifier = null;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, refereeUsername);
+            preparedStatement.setString(2, refereeUsername);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
                 int gameID = resultSet.getInt("gameID");
