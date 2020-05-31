@@ -9,16 +9,13 @@ import com.domain.logic.football.*;
 import com.domain.logic.roles.Player;
 import com.domain.logic.roles.Referee;
 import com.domain.logic.roles.TeamOwner;
-import com.domain.logic.users.IGameObserver;
 import com.domain.logic.users.Member;
 import com.domain.logic.utils.SHA1Function;
 import com.stubs.DBStub;
 import com.stubs.RefereeStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -123,16 +120,12 @@ class RefereeIntegration {
             // test create game event with unauthorized referee
             Member member4 = new Member("cheater", SHA1Function.hash("cheater"), "cheater@gmail.com", new Address("Israel", "Israel", "Haifa", "6127824"), "shimon");
             dbStub.addMember(member4);
-            try {
-                Referee referee1 = new RefereeStub(member4);
-                report = "bad report";
-                referee1.createReport(1, report);
-            } catch (Exception e) {
-                System.out.println("unauthorized referee was blocked from doing the change");
-                assertNotEquals(report, game.getReport());
-            }
+            Referee referee1 = new RefereeStub(member4);
+            report = "bad report";
+            referee1.createReport(1, report);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("unauthorized referee was blocked from doing the change");
+            assertNotEquals("bad report", game.getReport());
         }
     }
 
