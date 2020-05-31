@@ -21,6 +21,7 @@ public interface Dao {
     void setGameSettingPolicy(int seasonYear, String leagueName, boolean gameSettingPolicyField) throws Exception;
     void setGameRankingPolicy(int seasonYear, String leagueName, int win, int goals, int draw, int yellowCards, int redCards) throws Exception;
     GameIdentifier getRefereeActiveGame(String refereeUsername) throws Exception;
+    GameIdentifier getRefereeReportActiveGame(String refereeUsername) throws Exception;
     ArrayList<String> getAllTeamPlayers(String teamName) throws Exception;
     void setGameReport(int gameID, String report) throws Exception;
     void addGameEvent(int gameID, int gameMinute, String description, EventType type, String playerUsername, int changeScore) throws Exception;

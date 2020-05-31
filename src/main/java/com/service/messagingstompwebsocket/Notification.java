@@ -9,7 +9,6 @@ public class Notification {
     public static void sendGameEventNotification(SimpMessagingTemplate simpMessagingTemplate, int gameID, String message){
         String destination = destinationPrefix+"/"+gameID;
         try {
-            System.out.println(destination);
             simpMessagingTemplate.convertAndSend(destination, new NotificationMessage(message));
         } catch (Exception e) {
             e.printStackTrace();
